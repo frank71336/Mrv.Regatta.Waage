@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns="" id="User" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="renninfo.xsd" />
+  <xs:element name="Regeln">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="Regel" type="CT_Regel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="CT_Regel">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="If" type="CT_Bedingung" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="IfNot" type="CT_Bedingung" />
+      <xs:element minOccurs="1" maxOccurs="1" name="RennInfo" type="CT_RennInfo" />
+    </xs:sequence>
+    <xs:attribute name="Aktiv" type="xs:boolean" use="required" />
+  </xs:complexType>
+  <xs:complexType name="CT_Bedingung">
+    <xs:attribute name="RegEx" type="xs:string" use="required" />
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns="" id="User" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Messung">
+    <xs:complexType>
+      <xs:attribute name="Id" type="xs:int" use="required" />
+      <xs:attribute name="Name" type="xs:string" use="optional" />
+      <xs:attribute name="Gewicht" type="xs:float" use="required" />
+      <xs:attribute name="Zeitstempel" type="xs:dateTime" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

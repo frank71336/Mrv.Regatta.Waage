@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0140C4AE-6A71-45C7-AC9E-70CCAC89A312}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mrv.Regatta.Waage</RootNamespace>
+    <AssemblyName>Mrv.Regatta.Waage</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="linq2db, Version=1.0.7.1, Culture=neutral, PublicKeyToken=f19f8aed7feff67e, processorArchitecture=MSIL">
+      <HintPath>..\packages\linq2db.1.0.7.1\lib\net45\linq2db.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="BoatBuilder.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Pages\LicensesPage\LicensesPage.xaml.cs">
+      <DependentUpon>LicensesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LicensesPage\LicensesPageViewModel.cs" />
+    <Compile Include="Pages\LogPage\LogPage.xaml.cs">
+      <DependentUpon>LogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LogPage\LogPageViewModel.cs" />
+    <Compile Include="Windows\MainViewModel.cs" />
+    <Compile Include="Pages\IntroPage\IntroPage.xaml.cs">
+      <DependentUpon>IntroPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IntroPage\IntroPageViewModel.cs" />
+    <Compile Include="Pages\RacesPage\BSNrComparer.cs" />
+    <Compile Include="Pages\RacesPage\RacesPage.xaml.cs">
+      <DependentUpon>RacesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RacesPage\RacesPageViewModel.cs" />
+    <Compile Include="RowersPosition.cs" />
+    <Compile Include="Sex.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="UserControls\Boat.cs" />
+    <Compile Include="UserControls\RaceStatus.cs" />
+    <Compile Include="UserControls\Rower.cs" />
+    <Compile Include="UserControls\BoatStatus.cs" />
+    <Compile Include="UserControls\RowerStatus.cs" />
+    <Compile Include="UserControls\RowerType.cs" />
+    <Compile Include="UserControls\UcBoat.xaml.cs">
+      <DependentUpon>UcBoat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Race.cs" />
+    <Compile Include="UserControls\UcRace.xaml.cs">
+      <DependentUpon>UcRace.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UcRaces.xaml.cs">
+      <DependentUpon>UcRaces.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UcRowers.xaml.cs">
+      <DependentUpon>UcRowers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\OkWindow.xaml.cs">
+      <DependentUpon>OkWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Pages\LicensesPage\LicensesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\LogPage\LogPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controls\DescriptionButton.cs" />
+    <Compile Include="Controls\ImageButton.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Pages\IntroPage\IntroPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\RowerPage\RowerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\RowersPage\RowersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\RacesPage\RacesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPage\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\CustomStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Images.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\UcBoat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\UcRace.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\UcRaces.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\UcRowers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\OkWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Pages\RowerPage\RowerPage.xaml.cs">
+      <DependentUpon>RowerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RowerPage\RowerPageViewModel.cs" />
+    <Compile Include="Pages\RowersPage\RowersPage.xaml.cs">
+      <DependentUpon>RowersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RowersPage\RowersPageViewModel.cs" />
+    <Compile Include="Pages\SettingsPage\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Licenses\linq2db %28by Igor Tkachev%29.license">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Licenses\linq2db.Access %28by Igor Tkachev%29.license">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Licenses\linq2db.t4models.license">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Licenses\MetroStudio.license">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Licenses\MahApps.Metro.license">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Icons\24\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\64\athlete.png" />
+    <Resource Include="Resources\Icons\64\zweier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\64\exit.png" />
+    <Resource Include="Resources\Icons\64\gears.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mrv.Regatta.Waage.Db\Mrv.Regatta.Waage.Db.csproj">
+      <Project>{4b591fb1-f52d-4983-800a-8ac763351988}</Project>
+      <Name>Mrv.Regatta.Waage.Db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mrv.Regatta.Waage.Xml\Mrv.Regatta.Waage.Xml.csproj">
+      <Project>{EB0A8122-D5E5-43E3-A806-762F9177072D}</Project>
+      <Name>Mrv.Regatta.Waage.Xml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModelBase\ViewModelBase.csproj">
+      <Project>{2EC71549-D77F-4860-AB60-0AB201C4F485}</Project>
+      <Name>ViewModelBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XmlBase\XmlBase.csproj">
+      <Project>{b1dc3e46-400a-4aa5-9ba3-2709c90432ac}</Project>
+      <Name>XmlBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\16\navigate_cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\32\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\32\gift.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\32\bank_house1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\16\bank_house1.png" />
+    <Resource Include="Resources\Icons\16\gift.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\16\woman2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\16\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\128\user.png" />
+    <Resource Include="Resources\Icons\128\woman2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\48\weight2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\64\scales.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\256\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\16\users.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\16\ShipSteeringWheel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\16\signal_flag_green.png" />
+    <Resource Include="Resources\Icons\16\signal_flag_red.png" />
+    <Resource Include="Resources\Icons\16\signal_flag_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\16\check.png" />
+    <Resource Include="Resources\Icons\16\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\16\symbol_questionmark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\32\nav_refresh_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\32\hourglass.png" />
+    <Resource Include="Resources\Icons\32\media_play_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\32\navigate_check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\64\scroll2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\32\clock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\clearpixel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\32\zoom_out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\64\certificate.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

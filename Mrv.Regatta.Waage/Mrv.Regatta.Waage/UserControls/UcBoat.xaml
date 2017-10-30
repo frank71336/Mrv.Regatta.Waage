@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="Mrv.Regatta.Waage.UserControls.UcBoat"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Mrv.Regatta.Waage.UserControls"
+             xmlns:extensions="clr-namespace:Mrv.Regatta.Waage"
+             mc:Ignorable="d" d:DesignWidth="700"
+             Visibility="{Binding Visibility}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="columnLeft" Width="30*" />
+            <ColumnDefinition x:Name="columnRight" Width="70*" />
+        </Grid.ColumnDefinitions>
+        
+        <!-- linker Bereich Startnummer, Ruderverein, darunter die Ruderer, drunter der Kommentar -->
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition /> <!-- Zeile 1 (Startnummer und Vereinsname) -->
+                <RowDefinition x:Name="rowRowersLeft" /> <!-- Zeile 2 (Ruderer) - falls die Ruderer unter den Booten stehen -->
+                <RowDefinition /> <!-- Zeile 3 (Hinweis Zusatzgewicht) -->
+            </Grid.RowDefinitions>
+
+            <!-- Zeile 1 (Startnummer und Vereinsname) -->
+
+            <!-- Bild "Status Boot" -->
+            <Image>
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Boat.Status}" Value="{x:Static local:BoatStatus.None}" >
+                                <Setter Property="Source" Value="{StaticResource Icon-clearpixel-1}" />
+                                <Setter Property="ToolTip" Value="unbekannt" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Boat.Status}" Value="{x:Static local:BoatStatus.BoatOk}" >
+                                <Setter Property="Source" Value="{StaticResource Icon-Ok-16}"  />
+                                <Setter Property="ToolTip" Value="Boot OK (fertig)" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Boat.Status}" Value="{x:Static local:BoatStatus.BoatNok}" >
+                                <Setter Property="Source" Value="{StaticResource Icon-Not-Ok-16}"  />
+                                <Setter Property="ToolTip" Value="Boot nicht OK" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Boat.Status}" Value="{x:Static local:BoatStatus.WaitingForTimeWindow}" >
+                                <Setter Property="Source" Value="{StaticResource Icon-Questionmark-16}"  />
+                                <Setter Property="ToolTip" Value="warten auf Zeitfenster zum Wiegen" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Boat.Status}" Value="{x:Static local:BoatStatus.WaitingInsideTimeWindow}" >
+                                <Setter Property="Source" Value="{StaticResource Icon-Questionmark-16}"  />
+                                <Setter Property="ToolTip" Value="warten auf Ruderer" />
+                            </DataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+
+            <!-- Startnummer -->
+            <Label Grid.Column="1" BorderThickness="1" BorderBrush="BurlyWood" Background="Tan" Content="{Binding Boat.StartNumber, FallbackValue='12'}" />
+
+            <!-- Boot-Name (Verein) -->
+            <Label Grid.Column="2" HorizontalAlignment="Stretch" BorderThickness="1" BorderBrush="BurlyWood" Background="Wheat" HorizontalContentAlignment="Left" Content="{Binding Boat.Club, FallbackValue='Entenhauser Ruderverein'}"  />
+
+            <!-- Durchschnittsgewicht -->
+            <Label Grid.Column="3" HorizontalAlignment="Stretch" BorderThickness="1" BorderBrush="BurlyWood" Background="Wheat" HorizontalContentAlignment="Left" Content="{Binding Boat.AverageWeight, FallbackValue='(ø 99,5 kg)'}" Grid.ColumnSpan="2" />
+
+            <!-- Zeile 2 (Ruderer) -->
+            <Border x:Name="rowersLeft" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="Wheat" BorderThickness="1,0" BorderBrush="BurlyWood">
+                <local:UcRowers Rowers="{Binding Boat.Rowers}"  VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="2"/>
+            </Border>
+            
+
+            <!-- Zeile 3 (Hinweis Zusatzgewicht) -->
+            <Border Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Background="Wheat" BorderThickness="1,0,1,1" BorderBrush="BurlyWood">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Boat.Comment}" Value="">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Border Background="#FFEE563E" VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="1" BorderBrush="Red" Margin="4" CornerRadius="3">
+                    <!-- komplett ausblenden, wenn kein Text -->
+                    <TextBlock Text="{Binding Boat.Comment, FallbackValue='Kommentar zum Boot'}" Foreground="Yellow" TextWrapping="Wrap" Margin="2" />
+                </Border>
+            </Border>
+
+        </Grid>
+
+        <!-- rechter Bereich, wo die Ruderer neben dem Boot dargestellt werden -->
+        <Border x:Name="rowersRight" Grid.Column="1" Background="Wheat" BorderBrush="BurlyWood" BorderThickness="1" VerticalAlignment="Top">
+            <local:UcRowers Rowers="{Binding Boat.Rowers}" Margin="2" />
+        </Border>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,16 @@
+﻿<Page x:Class="Mrv.Regatta.Waage.Pages.SettingsPage.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Mrv.Regatta.Waage.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="435" d:DesignWidth="395"
+      Background="White"
+      Title="RowersPage">
+
+    <Grid>
+        <Button x:Name="cmdSelfTest" Content="Selbsttest (ACHTUNG: Erzeugt neue Messungen!)" HorizontalAlignment="Right" Margin="0,0,10,42" VerticalAlignment="Bottom" Width="362" Click="cmdSelfTest_Click" />
+        <Button x:Name="cmdCreateRennenXml" Content="Rennen aus Regeln erzeugen" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="362" Click="cmdCreateRennenXml_Click"/>
+    </Grid>
+</Page>

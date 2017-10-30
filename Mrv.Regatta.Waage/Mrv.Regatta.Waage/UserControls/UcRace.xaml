@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="Mrv.Regatta.Waage.UserControls.UcRace"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="Transparent"
+    xmlns:local="clr-namespace:Mrv.Regatta.Waage.UserControls">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <!-- Spalte 1 (Status-Bild)-->
+        <Image VerticalAlignment="Top">
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Setter Property="Source" Value="{StaticResource Icon-Questionmark-16}" /> <!-- für Designer -->
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Race.Status}" Value="{x:Static local:RaceStatus.None}" >
+                            <Setter Property="Source" Value="{StaticResource Icon-clearpixel-1}" />
+                            <Setter Property="ToolTip" Value="unbekannt" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Race.Status}" Value="{x:Static local:RaceStatus.Ok}" >
+                            <Setter Property="Source" Value="{StaticResource Icon-Ok-32}" />
+                            <Setter Property="ToolTip" Value="Rennen OK" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Race.Status}" Value="{x:Static local:RaceStatus.OkWithProblems}" >
+                            <Setter Property="Source" Value="{StaticResource Icon-Ok-blue-32}" />
+                            <Setter Property="ToolTip" Value="Rennen OK mit Problemen" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Race.Status}" Value="{x:Static local:RaceStatus.WaitingForTimeWindow}" >
+                            <Setter Property="Source" Value="{StaticResource Icon-Hourglass-32}"  />
+                            <Setter Property="ToolTip" Value="warten auf Zeitfenster zum Wiegen" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Race.Status}" Value="{x:Static local:RaceStatus.WaitingInsideTimeWindow}" >
+                            <Setter Property="Source" Value="{StaticResource Icon-PlaySymbol-32}"  />
+                            <Setter Property="ToolTip" Value="warten auf Ruderer" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+
+        <!-- Spalte 2 (restliche Tabelle rechts vom Bild)-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!-- Zeile 1 (Rennen, Kurzbezeichnung, Tag, Uhrzeit) -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Background="Thistle" Content="{Binding Race.RaceNumber, FallbackValue='Re. K304'}" />
+                <Label Grid.Column="1" Background="MistyRose" HorizontalAlignment="Stretch" Content="{Binding Race.ShortName, FallbackValue='Mäd 1x 14 II'}" />
+                <Label Grid.Column="2" Background="Tan" Content="{Binding Race.Day, FallbackValue='Sa'}" />
+                <Label Grid.Column="3" Background="SkyBlue" Content="{Binding Race.Time, FallbackValue='14:00'}" />
+            </Grid>
+
+            <!-- Zeile 2 (Langbezeichnung) -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label BorderBrush="Brown" BorderThickness="1" Background="Silver" Content="{Binding Race.LongName, FallbackValue='Mädchen-Einer 14 Jahre Lgr. II'}" />
+
+                <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Background="LightGray">
+                    <StackPanel Orientation="Horizontal" ToolTip="max. Einzelgewicht" >
+                        <Image Source="{StaticResource Icon-Man-16}" />
+                        <Label Content="{Binding Race.MaxWeight1, FallbackValue='11,5 kg'}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Background="LightGray">
+                    <StackPanel Orientation="Horizontal" ToolTip="max. Durchschnittsgewicht" >
+                        <Image Source="{StaticResource Icon-Mens-16}" />
+                        <Label Content="{Binding Race.MaxWeightAverage, FallbackValue='11,5 kg'}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="3" BorderBrush="Gray" BorderThickness="1" Background="LightGray">
+                    <StackPanel Orientation="Horizontal" Grid.Column="3" ToolTip="max. Gewicht Steuermann">
+                        <Image Source="{StaticResource Icon-ShipSteeringWheel-16}" />
+                        <Label Content="{Binding Race.MinWeightCox, FallbackValue='99,5 kg'}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Zeile 3 (Boote) -->
+            <Grid Grid.Row="2">
+                <ItemsControl ItemsSource="{Binding Race.Boats}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:UcBoat Boat="{Binding}" Margin="0,0,0,3" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+    
+</UserControl>

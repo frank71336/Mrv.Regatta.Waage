@@ -1,0 +1,86 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- *************************************** Icon-Symbole *************************************** -->
+
+    <BitmapImage x:Key="Icon-clearpixel-1" UriSource="Icons/clearpixel.png" />
+    
+    <!-- 16 x 16 Pixel -->
+    
+    <BitmapImage x:Key="Icon-Cross-blue-16" UriSource="Icons/16/navigate_cross.png" />
+    <BitmapImage x:Key="Icon-Gift-16" UriSource="Icons/16/gift.png" />
+    <BitmapImage x:Key="Icon-ClubHouse-16" UriSource="Icons/16/bank_house1.png" />
+    <BitmapImage x:Key="Icon-Man-16" UriSource="Icons/16/user.png" />
+    <BitmapImage x:Key="Icon-Woman-16" UriSource="Icons/16/woman2.png" />
+    <BitmapImage x:Key="Icon-Mens-16" UriSource="Icons/16/users.png" />
+    <BitmapImage x:Key="Icon-ShipSteeringWheel-16" UriSource="Icons/16/ShipSteeringWheel.png" />
+    <BitmapImage x:Key="Icon-Flag-red-16" UriSource="Icons/16/signal_flag_red.png" />
+    <BitmapImage x:Key="Icon-Flag-green-16" UriSource="Icons/16/signal_flag_green.png" />
+    <BitmapImage x:Key="Icon-Flag-white-16" UriSource="Icons/16/signal_flag_white.png" />
+    <BitmapImage x:Key="Icon-Ok-16" UriSource="Icons/16/check.png" />
+    <BitmapImage x:Key="Icon-Not-Ok-16" UriSource="Icons/16/error.png" />
+    <BitmapImage x:Key="Icon-Questionmark-16" UriSource="Icons/16/symbol_questionmark.png" />
+
+    <!-- 24 x 24 Pixel -->
+
+    <!-- 32 x 32 Pixel -->
+
+    <BitmapImage x:Key="Icon-Ok-32" UriSource="Icons/32/check.png" />
+    <BitmapImage x:Key="Icon-Ok-blue-32" UriSource="Icons/32/navigate_check.png" />
+    <BitmapImage x:Key="Icon-Gift-32" UriSource="Icons/32/gift.png" />
+    <BitmapImage x:Key="Icon-ClubHouse-32" UriSource="Icons/32/bank_house1.png" />
+    <BitmapImage x:Key="Icon-Refresh-blue-32" UriSource="Icons/32/nav_refresh_blue.png" />
+    <BitmapImage x:Key="Icon-Hourglass-32" UriSource="Icons/32/hourglass.png" />
+    <BitmapImage x:Key="Icon-PlaySymbol-32" UriSource="Icons/32/media_play_green.png" />
+    <BitmapImage x:Key="Icon-Clock-32" UriSource="Icons/32/clock.png" />
+    <BitmapImage x:Key="Icon-ZoomOut-32" UriSource="Icons/32/zoom_out.png" />
+
+    <!-- 48 x 48 Pixel -->
+
+    <BitmapImage x:Key="Icon-Weight16t-48" UriSource="Icons/48/weight2.png" />
+
+    <!-- 64 x 64 Pixel -->
+    
+    <BitmapImage x:Key="Icon-Zweier-64" UriSource="Icons/64/zweier.png" />
+    <BitmapImage x:Key="Icon-Athlete-64" UriSource="Icons/64/athlete.png" />
+    <BitmapImage x:Key="Icon-Exit-64" UriSource="Icons/64/exit.png" />
+    <BitmapImage x:Key="Icon-Gears-64" UriSource="Icons/64/gears.png" />
+    <BitmapImage x:Key="Icon-DocumentDown-64" UriSource="Icons/64/document_down.png" />
+    <BitmapImage x:Key="Icon-Scale-64" UriSource="Icons/64/scales.png" />
+    <BitmapImage x:Key="Icon-Scroll-64" UriSource="Icons/64/scroll2.png" />
+    <BitmapImage x:Key="Icon-Certificate-64" UriSource="Icons/64/certificate.png" />
+
+    <!-- 128 x 128 Pixel -->
+    
+    <BitmapImage x:Key="Icon-Man-128" UriSource="Icons/128/user.png" />
+    <BitmapImage x:Key="Icon-Woman-128" UriSource="Icons/128/woman2.png" />
+
+    <!-- 256 x 256 Pixel -->
+
+    <BitmapImage x:Key="Icon-Ok-256" UriSource="Icons/256/ok.png" />
+
+    <!-- *************************************** Hintergrund-Icons *************************************** -->
+
+    <!-- 32 x 32 Pixel -->
+
+    <!-- braucht das hier jemand ??? 
+    <BitmapImage x:Key="Globe-red-32" UriSource="Icons/32/Globe-WF-red.png" />
+    <BitmapImage x:Key="Happy-yellow-32" UriSource="Icons/32/Happy-04-yellow.png" />
+    <BitmapImage x:Key="Transport-Van-blue-32" UriSource="Icons/32/Transport-Van-blue.png" />
+    -->
+
+    <!-- 48 x 48 Pixel -->
+
+    <BitmapImage x:Key="Title-List" UriSource="Icons/48/Bullets-03-green.png" />
+    <BitmapImage x:Key="Title-Settings" UriSource="Icons/48/Settings-11-brown.png" />
+    <BitmapImage x:Key="Title-UserSettings" UriSource="Icons/48/User Settings-02-WF-blue.png" />
+    <BitmapImage x:Key="Title-Gauge" UriSource="Icons/48/Circular Gauge-WF-purple.png" />
+
+    <BitmapImage x:Key="Symbol-Question" UriSource="Icons/48/Help-02-blue.png" />
+    <BitmapImage x:Key="Symbol-Exclamation" UriSource="Icons/48/Warning-Message-yellow.png" />
+    <BitmapImage x:Key="Symbol-Information" UriSource="Icons/48/Message-Information-blue.png" />
+    <BitmapImage x:Key="Symbol-Error" UriSource="Icons/48/Wrong-red.png" />
+    <BitmapImage x:Key="Symbol-Key" UriSource="Icons/48/Login-01-yellow.png" />
+    <BitmapImage x:Key="Symbol-DataRefresh" UriSource="Icons/48/Data-Refresh-blue.png" />
+
+</ResourceDictionary>

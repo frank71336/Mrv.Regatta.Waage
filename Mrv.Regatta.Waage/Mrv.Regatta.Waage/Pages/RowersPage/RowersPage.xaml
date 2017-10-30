@@ -1,0 +1,86 @@
+﻿<Page x:Class="Mrv.Regatta.Waage.Pages.RowersPage.RowersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Mrv.Regatta.Waage"
+      xmlns:controls="clr-namespace:Mrv.Regatta.Waage.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="470" d:DesignWidth="719"
+      Background="White"
+      Title="RowersPage" Loaded="Page_Loaded">
+
+    <Grid>
+        <Grid Margin="0,10" MinWidth="300" MaxWidth="600">
+            <!-- Listbox mit Filter -->
+            <Grid Margin="0,0,0,65">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="txtFilter"  Height="30" VerticalAlignment="Top" TextChanged="txtFilter_TextChanged" PreviewKeyDown="txtFilter_PreviewKeyDown"/>
+                <Button Grid.Column="1" Width="30" Height="30" ToolTip="Eingabe löschen">
+                    <Image Source="{StaticResource Icon-Cross-blue-16}" ToolTip="" />
+                </Button>
+                <Border BorderBrush="#FF3160DE" BorderThickness="1" Grid.Row="1" Grid.ColumnSpan="2">
+                    <ListBox x:Name="lstPersons" KeyDown="lstPersons_KeyDown" >
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <EventSetter Event="MouseDoubleClick" Handler="DoubleClickHandler" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#FFB9DFFF" BorderThickness="1" Margin="-5,0,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Image Source="{StaticResource Icon-Man-16}" Margin="0,0,5,0" ToolTip="männlich" >
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Sex}" Value="{x:Static local:Sex.Male}" >
+                                                            <Setter Property="Visibility" Value="Visible"  />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Sex}" Value="{x:Static local:Sex.Female}" >
+                                                            <Setter Property="Visibility" Value="Collapsed"  />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <Image Source="{StaticResource Icon-Woman-16}" Margin="0,0,5,0" ToolTip="weiblich">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Sex}" Value="{x:Static local:Sex.Female}" >
+                                                            <Setter Property="Visibility" Value="Visible"  />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Sex}" Value="{x:Static local:Sex.Male}" >
+                                                            <Setter Property="Visibility" Value="Collapsed"  />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock Text="{Binding FullName}" FontSize="18" FontWeight="Bold" />
+                                        <Image Source="{StaticResource Icon-Gift-16}" Margin="10,0,5,0" ToolTip="Jahrgang" />
+                                        <TextBlock Text="{Binding Year}" FontSize="18" />
+                                        <Image Source="{StaticResource Icon-ClubHouse-16}" Margin="10,0,5,0" ToolTip="Verein" />
+                                        <TextBlock Text="{Binding Club}" FontSize="18" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+            <!-- OK-Button -->
+            <controls:ImageButton x:Name="cmdOk" Content="OK" Margin="0,0,0,0" Height="60" VerticalAlignment="Bottom" ImagePosition="Left" Image="{StaticResource Icon-Ok-32}" FontSize="24" Click="cmdOk_Click" />
+        </Grid>
+        
+    </Grid>
+</Page>

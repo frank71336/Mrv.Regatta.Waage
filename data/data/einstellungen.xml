@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Einstellungen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:///D:/DATEN/Programmierung/C%23/Mrv.Regatta.Waage/Xml/einstellungen.xsd" 
+	PersonenListe="Leichtgewichte" 
+	ZeitstempelHeute="2017-09-23T01:00:00">
+  <Renntage>
+    <Renntag Wochentag="Sa" Datum="2017-09-23T01:00:00" />
+    <Renntag Wochentag="So" Datum="2017-09-24T01:00:00" />
+  </Renntage>
+  <Pfade 
+	Regeln="c:\regatta\data\regeln.xml" 
+	Rennen="c:\regatta\data\rennen.xml" 
+	Messungen="c:\regatta\messungen"
+	Logdatei="c:\regatta\log\log.txt" />
+</Einstellungen>

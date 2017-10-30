@@ -1,0 +1,80 @@
+﻿<mahapps:MetroWindow x:Class="Mrv.Regatta.Waage.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:controls="clr-namespace:Mrv.Regatta.Waage.Controls"
+        xmlns:local="clr-namespace:Mrv.Regatta.Waage"
+        mc:Ignorable="d"
+        Title="Mrv.Regatta.Waage" Height="617" Width="742" BorderBrush="#FF009ECD" BorderThickness="1" WindowState="Maximized" KeyUp="MetroWindow_KeyUp">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Menü links -->
+        <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="#FF009ECD" Padding="3" HorizontalAlignment="Left" Grid.RowSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Left">
+                    <Button x:Name="cmdPersons" Style="{StaticResource MainButtonTop}" Click="cmdPersons_Click" ToolTip="Ruderer">
+                        <Image Source="{StaticResource Icon-Athlete-64}" />
+                    </Button>
+                    <Button x:Name="cmdRaces" Style="{StaticResource MainButtonTop}" Click="cmdRaces_Click" ToolTip="Rennen">
+                        <Image Source="{StaticResource Icon-Zweier-64}" />
+                    </Button>
+                    <Button x:Name="cmdLogfile" Style="{StaticResource MainButtonTop}" ToolTip="Log-Datei" Click="cmdLogfile_Click">
+                        <Image Source="{StaticResource Icon-Scroll-64}" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                    <Button x:Name="cmdSettings" Style="{StaticResource MainButtonBottom}" Click="cmdSettings_Click" ToolTip="Programm-Einstellungen (Finger weg!)">
+                        <Image Source="{StaticResource Icon-Gears-64}" />
+                    </Button>
+                    <Button x:Name="cmdCertificate" Style="{StaticResource MainButtonBottom}" ToolTip="Open-Source- und Lizenz-Informationen" Click="cmdCertificate_Click">
+                        <Image Source="{StaticResource Icon-Certificate-64}" />
+                    </Button>
+                    <Button x:Name="cmdClose" Style="{StaticResource MainButtonBottom}" ToolTip="Programm beenden" Click="cmdClose_Click">
+                        <Image Source="{StaticResource Icon-Exit-64}" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+        <!-- Haupt-Frame zum Einblenden der einzelnen Seiten -->
+        <Frame Grid.Column="1" x:Name="mainContent" NavigationUIVisibility="Hidden" Padding="3" />
+
+        <!-- Footer -->
+        <Border Grid.Column="1" Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="#FF009ECD">
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="50,0,0,0" Content="{Binding Day, FallbackValue='Mittwoch, 24. Dezember 2017'}" />
+                <CheckBox Margin="50,0,0,0" IsChecked="{Binding OverrideTime}" />
+                <TextBox Text="{Binding ManualTime, FallbackValue='23:59'}" VerticalAlignment="Center" MaxLength="8" Margin="0,2,0,2" PreviewTextInput="TimeOnly">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding OverrideTime}" Value="true">
+                                    <Setter Property="Visibility" Value="Visible"  />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding OverrideTime}" Value="false">
+                                    <Setter Property="Visibility" Value="Collapsed"  />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <Label Content="{Binding CurrentTime, FallbackValue='23:59'}" />
+            </StackPanel>
+        </Border>
+        
+    </Grid>
+</mahapps:MetroWindow>

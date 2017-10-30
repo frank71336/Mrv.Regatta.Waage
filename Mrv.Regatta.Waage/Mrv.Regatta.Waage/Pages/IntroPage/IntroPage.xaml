@@ -1,0 +1,42 @@
+﻿<Page x:Class="Mrv.Regatta.Waage.Pages.IntroPage.IntroPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Mrv.Regatta.Waage.Pages.IntroPage"
+      xmlns:uc="clr-namespace:Mrv.Regatta.Waage.UserControls"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="IntroPage">
+
+    <Grid>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0">Programm-Version:</Label>
+            <Label Grid.Row="0" Grid.Column="1" Content="{Binding Version, FallbackValue='xx.xx.xx.xx'}" />
+
+            <Label Grid.Row="1" Grid.Column="0">Anzahl Ruderer:</Label>
+            <Label Grid.Row="1" Grid.Column="1" Content="{Binding RowersCount, FallbackValue=0}" />
+
+            <Label Grid.Row="2" Grid.Column="0">Anzahl Vereine:</Label>
+            <Label Grid.Row="2" Grid.Column="1" Content="{Binding ClubsCount, FallbackValue=0}" />
+
+            <Label Grid.Row="3" Grid.Column="0">Anzahl Boote:</Label>
+            <Label Grid.Row="3" Grid.Column="1" Content="{Binding BoatsCount, FallbackValue=0}" />
+
+            <Label Grid.Row="4" Grid.Column="0">Anzahl Rennen:</Label>
+            <Label Grid.Row="4" Grid.Column="1" Content="{Binding RacesCount, FallbackValue=0}" />
+        </Grid>
+    </Grid>
+</Page>

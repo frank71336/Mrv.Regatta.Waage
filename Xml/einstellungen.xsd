@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns="" id="User" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Einstellungen">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" name="Renntage" type="CT_Renntage" />
+        <xs:element name="Pfade" type="CT_Pfade" />
+      </xs:sequence>
+      <xs:attribute name="PersonenListe" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Alle" />
+            <xs:enumeration value="Regatta" />
+            <xs:enumeration value="Leichtgewichte" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="ZeitstempelHeute" type="xs:dateTime" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="CT_Renntage">
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="Renntag" type="CT_Renntag" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CT_Renntag">
+    <xs:attribute name="Wochentag" type="xs:string" use="required" />
+    <xs:attribute name="Datum" type="xs:dateTime" use="required" />
+  </xs:complexType>
+  <xs:complexType name="CT_Pfade">
+    <xs:attribute name="Regeln" type="xs:string" use="required" />
+    <xs:attribute name="Rennen" type="xs:string" use="required" />
+    <xs:attribute name="Messungen" type="xs:string" use="required" />
+    <xs:attribute name="Logdatei" type="xs:string" use="required" />
+  </xs:complexType>
+</xs:schema>

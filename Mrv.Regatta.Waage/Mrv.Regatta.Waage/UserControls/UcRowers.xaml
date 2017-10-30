@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Mrv.Regatta.Waage.UserControls.UcRowers"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Mrv.Regatta.Waage.UserControls"
+             xmlns:extensions="clr-namespace:Mrv.Regatta.Waage"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="30">
+    <Grid>
+        <ItemsControl ItemsSource="{Binding Rowers}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <Border Name="brdBorder" BorderThickness="1" BorderBrush="#FF3554E0" CornerRadius="3" Margin="2,1" Padding="2,1" MouseDown="Rower_MouseDown" extensions:Extensions.Id="{Binding Id}" >
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#FFD8E1FD" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Status}" Value="{x:Static local:RowerStatus.WeightOk}" >
+                                        <Setter Property="Background" Value="#FFC9FFC3" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="{x:Static local:RowerStatus.WeightNotOk}" >
+                                        <Setter Property="Background" Value="#FFF1CCCC" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="{x:Static local:RowerStatus.TooLate}" >
+                                        <Setter Property="Background" Value="#FFFFA7A7" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <!-- Bild "Status Ruderer" (rote, grüne, weiße Flagge, ...) -->
+                            <Image>
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:RowerStatus.None}" >
+                                                <Setter Property="Source" Value="{StaticResource Icon-clearpixel-1}"  />
+                                                <Setter Property="ToolTip" Value="unbekannt" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:RowerStatus.WeightOk}" >
+                                                <Setter Property="Source" Value="{StaticResource Icon-Flag-green-16}"  />
+                                                <Setter Property="ToolTip" Value="Gewicht OK" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:RowerStatus.WeightNotOk}" >
+                                                <Setter Property="Source" Value="{StaticResource Icon-Flag-red-16}"  />
+                                                <Setter Property="ToolTip" Value="Gewicht nicht OK" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:RowerStatus.WaitingForTimeWindow}" >
+                                                <Setter Property="Source" Value="{StaticResource Icon-Flag-white-16}"  />
+                                                <Setter Property="ToolTip" Value="warten auf Zeitfenster zum Wiegen" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:RowerStatus.WaitingInsideTimeWindow}" >
+                                                <Setter Property="Source" Value="{StaticResource Icon-Flag-white-16}"  />
+                                                <Setter Property="ToolTip" Value="warten auf Ruderer" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="{x:Static local:RowerStatus.TooLate}" >
+                                                <Setter Property="Source" Value="{StaticResource Icon-Flag-red-16}"  />
+                                                <Setter Property="ToolTip" Value="Zeit abgelaufen" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+
+                            <!-- Bild "Steuermann" -->
+                            <Image Source="{StaticResource Icon-ShipSteeringWheel-16}" ToolTip="Steuermann">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Type}" Value="{x:Static local:RowerType.Rower}" >
+                                                <Setter Property="Visibility" Value="Collapsed"  />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+
+                    </Border>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
+</UserControl>

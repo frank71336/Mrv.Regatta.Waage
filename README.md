@@ -7,4 +7,4 @@ Diese Software erweitert RegSys um die Funktionalität der Waage. Es handelt sic
 
 Aus Datenschutzgründen liegt diesem Projekt keine Datenbank bei! Verwenden Sie ihre eigene RegSys-Datenbank. Die Software ist ohne diese Datenbank nicht lauffähig.
 
-Mehr Informationen im Wiki.
+Mehr Informationen im [Wiki](https://github.com/frank71336/Mrv.Regatta.Waage/wiki).

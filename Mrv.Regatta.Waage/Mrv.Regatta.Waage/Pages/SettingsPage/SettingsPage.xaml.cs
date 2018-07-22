@@ -92,7 +92,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
                                 var regEx = new Regex(condition.RegEx);
                                 if (regEx.IsMatch(race.RKBez))
                                 {
-                                    // Regel trifft zu => Rennen doch nich nehmen
+                                    // Regel trifft zu => Rennen doch nicht nehmen
                                     ok = false;
                                     break;
                                 }

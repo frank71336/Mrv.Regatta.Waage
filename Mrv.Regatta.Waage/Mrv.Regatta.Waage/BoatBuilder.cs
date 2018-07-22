@@ -60,7 +60,7 @@ namespace Mrv.Regatta.Waage
 
                     // Es gibt kein frühestens, das Kind darf so früh kommen wie es möchte
                     // Daher ist "frühestens" der 01.01.2000 und das ist auf jeden Fall vor jedem beliebigen Zeitpunkt, zu dem das Kind kommt.
-                    // Könnte man eigentlich zusammen mit der Abfrage rauswerfen, aber vielleicht gibt es ja doch mal ein "frühestens" auch
+                    // Könnte man eigentlich zusammen mit der Abfrage rauswerfen, aber vielleicht gibt es ja doch mal ein "frühestens"
 
                     // frühestens 01.01.2000 04:00 Uhr
                     var existingWeightingAcceptedFromDt = new DateTime(2000, 1, 1, 4, 0, 0);
@@ -274,7 +274,7 @@ namespace Mrv.Regatta.Waage
             }
             else if (race.Boats.Any(b => b.Status == UserControls.BoatStatus.WaitingInsideTimeWindow))
             {
-                // Es gibt noch Ruderer ohne Gewicht, die könntne jetzt aber bereits zum Wiegen erscheinen
+                // Es gibt noch Ruderer ohne Gewicht, die könnten jetzt aber bereits zum Wiegen erscheinen
                 race.Status = UserControls.RaceStatus.WaitingInsideTimeWindow;
             }
             else if (race.Boats.Any(b => b.Status == UserControls.BoatStatus.BoatNok))

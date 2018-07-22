@@ -299,6 +299,15 @@ namespace Mrv.Regatta.Waage
                 boat.Comment = "Boot abgemeldet!";
                 boat.Status = UserControls.BoatStatus.BoatOk;
                 boat.Canceled = true;
+
+                // Wenn das Boot abgemeldet ist, dann ist es egal, ob die einzelnen Ruderer darin zum Wiegen da waren oder nicht.
+                // Diese Ruderer sollen dann nicht als zu schwer oder fehlend angezeigt werden, sondern als in Ordnung.
+                var rowsers = boat.Rowers.Where(r => new[] { UserControls.RowerStatus.TooLate, UserControls.RowerStatus.WeightNotOk }.Contains(r.Status));
+                foreach (var rower in rowsers)
+                {
+                    rower.Status = UserControls.RowerStatus.WaitingForTimeWindow;
+                }
+
                 return;
             }
 

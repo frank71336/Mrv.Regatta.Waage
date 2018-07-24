@@ -369,9 +369,117 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
                         streamWriter.WriteLine($"{logName} | {_vm.BirthYear} | {logClub} | {dt} | {value}");
                     }
 
-                    // Bestätigungsfenster anzeigen
-                    var okWindow = new OkWindow();
-                    okWindow.ShowDialog();
+                    #region Bestätigungsfenster anzeigen
+
+                    // Alle Rennen mit diesem Ruderer
+                    var races = _vm.Races.Where(rc => rc.Boats.Any(bt => bt.Rowers.Any(rr => rr.Id == _id)));
+
+                    // nur Rennen in der Zukunft sind von Bedeutung
+                    races = races.Where(r => r.RaceDT > dt);
+
+                    // Das nächste Rennen
+                    var nextRace = races.FirstOrDefault();
+                    
+                    ConfirmWindow.Status status;
+
+                    if (nextRace == null)
+                    {
+                        // Es gibt gar kein nächstes Rennen mehr
+                        // => Unklar, warum der überhaupt zum Wiegen kommt
+                        status = ConfirmWindow.Status.Unknown;
+                    }
+                    else
+                    {
+                        // Es gibt ein nächstes Rennen, das ist die Grundlage für die weitere Bewertung
+
+                        // Das Boot des nächsten Rennens
+                        var boat = nextRace.Boats.Single(b => b.Rowers.Any(r => r.Id == _id));
+
+                        var done = false;
+                        switch (boat.Status)
+                        {
+                            case UserControls.BoatStatus.BoatNok:
+                                // Boot NOK => Anzeige NOK
+                                status = ConfirmWindow.Status.Nok;
+                                done = true;
+                                break;
+
+                            case UserControls.BoatStatus.BoatOk:
+                                // Boot OK, Anzeige OK aber weiter untersuchen
+                                status = ConfirmWindow.Status.Ok;
+                                break;
+
+                            case UserControls.BoatStatus.None:
+                                // unbekannt => unbekannt anzeigen (wie kann das sein?)
+                                status = ConfirmWindow.Status.Unknown;
+                                done = true;
+                                break;
+
+                            case UserControls.BoatStatus.WaitingForTimeWindow:
+                                // es ist noch zu früh zum Wiegen => warum ist der überhaupt gekommen?
+                                status = ConfirmWindow.Status.Unknown;
+                                break;
+
+                            case UserControls.BoatStatus.WaitingInsideTimeWindow:
+                                // warten auf (weitere/andere) Ruderer, Anzeige OK aber weiter untersuchen
+                                status = ConfirmWindow.Status.Ok;
+                                break;
+
+                            default:
+                                // nicht behandelter Fall => unklar
+                                status = ConfirmWindow.Status.Unknown;
+                                break;
+                        }
+
+                        if (!done)
+                        {
+                            // die restlichen Rennen des Ruderers weiter untersuchen
+                            // das erste Rennen war OK, jetzt können die verbleibenden Rennen das Eegebnis noch verschlechtern
+                            var remainingRaces = races.Skip(1);
+                            foreach(var remainingRace in remainingRaces)
+                            {
+                                var remainingBoat = remainingRace.Boats.Single(b => b.Rowers.Any(r => r.Id == _id));
+
+                                switch (remainingBoat.Status)
+                                {
+                                    case UserControls.BoatStatus.BoatNok:
+                                        // Boot NOK => Anzeige NOK
+                                        status = ConfirmWindow.Status.Nok;
+                                        break;
+
+                                    case UserControls.BoatStatus.BoatOk:
+                                        // nichts weiter tun
+                                        break;
+
+                                    case UserControls.BoatStatus.None:
+                                        // unbekannt => unbekannt anzeigen (wie kann das sein?)
+                                        status = ConfirmWindow.Status.Unknown;
+                                        break;
+
+                                    case UserControls.BoatStatus.WaitingForTimeWindow:
+                                        // es gibt offenbar ein späteres Rennenen, für das es noch zu früh ist
+                                        status = ConfirmWindow.Status.NearlyOk;
+                                        break;
+
+                                    case UserControls.BoatStatus.WaitingInsideTimeWindow:
+                                        // es gibt offenbar ein späteres Rennenen (eventuell erst am nächsten Tag), für das es noch zu früh ist
+                                        // nichts weiter tun
+                                        break;
+
+                                    default:
+                                        // nicht behandelter Fall => unklar
+                                        status = ConfirmWindow.Status.Unknown;
+                                        break;
+                                }
+                            }
+                        }
+                    }
+
+                    // Fenster anzeigen
+                    var confirmWindow = new ConfirmWindow(status);
+                    confirmWindow.ShowDialog();
+
+                    #endregion
                 }
                 catch (Exception ex)
                 {

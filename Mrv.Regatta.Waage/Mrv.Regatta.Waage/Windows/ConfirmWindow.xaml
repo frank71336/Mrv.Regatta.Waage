@@ -1,0 +1,17 @@
+﻿<Window x:Class="Mrv.Regatta.Waage.Windows.ConfirmWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mrv.Regatta.Waage.Windows"
+        mc:Ignorable="d"
+        Title="ConfirmWindow" Height="270" Width="270" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Border BorderThickness="2" BorderBrush="Gray" Padding="10 ">
+        <Grid>
+            <Image x:Name="imgOk" Source="{StaticResource Icon-Ok-256}" />
+            <Image x:Name="imgOk2" Source="{StaticResource Icon-Ok2-256}" />
+            <Image x:Name="imgUnknown" Source="{StaticResource Icon-Unknown-256}" />
+            <Image x:Name="imgError" Source="{StaticResource Icon-Error-256}" />
+        </Grid>
+    </Border>
+</Window>

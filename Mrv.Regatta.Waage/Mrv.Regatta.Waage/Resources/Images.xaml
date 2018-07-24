@@ -58,6 +58,9 @@
     <!-- 256 x 256 Pixel -->
 
     <BitmapImage x:Key="Icon-Ok-256" UriSource="Icons/256/ok.png" />
+    <BitmapImage x:Key="Icon-Ok2-256" UriSource="Icons/256/ok_blue.png" />
+    <BitmapImage x:Key="Icon-Error-256" UriSource="Icons/256/error.png" />
+    <BitmapImage x:Key="Icon-Unknown-256" UriSource="Icons/256/unknown.png" />
 
     <!-- *************************************** Hintergrund-Icons *************************************** -->
 

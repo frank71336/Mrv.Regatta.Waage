@@ -132,8 +132,8 @@
     <Compile Include="UserControls\UcRowers.xaml.cs">
       <DependentUpon>UcRowers.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\OkWindow.xaml.cs">
-      <DependentUpon>OkWindow.xaml</DependentUpon>
+    <Compile Include="Windows\ConfirmWindow.xaml.cs">
+      <DependentUpon>ConfirmWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Pages\LicensesPage\LicensesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -202,7 +202,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\OkWindow.xaml">
+    <Page Include="Windows\ConfirmWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -370,6 +370,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\64\certificate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\256\error.png" />
+    <Resource Include="Resources\Icons\256\ok_blue.png" />
+    <Resource Include="Resources\Icons\256\unknown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

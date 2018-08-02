@@ -16,6 +16,7 @@ using System.IO;
 using Mrv.Regatta.Waage.Windows;
 using ViewModelBase.CollectionExtensions;
 using Mrv.Regatta.Waage.Db.DataModels;
+using System.Timers;
 
 namespace Mrv.Regatta.Waage.Pages.RowerPage
 {
@@ -46,6 +47,42 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
             this.DataContext = _vm;
 
             Refresh();
+
+            // Timer zum Aktualisieren der grafischen verbleibenden Wiegedauer
+            var refreshRemainingTimeTimer = new Timer(2 * 60 * 1000);   // 2 Minuten
+            refreshRemainingTimeTimer.Elapsed += RefreshRemainingTimeTimer_Elapsed;
+            refreshRemainingTimeTimer.Start();
+        }
+
+        /// <summary>
+        /// Handles the Elapsed event of the RefreshRemainingTimeTimer control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ElapsedEventArgs"/> instance containing the event data.</param>
+        private void RefreshRemainingTimeTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                RefreshCurrentTime(); // lokal gespeicherte Zeit aktualisieren, kann Fehler werfen!
+            }
+            catch (Exception ex)
+            {
+                Tools.ShowError(ex.Message);
+                return;
+            }
+
+            // aktueller Zeitstempel
+            var day = Data.Instance.Settings.ZeitstempelHeute;
+            var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
+
+            // alle Rennen durchgehen und verbleibende Zeit aktualisieren
+            foreach (var race in _vm.Races)
+            {
+                Tools.InvokeIfRequired(this, () =>
+                {
+                    race.UpdateRemainingMinutes(now);
+                });
+            }
         }
 
         /// <summary>
@@ -120,6 +157,10 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
 
             // die zugehörigen Rennen
             var racesThisRower = boatsThisRower.GroupBy(b => b.BRNr);
+
+            // aktueller Zeitstempel
+            var day = Data.Instance.Settings.ZeitstempelHeute;
+            var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             // Alle Rennen mit unserem Ruderer durchgehen
             _vm.Races = new System.Collections.ObjectModel.ObservableCollection<UserControls.Race>();
@@ -201,6 +242,8 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
                     // Status-Symbol des Rennens entsprechend des Status der Boote im Rennen setzen
                     boatBuilder.SetRaceStatus(newRace);
 
+                    newRace.UpdateRemainingMinutes(now);
+
                     // Rennen hinzufügen
                     _vm.Races.Add(newRace);
                 }
@@ -212,17 +255,13 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
 
             #region Kommentar
 
-            // Zeitstempel
-            var day = Data.Instance.Settings.ZeitstempelHeute;
-            var dt = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
-
             // das nächste Rennen des Ruderers ermitteln
 
             // alle Rennen des Ruderers (nur die, die in der View auch angezeigt werden)
             var races1 = dbRaces.Where(dbR => _vm.Races.Any(r => r.RaceNumber == dbR.RNr)).OrderBy(r => r.RZeit).ToList();
 
             // alle Rennen, die noch kommen
-            var races2 = races1.Where(r => r.RZeit > dt);
+            var races2 = races1.Where(r => r.RZeit > now);
 
             var nextRace = races2.FirstOrDefault();
 
@@ -234,7 +273,7 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
             }
             else
             {
-                var timeDiff = (DateTime)(nextRace.RZeit) - dt;
+                var timeDiff = (DateTime)(nextRace.RZeit) - now;
 
                 if (timeDiff.TotalHours > 2)
                 {

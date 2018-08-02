@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Mrv.Regatta.Waage
 {
@@ -88,6 +89,23 @@ namespace Mrv.Regatta.Waage
         public static void ShowError(string message)
         {
             MessageBox.Show(message, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// Invokes if required.
+        /// </summary>
+        /// <param name="dispatcherObject">The dispatcher object. (Window, Page, ... OR 'this')</param>
+        /// <param name="action">The action.</param>
+        public static void InvokeIfRequired(DispatcherObject dispatcherObject, Action action)
+        {
+            if (!dispatcherObject.Dispatcher.CheckAccess())
+            {
+                dispatcherObject.Dispatcher.Invoke(new Action(() => action()));
+            }
+            else
+            {
+                action();
+            }
         }
 
     }

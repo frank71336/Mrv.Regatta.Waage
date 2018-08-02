@@ -145,7 +145,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
         private void ExecuteSelfTest()
         {
             // Ruderer anzeigen
-            InvokeIfRequired(() =>
+            Tools.InvokeIfRequired(this, () =>
             {
                 var rowersPage = new RowersPage.RowersPage();
                 Data.Instance.MainContent.Content = rowersPage;
@@ -153,7 +153,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             System.Threading.Thread.Sleep(1000);
 
             // Rennen anzeigen
-            InvokeIfRequired(() =>
+            Tools.InvokeIfRequired(this, () =>
             {
                 var racesPage = new RacesPage.RacesPage();
                 Data.Instance.MainContent.Content = racesPage;
@@ -165,7 +165,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             foreach(var rower in rowers)
             {
                 // Einzelnen Ruderer anzeigen
-                InvokeIfRequired(() =>
+                Tools.InvokeIfRequired(this, () =>
                 {
                     var rowerPage = new RowerPage.RowerPage((int)rower.RID);
                     Data.Instance.MainContent.Content = rowerPage;
@@ -180,7 +180,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             foreach (var rower in rowers)
             {
                 // Einzelnen Ruderer anzeigen
-                InvokeIfRequired(() =>
+                Tools.InvokeIfRequired(this, () =>
                 {
                     var rowerPage = new RowerPage.RowerPage((int)rower.RID);
                     Data.Instance.MainContent.Content = rowerPage;
@@ -195,7 +195,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             foreach (var rower in rowers)
             {
                 // Einzelnen Ruderer anzeigen
-                InvokeIfRequired(() =>
+                Tools.InvokeIfRequired(this, () =>
                 {
                     var rowerPage = new RowerPage.RowerPage((int)rower.RID);
                     Data.Instance.MainContent.Content = rowerPage;
@@ -240,23 +240,6 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             // Messungen im Speicher aktualisieren
             Tools.ReadWeightings();
         }
-
-        /// <summary>
-        /// Invokes if required.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        private void InvokeIfRequired(Action action)
-        {
-            if (!this.Dispatcher.CheckAccess())
-            {
-                this.Dispatcher.Invoke(new Action(() => action()));
-            }
-            else
-            {
-                action();
-            }
-        }
-
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -29,6 +30,42 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
             this.DataContext = _vm;
 
             Refresh();
+
+            // Timer zum Aktualisieren der grafischen verbleibenden Wiegedauer
+            var refreshRemainingTimeTimer = new Timer(2 * 60 * 1000);   // 2 Minuten
+            refreshRemainingTimeTimer.Elapsed += RefreshRemainingTimeTimer_Elapsed;
+            refreshRemainingTimeTimer.Start();
+        }
+
+        /// <summary>
+        /// Handles the Elapsed event of the RefreshRemainingTimeTimer control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ElapsedEventArgs"/> instance containing the event data.</param>
+        private void RefreshRemainingTimeTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                RefreshCurrentTime(); // lokal gespeicherte Zeit aktualisieren, kann Fehler werfen!
+            }
+            catch (Exception ex)
+            {
+                Tools.ShowError(ex.Message);
+                return;
+            }
+
+            // aktueller Zeitstempel
+            var day = Data.Instance.Settings.ZeitstempelHeute;
+            var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
+
+            // alle Rennen durchgehen und verbleibende Zeit aktualisieren
+            foreach (var race in _vm.Races)
+            {
+                Tools.InvokeIfRequired(this, () =>
+                {
+                    race.UpdateRemainingMinutes(now);
+                });
+            }
         }
 
         /// <summary>
@@ -53,6 +90,10 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
             var dbBoats = Data.Instance.DbBoats;
             var dbClubs = Data.Instance.DbClubs;
             var races = Data.Instance.Races;
+
+            // aktueller Zeitstempel
+            var day = Data.Instance.Settings.ZeitstempelHeute;
+            var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             // Alle Rennen der DB durchgehen
             var vmRaces = new System.Collections.ObjectModel.ObservableCollection<UserControls.Race>();
@@ -83,6 +124,8 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
                         DbRace = dbRace,
                         Boats = new System.Collections.ObjectModel.ObservableCollection<UserControls.Boat>()
                     };
+
+                    newRace.UpdateRemainingMinutes(now);
 
                     // Boote zum Rennen hinzufügen, sortiert nach Startnummer - Achtung, Startnummer ist String, spezielle Sortierung notwendig!
                     var boats = dbBoats.Where(b => b.BRNr == dbRace.Index).OrderBy(b => b.BSNr, new BSNrComparer());

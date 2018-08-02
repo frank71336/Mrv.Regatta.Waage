@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="Mrv.Regatta.Waage.UserControls.UcRace"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="Transparent"
     xmlns:local="clr-namespace:Mrv.Regatta.Waage.UserControls">
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -43,6 +43,7 @@
         <!-- Spalte 2 (restliche Tabelle rechts vom Bild)-->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
+                <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
@@ -96,8 +97,12 @@
                 </Border>
             </Grid>
 
-            <!-- Zeile 3 (Boote) -->
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" >
+                <mahapps:MetroProgressBar Height="5" Minimum="0" Maximum="60" Value="{Binding Race.RemainingMinutes, FallbackValue=50}" Foreground="{Binding Race.RemainingMinutesBrush, FallbackValue=Yellow}" />
+            </Grid>
+
+            <!-- Zeile 4 (Boote) -->
+            <Grid Grid.Row="3">
                 <ItemsControl ItemsSource="{Binding Race.Boats}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

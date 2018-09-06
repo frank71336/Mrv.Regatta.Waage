@@ -2,19 +2,12 @@
 using Mrv.Regatta.Waage.Xml;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using XmlBase.ArrayExtensions;
 
 namespace Mrv.Regatta.Waage.Pages.SettingsPage
@@ -241,5 +234,179 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             Tools.ReadWeightings();
         }
 
+        /// <summary>
+        /// Handles the Click event of the cmdBackup control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void cmdBackup_Click(object sender, RoutedEventArgs e)
+        {
+            var paths = Data.Instance.Settings.Pfade;
+            var backupRoot = paths.Backups;
+
+            if (!Directory.Exists(backupRoot))
+            {
+                // Backup-Verzeichnis erstellen falls es nicht existiert
+                Directory.CreateDirectory(backupRoot);
+            }
+
+            var backupFolder = $"backup-{DateTime.Now.ToString("yy-MM-dd HH.mm.ss")}";
+            var backupDir = System.IO.Path.Combine(backupRoot, backupFolder);
+
+            // Backup-Verzeichnis erzeugen
+            Directory.CreateDirectory(backupDir);
+
+            // Dateien kopieren
+            CopyToDirectory(paths.Logdatei, backupDir);
+            CopyToDirectory(paths.Regeln, backupDir);
+            CopyToDirectory(paths.Rennen, backupDir);
+            DirectoryCopy(paths.Messungen, System.IO.Path.Combine(backupDir, "Messungen"), false);
+
+            // Zip erzeugen
+            var zipFile = backupDir + ".zip";
+            System.IO.Compression.ZipFile.CreateFromDirectory(backupDir, zipFile);
+
+            // Zip-Datei auf USB-Sticks kopieren
+
+            // alle bereiten Wechselmedien bestimmen
+            var removableDrives = DriveInfo.GetDrives().ToList().Where(d => (d.DriveType == DriveType.Removable) && (d.IsReady));
+
+            if (removableDrives?.Any() == false)
+            {
+                // Es gibt keine bereiten Wechselmedien
+                MessageBox.Show("Backup lokal erstellt aber keine Backup-Medien gefunden!");
+                return;
+            }
+
+            // bereiten Wechselmedien durchgehen und Backup kopieren
+            foreach (var drive in removableDrives)
+            {
+                var driveBackupFolder = System.IO.Path.Combine(drive.Name, "backups"); // TODO: Ist 'drive.Name' das richtige Property?
+
+                if (!Directory.Exists(driveBackupFolder))
+                {
+                    // Backup-Verzeichnis erstellen falls es nicht existiert
+                    Directory.CreateDirectory(driveBackupFolder);
+                }
+
+                // Zip kopieren
+                var zipBackupFile = System.IO.Path.Combine(backupDir, zipFile);
+                CopyToDirectory(zipBackupFile, driveBackupFolder);
+            }
+
+            MessageBox.Show("Backup erstellt.");
+        }
+
+        /// <summary>
+        /// Handles the Click event of the cmdCopyDbFromUsbStickAndRestart control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void cmdCopyDbFromUsbStickAndRestart_Click(object sender, RoutedEventArgs e)
+        {
+            // alle bereiten Wechselmedien bestimmen
+            var removableDrives = DriveInfo.GetDrives().ToList().Where(d => (d.DriveType == DriveType.Removable) && (d.IsReady));
+
+            if (removableDrives?.Any() == false)
+            {
+                // Es gibt keine bereiten Wechselmedien
+                MessageBox.Show("Keine Wechselmedien gefunden!");
+                return;
+            }
+
+            // Datenbank-Datei ermitteln
+            string dataBaseFilePath;
+            using (var db = new DatenDB())
+            {
+                dataBaseFilePath = ((System.Data.OleDb.OleDbConnection)db.Connection).DataSource;
+            }
+
+            // bereiten Wechselmedien durchgehen nach Datenbank suchen
+            var databaseFileName = System.IO.Path.GetFileName(dataBaseFilePath);
+            foreach (var drive in removableDrives)
+            {
+                var sourceDbPath = System.IO.Path.Combine(drive.Name, databaseFileName); // TODO: Ist 'drive.Name' das richtige Property?
+                if (File.Exists(sourceDbPath))
+                {
+                    // Datenbank-Datei umbenennen, damit sie nach dem Überschreiben nicht völlig weg ist
+                    var oldDataBaseFilePath = $"{dataBaseFilePath} - {DateTime.Now.ToString("yy-MM-dd HH.mm.ss")}";
+                    File.Move(dataBaseFilePath, oldDataBaseFilePath);
+
+                    // Datenbank von Wechselmedium übernehmen
+                    File.Copy(sourceDbPath, dataBaseFilePath);
+                    
+                    MessageBox.Show("Datenbank übernommen. Neustart erfolgt.");
+
+                    // Programm nochmal anstarten
+                    var exeName = AppDomain.CurrentDomain.FriendlyName;
+                    var  startInfo = new ProcessStartInfo();
+                    startInfo.FileName = exeName;
+                    Process.Start(startInfo);
+
+                    // sich selbst beenden
+                    Application.Current.Shutdown();
+
+                    return;
+                }
+            }
+
+            MessageBox.Show("Keine Datenbank zum Kopieren von Wechselmedium gefunden!", "Fehler", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+        }
+
+        /// <summary>
+        /// Copies a file to a directory.
+        /// </summary>
+        /// <param name="sourceFile">The source file.</param>
+        /// <param name="destinationDir">The destination dir.</param>
+        /// <param name="overwrite">if set to <c>true</c> [overwrite].</param>
+        private static void CopyToDirectory(string sourceFile, string destinationDir, bool overwrite = false)
+        {
+            var destinationFile = System.IO.Path.Combine(destinationDir, System.IO.Path.GetFileName(sourceFile));
+            File.Copy(sourceFile, destinationFile, overwrite);
+        }
+
+        /// <summary>
+        /// Directories the copy.
+        /// </summary>
+        /// <param name="sourceDirName">Name of the source dir.</param>
+        /// <param name="destDirName">Name of the dest dir.</param>
+        /// <param name="copySubDirs">if set to <c>true</c> [copy sub dirs].</param>
+        /// <exception cref="DirectoryNotFoundException">Source directory does not exist or could not be found: "
+        ///                     + sourceDirName</exception>
+        private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + sourceDirName);
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            // If the destination directory doesn't exist, create it.
+            if (!Directory.Exists(destDirName))
+            {
+                Directory.CreateDirectory(destDirName);
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string temppath = System.IO.Path.Combine(destDirName, file.Name);
+                file.CopyTo(temppath, false);
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = System.IO.Path.Combine(destDirName, subdir.Name);
+                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                }
+            }
+        }
     }
 }

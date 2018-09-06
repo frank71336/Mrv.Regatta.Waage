@@ -1,5 +1,5 @@
 # Mrv.Regatta.Waage
-Dieses Projekt ist eine Software zur Unterstützung der Waage bei (Ruder-)Regatten. Es basiert auf dem Programm RegSys von Frank Kilian und Martin Wensky, das auf diversen Herbstregatten in Süddeutschalnd und bei der Landesmeisterschaft Baden-Würrtemberg verwendet wird.
+Dieses Projekt ist eine Software zur Unterstützung der Waage bei (Ruder-)Regatten. Es basiert auf dem Programm RegSys von Frank Kilian und Martin Wensky, das auf diversen Herbstregatten in Süddeutschalnd und bei der Landesmeisterschaft Baden-Württemberg verwendet wird.
 
 RegSys basiert auf Access und ermöglicht die Abwicklung einer Regatta, von der Meldung über die Erfassung der Zeiten bis zum Ausdruck der Ergebnissen. RegSys bietet jedoch keine Unterstützung für die Arbeit der Waage.
 

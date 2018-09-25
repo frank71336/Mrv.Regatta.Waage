@@ -208,7 +208,11 @@ namespace Mrv.Regatta.Waage
                             foreach (var race in races)
                             {
                                 // den vollständigen Datensatz dazu zu diesem Rennen aus DB
-                                var dbRace = dbRaces.Single(x => x.RNr == race.RennNr);
+                                var dbRace = dbRaces.SingleOrDefault(x => x.RNr == race.RennNr);
+                                if (dbRace == null)
+                                {
+                                    Tools.LogError("DB-Rennen zu Rennen nicht gefunden oder mehrere gefunden! RNr", race.RennNr);
+                                }
 
                                 // alle Boote dieses Rennens
                                 var boatsOfRace = dbBoats.Where(b => b.BRNr == dbRace.Index).ToList();
@@ -253,8 +257,11 @@ namespace Mrv.Regatta.Waage
             {
                 if (!rowers.Any(r => r.RID == rId))
                 {
-                    var newRower = dbRowers.First(r => r.RID == rId);
-                    rowers.Add(newRower);
+                    var newRower = dbRowers.FirstOrDefault(r => r.RID == rId);
+                    if (newRower != null)
+                    {
+                        rowers.Add(newRower);
+                    }
                 }
             }
         }

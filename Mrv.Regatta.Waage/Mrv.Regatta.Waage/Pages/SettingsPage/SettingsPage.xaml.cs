@@ -271,7 +271,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             // alle bereiten Wechselmedien bestimmen
             var removableDrives = DriveInfo.GetDrives().ToList().Where(d => (d.DriveType == DriveType.Removable) && (d.IsReady));
 
-            if (removableDrives?.Any() == false)
+            if (removableDrives?.Any() != true)
             {
                 // Es gibt keine bereiten Wechselmedien
                 MessageBox.Show("Backup lokal erstellt aber keine Backup-Medien gefunden!");
@@ -307,7 +307,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             // alle bereiten Wechselmedien bestimmen
             var removableDrives = DriveInfo.GetDrives().ToList().Where(d => (d.DriveType == DriveType.Removable) && (d.IsReady));
 
-            if (removableDrives?.Any() == false)
+            if (removableDrives?.Any() != true)
             {
                 // Es gibt keine bereiten Wechselmedien
                 MessageBox.Show("Keine Wechselmedien gefunden!");

@@ -10,7 +10,7 @@
       Title="RacesPage">
     <Grid>
         <ScrollViewer>
-            <TextBlock Text="{Binding LicensesText}" FontFamily="Courier New" FontSize="16" />
+            <TextBlock Text="{Binding LicensesText}" FontFamily="Courier New" FontSize="16" TextWrapping="Wrap" />
         </ScrollViewer>
     </Grid>
 </Page>

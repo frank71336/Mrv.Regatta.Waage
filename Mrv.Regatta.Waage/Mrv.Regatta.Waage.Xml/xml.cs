@@ -189,6 +189,8 @@ namespace Mrv.Regatta.Waage.Xml {
         
         private string logdateiField;
         
+        private string fehlerLogdateiField;
+        
         private string backupsField;
         
         /// <remarks/>
@@ -232,6 +234,17 @@ namespace Mrv.Regatta.Waage.Xml {
             }
             set {
                 this.logdateiField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string FehlerLogdatei {
+            get {
+                return this.fehlerLogdateiField;
+            }
+            set {
+                this.fehlerLogdateiField = value;
             }
         }
         

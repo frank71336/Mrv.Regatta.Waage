@@ -36,7 +36,7 @@ namespace Mrv.Regatta.Waage.Pages.RowersPage
                 Id = (int)r.RID,
                 LastName = r.RName,
                 FirstName = r.RVorname,
-                Club = clubs.Single(c => c.VIDVerein == r.RVerein).VVereinsnamenKurz,
+                Club = clubs.SingleOrDefault(c => c.VIDVerein == r.RVerein)?.VVereinsnamenKurz ?? "#Verein nicht gefunden!#",
                 Year = Convert.ToInt16(r.RJg).ToString(),
                 Sex = r.Geschlecht.ToString().Equals("w", StringComparison.OrdinalIgnoreCase) ? Sex.Female : Sex.Male
             });

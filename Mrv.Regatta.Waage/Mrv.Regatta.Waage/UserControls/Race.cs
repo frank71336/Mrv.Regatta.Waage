@@ -13,6 +13,8 @@ namespace Mrv.Regatta.Waage.UserControls
         public string RaceNumber { get; set; }
         public DateTime RaceDT { get; set; }
         public string Day { get; set; }
+        public string ScheduledTime { get; set; }
+        public Visibility ScheduledTimeVisibility { get; set; }
         public string Time { get; set; }
         public string ShortName { get; set; }
         public string LongName { get; set; }
@@ -107,7 +109,12 @@ namespace Mrv.Regatta.Waage.UserControls
 
                 // Kinderrennen?
                 var races = Data.Instance.Races;
-                var race = races.Rennen1.Single(r => r.RennNr == DbRace.RNr);
+                var race = races.Rennen1.SingleOrDefault(r => r.RennNr == DbRace.RNr);
+                if (race == null)
+                {
+                    Tools.LogError("XML-Rennen zu DB-Rennen nicht gefunden! RennNr", DbRace.RNr);
+                    return;
+                }
 
                 if (race.RennInfo.Kinderrennen)
                 {

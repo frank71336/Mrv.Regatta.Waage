@@ -56,8 +56,12 @@
         <!-- Footer -->
         <Border Grid.Column="1" Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="#FF009ECD">
             <StackPanel Orientation="Horizontal">
+                <!-- Datum -->
                 <Label Margin="50,0,0,0" Content="{Binding Day, FallbackValue='Mittwoch, 24. Dezember 2017'}" />
-                <CheckBox Margin="50,0,0,0" IsChecked="{Binding OverrideTime}" />
+                
+                <!-- Uhrzeit -->
+                <Label Margin="50,0,0,0" Content="Uhrzeit:" />
+                <CheckBox  IsChecked="{Binding OverrideTime}" />
                 <TextBox Text="{Binding ManualTime, FallbackValue='23:59'}" VerticalAlignment="Center" MaxLength="8" Margin="0,2,0,2" PreviewTextInput="TimeOnly">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
@@ -73,6 +77,23 @@
                     </TextBox.Style>
                 </TextBox>
                 <Label Content="{Binding CurrentTime, FallbackValue='23:59'}" />
+
+                <Label Margin="50,0,0,0" Content="Verspätung:" />
+                <CheckBox IsChecked="{Binding SetDelayTime}" />
+                <TextBox Text="{Binding DelayTime, FallbackValue='23:59'}" VerticalAlignment="Center" MaxLength="8" Margin="0,2,0,2" PreviewTextInput="TimeOnly">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SetDelayTime}" Value="true">
+                                    <Setter Property="Visibility" Value="Visible"  />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding SetDelayTime}" Value="false">
+                                    <Setter Property="Visibility" Value="Collapsed"  />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
             </StackPanel>
         </Border>
         

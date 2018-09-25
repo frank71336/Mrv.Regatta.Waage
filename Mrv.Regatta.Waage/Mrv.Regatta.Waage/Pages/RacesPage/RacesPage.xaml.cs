@@ -15,6 +15,8 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
     {
         private TimeSpan _currentTime;
 
+        private TimeSpan _delayTime;
+
         RacesPageViewModel _vm;
 
         /// <summary>
@@ -113,11 +115,13 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
                     {
                         Id = dbRace.Index,
                         RaceNumber = dbRace.RNr,
-                        RaceDT = (DateTime)dbRace.RZeit,
+                        RaceDT = (DateTime)dbRace.RZeit + _delayTime,
                         ShortName = dbRace.RKBez,
                         LongName = dbRace.RLBez,
                         Day = dbRace.RTag,
-                        Time = ((DateTime)dbRace.RZeit).ToString("HH:mm"),
+                        Time = ((DateTime)dbRace.RZeit + _delayTime).ToString("HH:mm"), // korrigierte Zeit mit Verspätung
+                        ScheduledTime = ((DateTime)dbRace.RZeit).ToString("HH:mm"), // ursprüngliche Zeit
+                        ScheduledTimeVisibility = Data.Instance.MainViewModel.SetDelayTime ? Visibility.Visible : Visibility.Collapsed,
                         MaxWeight1 = maxWeight1,
                         MaxWeightAverage = maxWeightAverage,
                         MinWeightCox = minWeightCox,
@@ -133,27 +137,34 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
                     // Alle Boote des Rennens
                     foreach (var boat in boats)
                     {
+                        // zuerst den Verein zum Boot ermitteln
+                        var club = dbClubs.SingleOrDefault(c => c.VIDVerein == boat.BVID);
+                        if (club == null)
+                        {
+                            Tools.LogError("DB-Verein nicht gefunden oder mehrere gefunden: Rennen", dbRace.RNr, "Boot", boat.BSNr, "VIDVerein", boat.BVID);
+                        }
+
                         // Neues Boot
                         var newBoat = new UserControls.Boat()
                         {
                             Id = boat.BID,
                             StartNumber = boat.BSNr,
-                            Club = dbClubs.Single(c => c.VIDVerein == boat.BVID).VVereinsnamenKurz,
+                            Club = club?.VVereinsnamenKurz,
                             Status = UserControls.BoatStatus.BoatNok
                         };
 
                         // Die Ruderer des Bootes
                         var rowers = new List<UserControls.Rower>();
 
-                        boatBuilder.AddRower(race, dbRace, rowers, boat.BName1, false);
-                        boatBuilder.AddRower(race, dbRace, rowers, boat.BName2, false);
-                        boatBuilder.AddRower(race, dbRace, rowers, boat.BName3, false);
-                        boatBuilder.AddRower(race, dbRace, rowers, boat.BName4, false);
-                        boatBuilder.AddRower(race, dbRace, rowers, boat.BName5, false);
-                        boatBuilder.AddRower(race, dbRace, rowers, boat.BName6, false);
-                        boatBuilder.AddRower(race, dbRace, rowers, boat.BName7, false);
-                        boatBuilder.AddRower(race, dbRace, rowers, boat.BName8, false);
-                        boatBuilder.AddRower(race, dbRace, rowers, boat.BName9, true);
+                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName1, false, _delayTime);
+                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName2, false, _delayTime);
+                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName3, false, _delayTime);
+                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName4, false, _delayTime);
+                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName5, false, _delayTime);
+                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName6, false, _delayTime);
+                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName7, false, _delayTime);
+                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName8, false, _delayTime);
+                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName9, true, _delayTime);
 
                         // Ruderer zum Boot hinzufügen
                         newBoat.Rowers = rowers;
@@ -181,6 +192,7 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
         private void RefreshCurrentTime()
         {
             _currentTime = Data.Instance.GetCurrentTime();
+            _delayTime = Data.Instance.GetCurrentDelay();
         }
 
         /// <summary>
@@ -339,7 +351,11 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
             {
                 // Id == 1 bedeutet, Platz nicht besetzt.
 
-                var dbRower = dbRowers.Single(x => x.RID == rowerId2);
+                var dbRower = dbRowers.SingleOrDefault(x => x.RID == rowerId2);
+                if (dbRower == null)
+                {
+                    TODO: Fehlermeldung bringen... !
+                }
 
                 var newRower = new UserControls.Rower()
                 {

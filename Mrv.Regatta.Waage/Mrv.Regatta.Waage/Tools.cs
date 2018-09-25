@@ -108,5 +108,31 @@ namespace Mrv.Regatta.Waage
             }
         }
 
+        /// <summary>
+        /// Logs the error to file and shows a message box with the error.
+        /// </summary>
+        /// <param name="errorTexts">The error texts.</param>
+        internal static void LogError(params object[] errorTexts)
+        {
+            var strParts = new List<string>();
+            foreach(var obj in errorTexts)
+            {
+                if (obj == null)
+                {
+                    strParts.Add("NULL");
+                }
+                else
+                {
+                    strParts.Add(obj.ToString());
+                }
+            }
+
+            var file = Data.Instance.Settings.Pfade.FehlerLogdatei;
+            var message = string.Join(" ", strParts);
+            var messageWithTimestamp = DateTime.Now.ToString() + ": " + message;
+            File.AppendAllText(file, messageWithTimestamp + Environment.NewLine);
+            ShowError(message);
+        }
+
     }
 }

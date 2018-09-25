@@ -57,6 +57,23 @@ namespace Mrv.Regatta.Waage
 
             return TimeSpan.Parse(timeString);
         }
+
+        public TimeSpan GetCurrentDelay()
+        {
+            string timeString;
+            if (MainViewModel.SetDelayTime)
+            {
+                // manuelle Zeit nehmen
+                timeString = MainViewModel.DelayTime;
+                return TimeSpan.Parse(timeString);
+            }
+            else
+            {
+                // keine Verzögerung
+                return new TimeSpan();
+                
+            }
+        }
         
     }
 }

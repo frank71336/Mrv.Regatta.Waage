@@ -3,8 +3,6 @@ using Mrv.Regatta.Waage.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mrv.Regatta.Waage
 {
@@ -29,7 +27,7 @@ namespace Mrv.Regatta.Waage
         /// <param name="rowers">The rowers.</param>
         /// <param name="rowerId">The rower identifier.</param>
         /// <param name="steuermann">if set to <c>true</c> [steuermann].</param>
-        public void AddRower(RennenRennen race, TRennen dbRace, List<UserControls.Rower> rowers, int? rowerId, bool steuermann)
+        public void AddRower(RennenRennen race, TRennen dbRace, ref List<UserControls.Rower> rowers, int? rowerId, bool steuermann, TimeSpan delay)
         {
             if (rowerId == null)
             {
@@ -47,7 +45,7 @@ namespace Mrv.Regatta.Waage
 
                 var dbRowers = Data.Instance.DbRowers;
                 var weightings = Data.Instance.Weightings.Where(w => w.Id == rowerId).ToList();
-                var raceDt = (DateTime)dbRace.RZeit;
+                var raceDt = (DateTime)dbRace.RZeit + delay;
 
                 var weightRowerRequired = race.RennInfo.EinzelgewichtSpecified;
                 var weightCoxRequired = race.RennInfo.GewichtSteuermannSpecified;
@@ -212,18 +210,24 @@ namespace Mrv.Regatta.Waage
                     #endregion Kein Kinderennen
                 }
 
-                var dbRower = dbRowers.Single(x => x.RID == rowerId2);
-
-                var newRower = new UserControls.Rower()
+                var dbRower = dbRowers.SingleOrDefault(x => x.RID == rowerId2);
+                if (dbRower == null)
                 {
-                    Id = rowerId2,
-                    Name = $"{dbRower.RName}, {dbRower.RVorname} ({weightRower})",
-                    Type = steuermann ? UserControls.RowerType.Cox : UserControls.RowerType.Rower,
-                    Status = rowerStatus,
-                    WeightInfo = weightInfo
-                };
+                    Tools.LogError("DB-Ruderer nicht gefunden oder mehrere gefunden beim Einfügen ins Boot! Renn-Nr ", dbRace.RNr, "RID", rowerId);
+                }
+                else
+                {
+                    var newRower = new UserControls.Rower()
+                    {
+                        Id = rowerId2,
+                        Name = $"{dbRower.RName}, {dbRower.RVorname} ({weightRower})",
+                        Type = steuermann ? UserControls.RowerType.Cox : UserControls.RowerType.Rower,
+                        Status = rowerStatus,
+                        WeightInfo = weightInfo
+                    };
 
-                rowers.Add(newRower);
+                    rowers.Add(newRower);
+                }
             }
         }
 
@@ -267,17 +271,17 @@ namespace Mrv.Regatta.Waage
             // außer... :
 
             // Reihenfolge beachten!
-            if (race.Boats.Any(b => b.Status == UserControls.BoatStatus.WaitingForTimeWindow))
+            if (race?.Boats?.Any(b => b.Status == UserControls.BoatStatus.WaitingForTimeWindow) == true)
             {
                 // Es gibt noch Ruderer ohne Gewicht, bei denen ist es noch nicht Zeit zum wiegen
                 race.Status = UserControls.RaceStatus.WaitingForTimeWindow;
             }
-            else if (race.Boats.Any(b => b.Status == UserControls.BoatStatus.WaitingInsideTimeWindow))
+            else if (race?.Boats?.Any(b => b.Status == UserControls.BoatStatus.WaitingInsideTimeWindow) == true)
             {
                 // Es gibt noch Ruderer ohne Gewicht, die könnten jetzt aber bereits zum Wiegen erscheinen
                 race.Status = UserControls.RaceStatus.WaitingInsideTimeWindow;
             }
-            else if (race.Boats.Any(b => b.Status == UserControls.BoatStatus.BoatNok))
+            else if (race?.Boats?.Any(b => b.Status == UserControls.BoatStatus.BoatNok) == true)
             {
                 // Alle waren zum Wiegen da, aber es gibt ein Boot, das nicht OK ist
                 race.Status = UserControls.RaceStatus.OkWithProblems;
@@ -291,7 +295,13 @@ namespace Mrv.Regatta.Waage
         public void SetBoatStatus(UserControls.Race race, UserControls.Boat boat)
         {
             // Boot abgemeldet?
-            var dbRace = Data.Instance.DbRaces.Single(r => r.Index == race.Id);
+            var dbRace = Data.Instance.DbRaces.SingleOrDefault(r => r.Index == race.Id);
+            if (dbRace == null)
+            {
+                Tools.LogError("DB-Rennen nicht gefunden oder mehrere gefunden beim Setzen des Boots-Status! Renn-Id. (Index)", race.Id);
+                return;
+            }
+
             var cancelation = Data.Instance.DbCancellations.FirstOrDefault(c => (c.RennNr == dbRace.RNr) && (c.StartNr == boat.StartNumber));
             if (cancelation != null)
             {
@@ -311,12 +321,16 @@ namespace Mrv.Regatta.Waage
                 return;
             }
 
-            var rennen = Data.Instance.Races.Rennen1.Single(r => r.RennNr == race.RaceNumber);
+            var rennen = Data.Instance.Races.Rennen1.SingleOrDefault(r => r.RennNr == race.RaceNumber);
+            if (rennen == null)
+            {
+                Tools.LogError("XML-Rennen nicht gefunden oder mehrere gefunden beim Setzen des Boots-Status! RennNr", race.RaceNumber);
+            }
 
             var rowersWithoutCox = boat.Rowers.Where(r => r.Type == UserControls.RowerType.Rower);
 
             // soll für dieses Rennen das Durschnittsgewicht berücksichtigt werden und gibt es schon einen Ruderer mit Gewicht?
-            var checkAverageWeight = rennen.RennInfo.DurchschnittsgewichtSpecified && rowersWithoutCox.Any(r => r.WeightInfo != null);
+            var checkAverageWeight = rennen.RennInfo.DurchschnittsgewichtSpecified && (rowersWithoutCox?.Any(r => r.WeightInfo != null) == true);
             float averageWeight = 0;
             boat.AverageWeight = "";
 
@@ -346,22 +360,22 @@ namespace Mrv.Regatta.Waage
             }
 
             // Reihenfolge beachten!
-            if (boat.Rowers.Any(r => r.Status == UserControls.RowerStatus.WeightNotOk))
+            if (boat?.Rowers?.Any(r => r.Status == UserControls.RowerStatus.WeightNotOk) == true)
             {
                 // es gibt Ruderer, bei denen das Gewicht nicht passt
                 boat.Status = UserControls.BoatStatus.BoatNok;
             }
-            else if (boat.Rowers.Any(r => r.Status == UserControls.RowerStatus.TooLate))
+            else if (boat?.Rowers?.Any(r => r.Status == UserControls.RowerStatus.TooLate) == true)
             {
                 // Es gibt Ruderer, die das Wiegen verpasst haben
                 boat.Status = UserControls.BoatStatus.BoatNok;
             }
-            else if (boat.Rowers.Any(r => r.Status == UserControls.RowerStatus.WaitingForTimeWindow))
+            else if (boat?.Rowers?.Any(r => r.Status == UserControls.RowerStatus.WaitingForTimeWindow) == true)
             {
                 // Es gibt Ruderer ohne Gewicht, für die es noch zu früh zum Wiegen ist
                 boat.Status = UserControls.BoatStatus.WaitingForTimeWindow;
             }
-            else if (boat.Rowers.Any(r => r.Status == UserControls.RowerStatus.WaitingInsideTimeWindow))
+            else if (boat?.Rowers?.Any(r => r.Status == UserControls.RowerStatus.WaitingInsideTimeWindow) == true)
             {
                 // Es gibt Ruderer ohne Gewicht, die jetzt zum wiegen dran wären
                 boat.Status = UserControls.BoatStatus.WaitingInsideTimeWindow;

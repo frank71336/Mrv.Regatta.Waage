@@ -33,6 +33,7 @@
     <xs:attribute name="Rennen" type="xs:string" use="required" />
     <xs:attribute name="Messungen" type="xs:string" use="required" />
     <xs:attribute name="Logdatei" type="xs:string" use="required" />
+    <xs:attribute name="FehlerLogdatei" type="xs:string" use="required" />
     <xs:attribute name="Backups" type="xs:string" use="required" />
   </xs:complexType>
 </xs:schema>

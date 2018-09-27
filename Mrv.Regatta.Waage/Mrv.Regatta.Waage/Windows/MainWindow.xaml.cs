@@ -54,6 +54,7 @@ namespace Mrv.Regatta.Waage
             // ------------------------------ View-Model
 
             _vm = new MainViewModel();
+            _vm.RacesReducedView = true;
             _vm.Day = Data.Instance.Settings.ZeitstempelHeute.ToLongDateString();
             _vm.OverrideTime = false;
 

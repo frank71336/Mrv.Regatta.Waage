@@ -131,6 +131,26 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
 
                     newRace.UpdateRemainingMinutes(now);
 
+                    // bei reduzierter Ansicht: Rennen ggf. nicht anzeigen (weil an einem anderen Tag oder schon lange vorbei oder erst in Stundne)
+                    // das wird erst hier gemacht, weil hier das Rennen samt Verspätung als Objekt vorhanden ist
+                    if (Data.Instance.MainViewModel.RacesReducedView)
+                    {
+                        // Zeit in Stunden bis zum Rennen
+                        var remainingMinutes = (newRace.RaceDT - now).TotalHours;
+
+                        if (remainingMinutes < 0)
+                        {
+                            // Rennen ist in der Vergangenheit
+                            continue;
+                        }
+
+                        if (remainingMinutes > 4)
+                        {
+                            // Es sind noch mehr als ... Stunden bis zum Rennen
+                            continue;
+                        }
+                    }
+
                     // Boote zum Rennen hinzufügen, sortiert nach Startnummer - Achtung, Startnummer ist String, spezielle Sortierung notwendig!
                     var boats = dbBoats.Where(b => b.BRNr == dbRace.Index).OrderBy(b => b.BSNr, new BSNrComparer());
 

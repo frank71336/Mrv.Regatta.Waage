@@ -109,5 +109,25 @@ namespace Mrv.Regatta.Waage
             }
         }
         private string _delayTime;
+
+        /// <summary>
+        /// Reduzierte Ansicht bei den Rennen (nur aktueller Tag und Zeitbereich)
+        /// </summary>
+        /// <value>
+        /// The races reduced view.
+        /// </value>
+        public bool RacesReducedView
+        {
+            get
+            {
+                return _racesReducedView;
+            }
+            set
+            {
+                _racesReducedView = value;
+                OnPropertyChanged("RacesReducedView");
+            }
+        }
+        private bool _racesReducedView;
     }
 }

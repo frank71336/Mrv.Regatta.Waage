@@ -7,7 +7,7 @@
         xmlns:controls="clr-namespace:Mrv.Regatta.Waage.Controls"
         xmlns:local="clr-namespace:Mrv.Regatta.Waage"
         mc:Ignorable="d"
-        Title="Mrv.Regatta.Waage" Height="617" Width="742" BorderBrush="#FF009ECD" BorderThickness="1" WindowState="Maximized" KeyUp="MetroWindow_KeyUp">
+        Title="Mrv.Regatta.Waage" Height="617" Width="1000" BorderBrush="#FF009ECD" BorderThickness="1" WindowState="Maximized" KeyUp="MetroWindow_KeyUp">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -94,6 +94,11 @@
                         </Style>
                     </TextBox.Style>
                 </TextBox>
+
+                <!-- reduzierte Ansicht bei Rennen -->
+                <Label Margin="50,0,0,0" Content="Reduzierte Ansicht:" />
+                <CheckBox IsChecked="{Binding RacesReducedView}" />
+                
             </StackPanel>
         </Border>
         

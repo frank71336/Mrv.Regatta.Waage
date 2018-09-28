@@ -25,7 +25,7 @@ namespace Mrv.Regatta.Waage
 
         public Frame MainContent { get; set; }
         public Einstellungen Settings { get; set; }
-        public Rennen Races { get; set; }
+        public Rennen RacesConfiguration { get; set; }
         public List<Messung> Weightings { get; set; }
         public List<TRuderer> DbRowers { get; set; }
         public List<TVerein> DbClubs { get; set; }

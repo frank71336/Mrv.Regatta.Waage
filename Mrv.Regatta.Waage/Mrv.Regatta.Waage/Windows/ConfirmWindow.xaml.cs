@@ -33,7 +33,7 @@ namespace Mrv.Regatta.Waage.Windows
             imgError.Visibility = (status == Status.Nok) ? Visibility.Visible : Visibility.Hidden;
             imgUnknown.Visibility = (status == Status.Unknown) ? Visibility.Visible : Visibility.Hidden;
 
-            DispatcherTimer timer = new DispatcherTimer();
+            var timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(2);
             timer.Tick += TimerTick;
             timer.Start();
@@ -46,7 +46,7 @@ namespace Mrv.Regatta.Waage.Windows
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void TimerTick(object sender, EventArgs e)
         {
-            DispatcherTimer timer = (DispatcherTimer)sender;
+            var timer = (DispatcherTimer)sender;
             timer.Stop();
             timer.Tick -= TimerTick;
             Close();

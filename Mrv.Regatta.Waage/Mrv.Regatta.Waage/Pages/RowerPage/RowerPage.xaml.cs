@@ -22,6 +22,8 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
 
         private TimeSpan _delayTime;
 
+        private Timer _refreshRemainingTimeTimer;
+
         private RowerPageViewModel _vm;
 
         private int _id;
@@ -44,9 +46,9 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
             Refresh();
 
             // Timer zum Aktualisieren der grafischen verbleibenden Wiegedauer
-            var refreshRemainingTimeTimer = new Timer(2 * 60 * 1000);   // 2 Minuten
-            refreshRemainingTimeTimer.Elapsed += RefreshRemainingTimeTimer_Elapsed;
-            refreshRemainingTimeTimer.Start();
+            _refreshRemainingTimeTimer = new Timer(2 * 60 * 1000);   // 2 Minuten
+            _refreshRemainingTimeTimer.Elapsed += RefreshRemainingTimeTimer_Elapsed;
+            _refreshRemainingTimeTimer.Start();
         }
 
         /// <summary>
@@ -101,7 +103,7 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
             var dbRaces = Data.Instance.DbRaces;
             var dbBoats = Data.Instance.DbBoats;
             var dbClubs = Data.Instance.DbClubs;
-            var races = Data.Instance.Races;
+            var racesConfiguration = Data.Instance.RacesConfiguration;
 
             #region Infos zum Ruderer
 
@@ -181,7 +183,7 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
                 }
 
                 // Nur ausgewählte (Leichtgewichts-)Rennen nehmen
-                var race = races.Rennen1.SingleOrDefault(r => r.RennNr == dbRace.RNr);
+                var race = racesConfiguration.Rennen1.Where(r => r.Aktiv).SingleOrDefault(r => r.RennNr == dbRace.RNr);
                 if (race != null)
                 {
                     // Gewichte
@@ -294,7 +296,7 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
                     // es ist noch länger als 2 Stunden bis zum nächsten Rennen
 
                     // jetzt kommt es noch drauf an, ob es ein Kinderrennen ist
-                    var raceTest = races.Rennen1.SingleOrDefault(r => r.RennNr == nextRace.RNr);
+                    var raceTest = racesConfiguration.Rennen1.SingleOrDefault(r => r.RennNr == nextRace.RNr);
                     if (raceTest == null)
                     {
                         // Rennen in den Einstellungen gar nicht gefunden, das ist ganz schlecht
@@ -610,6 +612,17 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             txtNewWeighting.Focus();
+        }
+
+        /// <summary>
+        /// Handles the Unloaded event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs" /> instance containing the event data.</param>
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _refreshRemainingTimeTimer.Stop();
+            _refreshRemainingTimeTimer.Elapsed += RefreshRemainingTimeTimer_Elapsed;
         }
     }
 }

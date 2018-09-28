@@ -108,8 +108,8 @@ namespace Mrv.Regatta.Waage.UserControls
                 RemainingMinutes = 60;
 
                 // Kinderrennen?
-                var races = Data.Instance.Races;
-                var race = races.Rennen1.SingleOrDefault(r => r.RennNr == DbRace.RNr);
+                var racesConfiguration = Data.Instance.RacesConfiguration;
+                var race = racesConfiguration.Rennen1.SingleOrDefault(r => r.RennNr == DbRace.RNr);
                 if (race == null)
                 {
                     Tools.LogError("XML-Rennen zu DB-Rennen nicht gefunden! RennNr", DbRace.RNr);

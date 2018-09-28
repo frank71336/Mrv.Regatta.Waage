@@ -155,6 +155,11 @@ namespace Mrv.Regatta.Waage.Pages.RowersPage
             }
         }
 
+        /// <summary>
+        /// Handles the KeyDown event of the lstPersons control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         private void lstPersons_KeyDown(object sender, KeyEventArgs e)
         {
             if ((e.Key == Key.Return) || (e.Key == Key.Enter))

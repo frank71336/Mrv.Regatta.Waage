@@ -321,8 +321,8 @@ namespace Mrv.Regatta.Waage
                 return;
             }
 
-            var rennen = Data.Instance.Races.Rennen1.SingleOrDefault(r => r.RennNr == race.RaceNumber);
-            if (rennen == null)
+            var raceConfiguration = Data.Instance.RacesConfiguration.Rennen1.SingleOrDefault(r => r.RennNr == race.RaceNumber);
+            if (raceConfiguration == null)
             {
                 Tools.LogError("XML-Rennen nicht gefunden oder mehrere gefunden beim Setzen des Boots-Status! RennNr", race.RaceNumber);
             }
@@ -330,7 +330,7 @@ namespace Mrv.Regatta.Waage
             var rowersWithoutCox = boat.Rowers.Where(r => r.Type == UserControls.RowerType.Rower);
 
             // soll für dieses Rennen das Durschnittsgewicht berücksichtigt werden und gibt es schon einen Ruderer mit Gewicht?
-            var checkAverageWeight = rennen.RennInfo.DurchschnittsgewichtSpecified && (rowersWithoutCox?.Any(r => r.WeightInfo != null) == true);
+            var checkAverageWeight = raceConfiguration.RennInfo.DurchschnittsgewichtSpecified && (rowersWithoutCox?.Any(r => r.WeightInfo != null) == true);
             float averageWeight = 0;
             boat.AverageWeight = "";
 
@@ -385,7 +385,7 @@ namespace Mrv.Regatta.Waage
                 // alle Ruderer sind einzeln OK, jetzt muss noch das Durschnittsgewicht stimmen
                 if (checkAverageWeight)
                 {
-                    boat.Status = (averageWeight <= rennen.RennInfo.Durchschnittsgewicht) ? UserControls.BoatStatus.BoatOk : UserControls.BoatStatus.BoatNok;
+                    boat.Status = (averageWeight <= raceConfiguration.RennInfo.Durchschnittsgewicht) ? UserControls.BoatStatus.BoatOk : UserControls.BoatStatus.BoatNok;
                 }
                 else
                 {
@@ -405,12 +405,12 @@ namespace Mrv.Regatta.Waage
                 {
                     // es gibt ein Gewicht für den Steuermann
 
-                    if (rennen.RennInfo.GewichtSteuermannSpecified)
+                    if (raceConfiguration.RennInfo.GewichtSteuermannSpecified)
                     {
                         // Sollgewicht für Steuermann vorhanden
                         var weight = (float)cox.WeightInfo;
 
-                        var additionalWeight = rennen.RennInfo.GewichtSteuermann - weight;
+                        var additionalWeight = raceConfiguration.RennInfo.GewichtSteuermann - weight;
 
                         if (additionalWeight > 0)
                         {

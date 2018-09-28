@@ -111,7 +111,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             }
 
             rennen.Save(settings.Pfade.Rennen);
-            Data.Instance.Races = rennen;
+            Data.Instance.RacesConfiguration = rennen;
 
             MessageBox.Show("OK!");
         }

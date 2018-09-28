@@ -31,7 +31,7 @@ namespace Mrv.Regatta.Waage
             Data.Instance.Settings = XmlBase.XmlBase.Load<Einstellungen>(new XmlBase.XmlFilePath(Properties.Settings.Default.SettingsFilePath));
 
             // Rennen laden
-            Data.Instance.Races = XmlBase.XmlBase.Load<Rennen>(new XmlBase.XmlFilePath(Data.Instance.Settings.Pfade.Rennen));
+            Data.Instance.RacesConfiguration = XmlBase.XmlBase.Load<Rennen>(new XmlBase.XmlFilePath(Data.Instance.Settings.Pfade.Rennen));
 
             // DB-Vereine laden
             LoadDbClubs();
@@ -200,13 +200,13 @@ namespace Mrv.Regatta.Waage
                             var dbRaces = db.TRennens.ToList();
 
                             // alle Leichtgewicht-Rennen (aus XML-Datei)
-                            var races = Data.Instance.Races.Rennen1;
+                            var raceConfiguration = Data.Instance.RacesConfiguration.Rennen1;
 
                             // alle Boote
                             var dbBoats = db.TBootes.ToList();
 
                             // alle Rennen durchgehen
-                            foreach (var race in races)
+                            foreach (var race in raceConfiguration)
                             {
                                 // den vollständigen Datensatz dazu zu diesem Rennen aus DB
                                 var dbRace = dbRaces.SingleOrDefault(x => x.RNr == race.RennNr);

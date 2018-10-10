@@ -7,9 +7,10 @@
     <Renntag Wochentag="So" Datum="2017-09-24T01:00:00" />
   </Renntage>
   <Pfade 
-	Regeln="c:\regatta\data\regeln.xml" 
-	Rennen="c:\regatta\data\rennen.xml" 
+	Regeln="c:\regatta\data\regeln.xml"
+	Rennen="c:\regatta\data\rennen.xml"
 	Messungen="c:\regatta\messungen"
-	Logdatei="c:\regatta\log\log.txt" 
+	Logdatei="c:\regatta\log\log.txt"
+	FehlerLogdatei="c:\regatta\log\Fehler.txt"
 	Backups="c:\regatta\backups" />
 </Einstellungen>

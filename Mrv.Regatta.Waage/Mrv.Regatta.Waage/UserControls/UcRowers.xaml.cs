@@ -59,7 +59,7 @@ namespace Mrv.Regatta.Waage.UserControls
             var id = Extensions.GetId(borderControl);
 
             var RowerPage = new Pages.RowerPage.RowerPage(id);
-            Data.Instance.MainContent.Content = RowerPage;
+            GlobalData.Instance.MainContent.Content = RowerPage;
         }
     }
 }

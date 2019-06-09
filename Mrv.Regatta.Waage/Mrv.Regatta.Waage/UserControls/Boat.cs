@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Mrv.Regatta.Waage.DbData;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Mrv.Regatta.Waage.UserControls
@@ -11,16 +8,21 @@ namespace Mrv.Regatta.Waage.UserControls
     public class Boat : ViewModelBase.ViewModelBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Boat"/> class.
+        /// Initializes a new instance of the <see cref="Boat" /> class.
         /// </summary>
-        public Boat()
+        /// <param name="boatData">The boat data.</param>
+        public Boat(BoatData boatData)
         {
+            StartNumber = boatData.BibNumber;
+            Club = boatData.TitleShort;
+
             Comment = "";
+            Status = BoatStatus.None;
             Visibility = Visibility.Visible;
         }
 
         public int Id { get; set; }
-        public string StartNumber { get; set; }
+        public byte StartNumber { get; set; }
         public string Club { get; set; }
         public string AverageWeight { get; set; }
 

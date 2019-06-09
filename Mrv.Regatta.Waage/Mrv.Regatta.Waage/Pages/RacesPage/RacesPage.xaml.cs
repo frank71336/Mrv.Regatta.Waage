@@ -28,7 +28,7 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
         {
             InitializeComponent();
 
-            Data.Instance.RowersPosition = RowersPosition.Right;
+            GlobalData.Instance.RowersPosition = RowersPosition.Right;
 
             _vm = new RacesPageViewModel();
             this.DataContext = _vm;
@@ -59,7 +59,7 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
             }
 
             // aktueller Zeitstempel
-            var day = Data.Instance.Settings.ZeitstempelHeute;
+            var day = GlobalData.Instance.Settings.ZeitstempelHeute;
             var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             // alle Rennen durchgehen und verbleibende Zeit aktualisieren
@@ -89,122 +89,81 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
 
             var boatBuilder = new BoatBuilder(_currentTime);
 
-            var dbRowers = Data.Instance.DbRowers;
-            var dbRaces = Data.Instance.DbRaces;
-            var dbBoats = Data.Instance.DbBoats;
-            var dbClubs = Data.Instance.DbClubs;
-            var racesConfiguration = Data.Instance.RacesConfiguration;
+            var rowersData = GlobalData.Instance.RowersData;
+            var racesData = GlobalData.Instance.RacesData;
+            // var racesConfiguration = GlobalData.Instance.RacesConfiguration; // TODO: Was ist hiermit?
 
             // aktueller Zeitstempel
-            var day = Data.Instance.Settings.ZeitstempelHeute;
+            var day = GlobalData.Instance.Settings.ZeitstempelHeute;
             var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             // Alle Rennen der DB durchgehen
             var vmRaces = new System.Collections.ObjectModel.ObservableCollection<UserControls.Race>();
-            foreach (var dbRace in dbRaces)
+            foreach (var raceData in racesData)
             {
-                // Nur ausgewählte (Leichtgewichts-)Rennen nehmen
-                var race = racesConfiguration.Rennen1.Where(r => r.Aktiv).SingleOrDefault(r => r.RennNr == dbRace.RNr);
-                if (race != null)
+                // Neues Rennen
+                var newRace = new UserControls.Race(raceData, _delayTime, GlobalData.Instance.MainViewModel.SetDelayTime);
+
+                newRace.UpdateRemainingMinutes(now);
+
+                // bei reduzierter Ansicht: Rennen ggf. nicht anzeigen (weil an einem anderen Tag oder schon lange vorbei oder erst in Stunden)
+                // das wird erst hier gemacht, weil hier das Rennen samt Verspätung als Objekt vorhanden ist
+                if (GlobalData.Instance.MainViewModel.RacesReducedView)
                 {
-                    // Gewichte
-                    var maxWeight1 = race.RennInfo.EinzelgewichtSpecified ? $"{race.RennInfo.Einzelgewicht} kg" : "-";
-                    var maxWeightAverage = race.RennInfo.DurchschnittsgewichtSpecified ? $"{race.RennInfo.Durchschnittsgewicht} kg" : "-";
-                    var minWeightCox = race.RennInfo.GewichtSteuermannSpecified ? $"{race.RennInfo.GewichtSteuermann} kg" : "-";
+                    // Zeit in Stunden bis zum Rennen
+                    var remainingHours = (newRace.RaceDT - now).TotalHours;
 
-                    // Neues Rennen
-                    var newRace = new UserControls.Race()
+                    if (remainingHours < 0)
                     {
-                        Id = dbRace.Index,
-                        RaceNumber = dbRace.RNr,
-                        RaceDT = (DateTime)dbRace.RZeit + _delayTime,
-                        ShortName = dbRace.RKBez,
-                        LongName = dbRace.RLBez,
-                        Day = dbRace.RTag,
-                        Time = ((DateTime)dbRace.RZeit + _delayTime).ToString("HH:mm"), // korrigierte Zeit mit Verspätung
-                        ScheduledTime = ((DateTime)dbRace.RZeit).ToString("HH:mm"), // ursprüngliche Zeit
-                        ScheduledTimeVisibility = Data.Instance.MainViewModel.SetDelayTime ? Visibility.Visible : Visibility.Collapsed,
-                        MaxWeight1 = maxWeight1,
-                        MaxWeightAverage = maxWeightAverage,
-                        MinWeightCox = minWeightCox,
-                        DbRace = dbRace,
-                        Boats = new System.Collections.ObjectModel.ObservableCollection<UserControls.Boat>()
-                    };
-
-                    newRace.UpdateRemainingMinutes(now);
-
-                    // bei reduzierter Ansicht: Rennen ggf. nicht anzeigen (weil an einem anderen Tag oder schon lange vorbei oder erst in Stundne)
-                    // das wird erst hier gemacht, weil hier das Rennen samt Verspätung als Objekt vorhanden ist
-                    if (Data.Instance.MainViewModel.RacesReducedView)
-                    {
-                        // Zeit in Stunden bis zum Rennen
-                        var remainingMinutes = (newRace.RaceDT - now).TotalHours;
-
-                        if (remainingMinutes < 0)
-                        {
-                            // Rennen ist in der Vergangenheit
-                            continue;
-                        }
-
-                        if (remainingMinutes > 4)
-                        {
-                            // Es sind noch mehr als ... Stunden bis zum Rennen
-                            continue;
-                        }
+                        // Rennen ist in der Vergangenheit
+                        continue;
                     }
 
-                    // Boote zum Rennen hinzufügen, sortiert nach Startnummer - Achtung, Startnummer ist String, spezielle Sortierung notwendig!
-                    var boats = dbBoats.Where(b => b.BRNr == dbRace.Index).OrderBy(b => b.BSNr, new BSNrComparer());
-
-                    // Alle Boote des Rennens
-                    foreach (var boat in boats)
+                    if (remainingHours > 4)
                     {
-                        // zuerst den Verein zum Boot ermitteln
-                        var club = dbClubs.SingleOrDefault(c => c.VIDVerein == boat.BVID);
-                        if (club == null)
-                        {
-                            Tools.LogError("DB-Verein nicht gefunden oder mehrere gefunden: Rennen", dbRace.RNr, "Boot", boat.BSNr, "VIDVerein", boat.BVID);
-                        }
-
-                        // Neues Boot
-                        var newBoat = new UserControls.Boat()
-                        {
-                            Id = boat.BID,
-                            StartNumber = boat.BSNr,
-                            Club = club?.VVereinsnamenKurz,
-                            Status = UserControls.BoatStatus.BoatNok
-                        };
-
-                        // Die Ruderer des Bootes
-                        var rowers = new List<UserControls.Rower>();
-
-                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName1, false, _delayTime);
-                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName2, false, _delayTime);
-                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName3, false, _delayTime);
-                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName4, false, _delayTime);
-                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName5, false, _delayTime);
-                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName6, false, _delayTime);
-                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName7, false, _delayTime);
-                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName8, false, _delayTime);
-                        boatBuilder.AddRower(race, dbRace, ref rowers, boat.BName9, true, _delayTime);
-
-                        // Ruderer zum Boot hinzufügen
-                        newBoat.Rowers = rowers;
-
-                        // Status-Symbol des Boots entsprechend des Status der Ruderer im Boot setzen
-                        boatBuilder.SetBoatStatus(newRace, newBoat);
-
-                        // Boote zum Rennen hinzufügen
-                        newRace.Boats.Add(newBoat);
+                        // Es sind noch mehr als 4 Stunden bis zum Rennen
+                        continue;
                     }
-
-                    // Status-Symbol des Rennens entsprechend des Status der Boote im Rennen setzen
-                    boatBuilder.SetRaceStatus(newRace);
-
-                    // Rennen hinzufügen
-                    vmRaces.Add(newRace);
                 }
+
+                // Alle Boote des Rennens
+                foreach (var boatData in raceData.BoatsData)
+                {
+                    // Neues Boot
+                    var newBoat = new UserControls.Boat(boatData);
+
+                    // Die Ruderer des Bootes
+                    var rowers = new List<UserControls.Rower>();
+
+                    // Ruderer hinzufügen
+                    foreach (var rowerData in boatData.Rowers)
+                    {
+                        boatBuilder.AddRower(ref rowers, raceData, rowerData, false, _delayTime);
+                    }
+
+                    // Steuermann hinzufügen
+                    if (boatData.Cox != null)
+                    {
+                        boatBuilder.AddRower(ref rowers, raceData, boatData.Cox, false, _delayTime);
+                    }
+
+                    // Ruderer zum Boot hinzufügen
+                    newBoat.Rowers = rowers;
+
+                    // Status-Symbol des Boots entsprechend des Status der Ruderer im Boot setzen
+                    boatBuilder.SetBoatStatus(raceData, boatData, newRace, newBoat);
+
+                    // Boote zum Rennen hinzufügen
+                    newRace.Boats.Add(newBoat);
+                }
+
+                // Status-Symbol des Rennens entsprechend des Status der Boote im Rennen setzen
+                boatBuilder.SetRaceStatus(newRace);
+
+                // Rennen hinzufügen
+                vmRaces.Add(newRace);
             }
+
             _vm.Races = vmRaces;
         }
 
@@ -213,8 +172,8 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
         /// </summary>
         private void RefreshCurrentTime()
         {
-            _currentTime = Data.Instance.GetCurrentTime();
-            _delayTime = Data.Instance.GetCurrentDelay();
+            _currentTime = GlobalData.Instance.GetCurrentTime();
+            _delayTime = GlobalData.Instance.GetCurrentDelay();
         }
 
         /// <summary>
@@ -253,7 +212,7 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
             }
 
             // aktueller Zeitstempel
-            var day = Data.Instance.Settings.ZeitstempelHeute;
+            var day = GlobalData.Instance.Settings.ZeitstempelHeute;
             var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             // zuerst zum allerletzten Rennen scrollen

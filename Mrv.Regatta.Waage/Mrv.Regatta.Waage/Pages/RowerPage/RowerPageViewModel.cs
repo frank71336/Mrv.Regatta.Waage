@@ -13,10 +13,10 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
     /// <seealso cref="ViewModelBase.ViewModelBase" />
     class RowerPageViewModel : ViewModelBase.ViewModelBase
     {
-        public Sex Sex { get; set; }
+        public Gender Gender { get; set; }
         public string Name { get; set; }
         public string Club { get; set; }
-        public string BirthYear { get; set; }
+        public string YearOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the comment.

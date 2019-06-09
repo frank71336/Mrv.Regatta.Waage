@@ -19,7 +19,7 @@ namespace Mrv.Regatta.Waage.UserControls
             (this.Content as FrameworkElement).DataContext = this;
 
             // Festlegen, ob die Ruderer links oder rechts angezeigt werden
-            if (Data.Instance.RowersPosition == RowersPosition.Left)
+            if (GlobalData.Instance.RowersPosition == RowersPosition.Left)
             {
                 DiableRowersRight();
             }

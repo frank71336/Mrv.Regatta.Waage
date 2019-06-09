@@ -23,7 +23,7 @@ namespace Mrv.Regatta.Waage.Pages.LogPage
 
             try
             {
-                _vm.LogText = File.ReadAllText(Data.Instance.Settings.Pfade.Logdatei);
+                _vm.LogText = File.ReadAllText(GlobalData.Instance.Settings.Pfade.Logdatei);
             }
             catch (Exception ex)
             {

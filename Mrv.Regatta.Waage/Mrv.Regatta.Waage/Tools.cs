@@ -1,5 +1,4 @@
-﻿using Mrv.Regatta.Waage.Db.DataModels;
-using Mrv.Regatta.Waage.Xml;
+﻿using Mrv.Regatta.Waage.Xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,34 +32,11 @@ namespace Mrv.Regatta.Waage
         */
 
         /// <summary>
-        /// Fixes the race timestamp.
-        /// </summary>
-        /// <param name="races">The races.</param>
-        /// <exception cref="System.Exception"></exception>
-        public static void FixRaceTimestamp(List<TRennen> races)
-        {
-            // Zeitstempel des Rennens korrigieren
-            // Da steht nur die Uhrzeit. Das wird im DateTime-Format zum 01.01.0001 xx:xx.
-            var racingDays = Data.Instance.Settings.Renntage;
-            foreach (var race in races)
-            {
-                var item = racingDays.SingleOrDefault(x => x.Wochentag.Equals(race.RTag, StringComparison.OrdinalIgnoreCase));
-                if (item == null)
-                {
-                    throw new Exception($"Wochentag '{race.RTag}' ist unbekannt!");
-                }
-                var day = item.Datum;
-                var time = (DateTime)race.RZeit;
-                race.RZeit = new DateTime(day.Year, day.Month, day.Day, time.Hour, time.Minute, 0);
-            }
-        }
-
-        /// <summary>
         /// Liest alle Wiegungen aus den Dateien ein.
         /// </summary>
         internal static void ReadWeightings()
         {
-            var path = Data.Instance.Settings.Pfade.Messungen;
+            var path = GlobalData.Instance.Settings.Pfade.Messungen;
 
             // Pfad muss existieren
             if (!Directory.Exists(path))
@@ -69,7 +45,7 @@ namespace Mrv.Regatta.Waage
             }
 
             // zunächst leere Liste
-            Data.Instance.Weightings = new List<Messung>();
+            GlobalData.Instance.Weightings = new List<Messung>();
 
             // Alle Messungen auflisten
             var files = Directory.EnumerateFiles(path, "*.xml", System.IO.SearchOption.TopDirectoryOnly);
@@ -78,7 +54,7 @@ namespace Mrv.Regatta.Waage
             foreach (var file in files)
             {
                 var messung = XmlBase.XmlBase.Load<Messung>(new XmlBase.XmlFilePath(file));
-                Data.Instance.Weightings.Add(messung);
+                GlobalData.Instance.Weightings.Add(messung);
             }
         }
 
@@ -127,7 +103,7 @@ namespace Mrv.Regatta.Waage
                 }
             }
 
-            var file = Data.Instance.Settings.Pfade.FehlerLogdatei;
+            var file = GlobalData.Instance.Settings.Pfade.FehlerLogdatei;
             var message = string.Join(" ", strParts);
             var messageWithTimestamp = DateTime.Now.ToString() + ": " + message;
             File.AppendAllText(file, messageWithTimestamp + Environment.NewLine);

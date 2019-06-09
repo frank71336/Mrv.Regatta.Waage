@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 22.75, 20.625" name="Aquarius">
+  <DataContextMoniker Name="/AquariusDataContext" />
+  <nestedChildShapes>
+    <classShape Id="ba04dd44-0877-46a7-9d4d-e4bbe51629d2" absoluteBounds="9.25, 1.875, 2, 3.5016097005208326">
+      <DataClassMoniker Name="/AquariusDataContext/AgeClass" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7bdaebc6-2ca7-4a10-86c4-579ec1fe796d" absoluteBounds="9.265, 2.335, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b6f66e01-bbc5-4445-bd9a-6f1e9d270651" absoluteBounds="20.5, 13.625, 2, 3.1170068359375023">
+      <DataClassMoniker Name="/AquariusDataContext/Result" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c168f97b-0d02-4233-a849-6d1bce001c1f" absoluteBounds="20.515, 14.085, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="20e7cef9-5b76-4575-b16d-d876a4ca4f41" absoluteBounds="6.25, 9.625, 2, 3.3093082682291666">
+      <DataClassMoniker Name="/AquariusDataContext/Athlet" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5e9f8a7e-56fa-41cc-8541-fe7791b10244" absoluteBounds="6.265, 10.085, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d67a45af-ad33-48e5-8b00-120b339a88ae" absoluteBounds="9.25, 6.375, 2, 1.7708968098958327">
+      <DataClassMoniker Name="/AquariusDataContext/BoatClass" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8b49cd06-77ee-4613-8c83-96084c411794" absoluteBounds="9.265, 6.835, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="22334c24-5765-4959-b1d2-eefac8685e31" absoluteBounds="3.5, 14.625, 2, 2.3478011067708344">
+      <DataClassMoniker Name="/AquariusDataContext/Club" />
+      <nestedChildShapes>
+        <elementListCompartment Id="03817cf0-3442-44da-8ea6-3ed53ef95a3f" absoluteBounds="3.515, 15.085, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0ea28c21-76ca-441e-979d-2ef2c67a16aa" absoluteBounds="15, 12.5, 2, 3.6939111328125005">
+      <DataClassMoniker Name="/AquariusDataContext/Comp" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e637f20d-5fb9-42bc-ae92-0e79e2cd5290" absoluteBounds="15.015, 12.96, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f298a737-e174-4ea2-ac83-49d7436e782a" absoluteBounds="17.75, 14.375, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/AquariusDataContext/CompEntry" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4b3b9856-6d79-4e03-a7b1-39f85ff20d70" absoluteBounds="17.765, 14.835, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="80cb1f09-0af1-4048-bb11-4763a57d29c0" absoluteBounds="17.75, 11.125, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/AquariusDataContext/CompReferee" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a651bb3a-a449-4c5c-90b0-b0c8fced53f2" absoluteBounds="17.765, 11.585, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="97453fe7-ec0e-47f0-98dd-56973f58c4b5" absoluteBounds="12, 12.625, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/AquariusDataContext/Crew" />
+      <nestedChildShapes>
+        <elementListCompartment Id="579a95a6-8eb4-4be5-9e35-6c47a7c9045a" absoluteBounds="12.015, 13.085, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e38350f5-a2e1-4b90-99ac-fba124eab48d" absoluteBounds="14.75, 8.5, 2, 1.7708968098958344">
+      <DataClassMoniker Name="/AquariusDataContext/Cup" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c9ce6fc6-26b7-44d3-8b9d-eb7c08c92eb3" absoluteBounds="14.765, 8.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="071d5276-a4f9-4906-b63e-0d6a8f0334c6" absoluteBounds="12, 3.25, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/AquariusDataContext/CupPointTable" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2f16d9e9-6eab-4ca3-a424-f1d4fcc7ca30" absoluteBounds="12.015, 3.71, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="27c7418f-f3d5-476d-84e1-a5f1fd9ee1ca" absoluteBounds="6.25, 13.875, 2, 3.8862125651041683">
+      <DataClassMoniker Name="/AquariusDataContext/Entry" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9e3d1eb1-de0e-4bb9-81a8-57bcd671c480" absoluteBounds="6.265, 14.335, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="06a4798a-277c-42ba-a837-2ad248e950a2" absoluteBounds="9.25, 12.125, 2, 4.4631168619791648">
+      <DataClassMoniker Name="/AquariusDataContext/Event" />
+      <nestedChildShapes>
+        <elementListCompartment Id="004ec0f1-fafb-450d-9587-b9c3435c5800" absoluteBounds="9.265, 12.585, 1.9700000000000002, 3.903116861979167" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7f4b6440-bda3-4204-b1ae-3e45f8b89183" absoluteBounds="12, 15.5, 2, 1.1939925130208327">
+      <DataClassMoniker Name="/AquariusDataContext/EventReferee" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e5e3548a-6f07-41ee-837c-931930daa2a7" absoluteBounds="12.015, 15.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5a97a3c7-1ba2-4741-87ed-449e2123ddd6" absoluteBounds="0.75, 0.75, 2, 1.1939925130208335">
+      <DataClassMoniker Name="/AquariusDataContext/MetaData" />
+      <nestedChildShapes>
+        <elementListCompartment Id="111d5f37-3e71-4a99-bbdb-5d19e6a8becd" absoluteBounds="0.765, 1.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="cfd06a1b-e0f7-43e7-b122-26dd7893ae2e" absoluteBounds="0.75, 13.5, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/AquariusDataContext/Nation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7887ac22-f9fb-4ab0-aa26-6833d5ca226e" absoluteBounds="0.765, 13.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="dbaa09d8-ef80-4db3-930f-a853a1c7cdad" absoluteBounds="12, 6.875, 2, 5.0400211588541666">
+      <DataClassMoniker Name="/AquariusDataContext/Offer" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e4001270-b4c1-4abb-b475-8e0bb6f38162" absoluteBounds="12.015, 7.335, 1.9700000000000002, 4.4800211588541661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d8b3f090-40c9-4238-96df-ad14880961bb" absoluteBounds="6.5, 18.625, 2, 1.3862939453125023">
+      <DataClassMoniker Name="/AquariusDataContext/RaceMode" />
+      <nestedChildShapes>
+        <elementListCompartment Id="52326f92-e3e3-44c0-b3b7-8fff8dc0d8fb" absoluteBounds="6.515, 19.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="06a48880-ba42-4a81-b5ea-c0126ccd5cb5" absoluteBounds="12.25, 18.25, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/AquariusDataContext/RaceMode_Detail" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cc047a36-4e2d-446e-8a2d-6033eec78e6e" absoluteBounds="12.265, 18.71, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f368c5a0-dee4-4bb0-8ec3-093efa1c11ac" absoluteBounds="9.5, 18.5, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/AquariusDataContext/RaceMode_Range" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2c05d206-ea9d-423d-ae6f-f67482ffe6e6" absoluteBounds="9.515, 18.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="39976ccd-a452-468e-b72f-6cc56f077f41" absoluteBounds="3.5, 11.75, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/AquariusDataContext/Referee" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d094cdb6-c286-48d1-8f5a-598403e28f4b" absoluteBounds="3.515, 12.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0d4619b6-931c-4ae1-a687-f14513db4791" absoluteBounds="17.75, 7.25, 2, 2.9247054036458318">
+      <DataClassMoniker Name="/AquariusDataContext/ReportInfo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ea3dfcac-204a-4f45-8a43-1f58719ab6ba" absoluteBounds="17.765, 7.71, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5.5 : 14.625); (5.69107443490112 : 14.4339255650989 : JumpStart); (5.80892556509888 : 14.3160744349011 : JumpEnd); (5.875 : 14.25); (5.875 : 11.2796541341146); (6.25 : 11.2796541341146)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Club/Club_Athlet" />
+      <nodes>
+        <classShapeMoniker Id="22334c24-5765-4959-b1d2-eefac8685e31" />
+        <classShapeMoniker Id="20e7cef9-5b76-4575-b16d-d876a4ca4f41" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(19.75 : 15.1642976888021); (20.5 : 15.1642976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/CompEntry/CompEntry_Result" />
+      <nodes>
+        <classShapeMoniker Id="f298a737-e174-4ea2-ac83-49d7436e782a" />
+        <classShapeMoniker Id="b6f66e01-bbc5-4445-bd9a-6f1e9d270651" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(17 : 15.1642976888021); (17.75 : 15.1642976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Comp/Comp_CompEntry" />
+      <nodes>
+        <classShapeMoniker Id="0ea28c21-76ca-441e-979d-2ef2c67a16aa" />
+        <classShapeMoniker Id="f298a737-e174-4ea2-ac83-49d7436e782a" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(16 : 12.5); (16 : 11.8124995); (16.8229166666667 : 11.8124995 : JumpStart); (17.0208358333333 : 11.8124995 : JumpEnd); (17.75 : 11.8124995)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Comp/Comp_CompReferee" />
+      <nodes>
+        <classShapeMoniker Id="0ea28c21-76ca-441e-979d-2ef2c67a16aa" />
+        <classShapeMoniker Id="80cb1f09-0af1-4048-bb11-4763a57d29c0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.25 : 10.8437505); (8.35416916666667 : 10.8437505 : JumpStart); (8.58333333333333 : 10.8437505 : JumpEnd); (10.6979186666667 : 10.8437505 : JumpStart); (10.8645853333333 : 10.8437505 : JumpEnd); (11.75 : 10.8437505); (11.75 : 12.1650211588542); (11.7916666666667 : 12.1650211588542 : JumpStart); (11.9583333333333 : 12.1650211588542 : JumpEnd); (13 : 12.1650211588542); (13 : 12.625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Athlet/Athlet_Crew" />
+      <nodes>
+        <classShapeMoniker Id="20e7cef9-5b76-4575-b16d-d876a4ca4f41" />
+        <classShapeMoniker Id="97453fe7-ec0e-47f0-98dd-56973f58c4b5" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.468748 : 14.625); (4.468748 : 14.1554996744792); (5.66666666666667 : 14.1554996744792 : JumpStart); (5.95833333333333 : 14.1554996744792 : JumpEnd); (6 : 14.1554996744792); (6 : 13.625); (6.04166666666667 : 13.625 : JumpStart); (6.20833333333333 : 13.625 : JumpEnd); (7.16666666666667 : 13.625 : JumpStart); (7.33333333333333 : 13.625 : JumpEnd); (8.32291666666667 : 13.625 : JumpStart); (8.52083583333333 : 13.625 : JumpEnd); (8.66666666666667 : 13.625 : JumpStart); (8.83333333333333 : 13.625 : JumpEnd); (9 : 13.625); (9 : 11.875); (9.04166666666667 : 11.875 : JumpStart); (9.20833333333333 : 11.875 : JumpEnd); (10.1666666666667 : 11.875 : JumpStart); (10.3333333333333 : 11.875 : JumpEnd); (10.6979186666667 : 11.875 : JumpStart); (10.8645853333333 : 11.875 : JumpEnd); (11.625 : 11.875); (11.625 : 13.7027498372396); (12 : 13.7027498372396)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Club/Club_Crew" />
+      <nodes>
+        <classShapeMoniker Id="22334c24-5765-4959-b1d2-eefac8685e31" />
+        <classShapeMoniker Id="97453fe7-ec0e-47f0-98dd-56973f58c4b5" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(15.4555298715445 : 10.2708968098958); (15.4555298715445 : 10.5208968098958); (16.0584925155248 : 10.5208968098958); (16.0584925155248 : 10.2708968098958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/AquariusDataContext/Cup/Cup_Cup" />
+      <nodes>
+        <classShapeMoniker Id="e38350f5-a2e1-4b90-99ac-fba124eab48d" />
+        <classShapeMoniker Id="e38350f5-a2e1-4b90-99ac-fba124eab48d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(14 : 4.32774983723958); (15.75 : 4.32774983723958); (15.75 : 8.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/CupPointTable/CupPointTable_Cup" />
+      <nodes>
+        <classShapeMoniker Id="071d5276-a4f9-4906-b63e-0d6a8f0334c6" />
+        <classShapeMoniker Id="e38350f5-a2e1-4b90-99ac-fba124eab48d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(12.7092307692308 : 5.40549967447917); (12.7092307692308 : 5.65549967447917); (13.3046153846154 : 5.65549967447917); (13.3046153846154 : 5.40549967447917)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/AquariusDataContext/CupPointTable/CupPointTable_CupPointTable" />
+      <nodes>
+        <classShapeMoniker Id="071d5276-a4f9-4906-b63e-0d6a8f0334c6" />
+        <classShapeMoniker Id="071d5276-a4f9-4906-b63e-0d6a8f0334c6" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.25 : 17.2588525390625); (8.32291666666667 : 17.2588525390625 : JumpStart); (8.52083583333333 : 17.2588525390625 : JumpEnd); (14.0729166666667 : 17.2588525390625 : JumpStart); (14.2395833333333 : 17.2588525390625 : JumpEnd); (18.75 : 17.2588525390625); (18.75 : 15.9535953776042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Entry/Entry_CompEntry" />
+      <nodes>
+        <classShapeMoniker Id="27c7418f-f3d5-476d-84e1-a5f1fd9ee1ca" />
+        <classShapeMoniker Id="f298a737-e174-4ea2-ac83-49d7436e782a" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.25 : 15.5356742695312); (8.32291666666667 : 15.5356742695312 : JumpStart); (8.52083583333333 : 15.5356742695312 : JumpEnd); (8.66666666666667 : 15.5356742695312 : JumpStart); (8.83333333333333 : 15.5356742695312 : JumpEnd); (9 : 15.5356742695312); (9 : 16.8381168619792); (11.4166666666667 : 16.8381168619792 : JumpStart); (11.5833333333333 : 16.8381168619792 : JumpEnd); (11.75 : 16.8381168619792); (11.75 : 15.25); (13 : 15.25); (13 : 14.7804996744792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Entry/Entry_Crew" />
+      <nodes>
+        <classShapeMoniker Id="27c7418f-f3d5-476d-84e1-a5f1fd9ee1ca" />
+        <classShapeMoniker Id="97453fe7-ec0e-47f0-98dd-56973f58c4b5" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 15.8301530533854); (6.25 : 15.8301530533854)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Club/Club_Entry" />
+      <nodes>
+        <classShapeMoniker Id="22334c24-5765-4959-b1d2-eefac8685e31" />
+        <classShapeMoniker Id="27c7418f-f3d5-476d-84e1-a5f1fd9ee1ca" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 14.9839998372396); (12.9166666666667 : 14.9839998372396 : JumpStart); (13.0833333333333 : 14.9839998372396 : JumpEnd); (15 : 14.9839998372396)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Event/Event_Comp" />
+      <nodes>
+        <classShapeMoniker Id="06a4798a-277c-42ba-a837-2ad248e950a2" />
+        <classShapeMoniker Id="0ea28c21-76ca-441e-979d-2ef2c67a16aa" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(9.25 : 14.6428371347656); (8.83333333333333 : 14.6428371347656 : JumpStart); (8.66666666666667 : 14.6428371347656 : JumpEnd); (8.52083583333333 : 14.6428371347656 : JumpStart); (8.32291666666667 : 14.6428371347656 : JumpEnd); (8.25 : 14.6428371347656)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Event/Event_Entry" />
+      <nodes>
+        <classShapeMoniker Id="06a4798a-277c-42ba-a837-2ad248e950a2" />
+        <classShapeMoniker Id="27c7418f-f3d5-476d-84e1-a5f1fd9ee1ca" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.984374 : 14.625); (4.984374 : 14.3565584309896); (5.66666666666667 : 14.3565584309896 : JumpStart); (5.85177490234375 : 14.3565584309896 : JumpEnd); (6.125 : 14.3565584309896); (6.125 : 13.375); (7.16666666666667 : 13.375 : JumpStart); (7.33333333333333 : 13.375 : JumpEnd); (8.35416916666667 : 13.375 : JumpStart); (8.52083583333333 : 13.375 : JumpEnd); (8.625 : 13.375); (8.625 : 12.8750005); (8.79166666666667 : 12.8750005 : JumpStart); (9.20833333333333 : 12.8750005 : JumpEnd); (9.25 : 12.8750005)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Club/Club_Event" />
+      <nodes>
+        <classShapeMoniker Id="22334c24-5765-4959-b1d2-eefac8685e31" />
+        <classShapeMoniker Id="06a4798a-277c-42ba-a837-2ad248e950a2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 16.0440584309896); (11.4166666666667 : 16.0440584309896 : JumpStart); (11.5833333333333 : 16.0440584309896 : JumpEnd); (11.6666666666667 : 16.0440584309896 : JumpStart); (11.8333333333333 : 16.0440584309896 : JumpEnd); (12 : 16.0440584309896)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Event/Event_EventReferee" />
+      <nodes>
+        <classShapeMoniker Id="06a4798a-277c-42ba-a837-2ad248e950a2" />
+        <classShapeMoniker Id="7f4b6440-bda3-4204-b1ae-3e45f8b89183" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.75 : 13.5); (1.75 : 10.4210745670573); (6.25 : 10.4210745670573)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Nation/Nation_Athlet" />
+      <nodes>
+        <classShapeMoniker Id="cfd06a1b-e0f7-43e7-b122-26dd7893ae2e" />
+        <classShapeMoniker Id="20e7cef9-5b76-4575-b16d-d876a4ca4f41" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 14.8517976888021); (3.5 : 14.8517976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Nation/Nation_Club" />
+      <nodes>
+        <classShapeMoniker Id="cfd06a1b-e0f7-43e7-b122-26dd7893ae2e" />
+        <classShapeMoniker Id="22334c24-5765-4959-b1d2-eefac8685e31" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 14.4595292154948); (4.38541466666667 : 14.4595292154948 : JumpStart); (4.55208133333333 : 14.4595292154948 : JumpEnd); (4.90104066666667 : 14.4595292154948 : JumpStart); (5.06770733333333 : 14.4595292154948 : JumpEnd); (5.58213745117188 : 14.4595292154948 : JumpStart); (5.74880411783854 : 14.4595292154948 : JumpEnd); (5.75 : 14.4595292154948); (5.75 : 13.75); (5.79166666666667 : 13.75 : JumpStart); (6.20833333333333 : 13.75 : JumpEnd); (7.16666666666667 : 13.75 : JumpStart); (7.33333333333333 : 13.75 : JumpEnd); (8.32291666666667 : 13.75 : JumpStart); (8.52083583333333 : 13.75 : JumpEnd); (8.66666666666667 : 13.75 : JumpStart); (8.83333333333333 : 13.75 : JumpEnd); (9.125 : 13.75); (9.125 : 11.625); (10.25 : 11.625); (10.25 : 12.125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Nation/Nation_Event" />
+      <nodes>
+        <classShapeMoniker Id="cfd06a1b-e0f7-43e7-b122-26dd7893ae2e" />
+        <classShapeMoniker Id="06a4798a-277c-42ba-a837-2ad248e950a2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(14 : 7.65625); (15.6666666666667 : 7.65625 : JumpStart); (15.8333333333333 : 7.65625 : JumpEnd); (16.90625 : 7.65625); (16.90625 : 12.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Offer/Offer_Comp" />
+      <nodes>
+        <classShapeMoniker Id="dbaa09d8-ef80-4db3-930f-a853a1c7cdad" />
+        <classShapeMoniker Id="0ea28c21-76ca-441e-979d-2ef2c67a16aa" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(14 : 9.38544840494792); (14.75 : 9.38544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Offer/Offer_Cup" />
+      <nodes>
+        <classShapeMoniker Id="dbaa09d8-ef80-4db3-930f-a853a1c7cdad" />
+        <classShapeMoniker Id="e38350f5-a2e1-4b90-99ac-fba124eab48d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(12 : 9.52607365494791); (10.8645853333333 : 9.52607365494791 : JumpStart); (10.6979186666667 : 9.52607365494791 : JumpEnd); (8.5 : 9.52607365494791); (8.5 : 13.1843082682292); (7.25 : 13.1843082682292); (7.25 : 13.875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Offer/Offer_Entry" />
+      <nodes>
+        <classShapeMoniker Id="dbaa09d8-ef80-4db3-930f-a853a1c7cdad" />
+        <classShapeMoniker Id="27c7418f-f3d5-476d-84e1-a5f1fd9ee1ca" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 5.37660970052083); (11.625 : 5.75160970052083); (11.625 : 8.16928482747396); (11.6666666666667 : 8.16928482747396 : JumpStart); (11.8333333333333 : 8.16928482747396 : JumpEnd); (12 : 8.16928482747396)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/AgeClass/AgeClass_Offer" />
+      <nodes>
+        <classShapeMoniker Id="ba04dd44-0877-46a7-9d4d-e4bbe51629d2" />
+        <classShapeMoniker Id="dbaa09d8-ef80-4db3-930f-a853a1c7cdad" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 7.51044840494792); (11.5416666666667 : 7.51044840494792 : JumpStart); (11.8333333333333 : 7.51044840494792 : JumpEnd); (12 : 7.51044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/BoatClass/BoatClass_Offer" />
+      <nodes>
+        <classShapeMoniker Id="d67a45af-ad33-48e5-8b00-120b339a88ae" />
+        <classShapeMoniker Id="dbaa09d8-ef80-4db3-930f-a853a1c7cdad" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 12.1865374615385); (11.4375 : 11.9990374615385); (11.4375 : 12.4775211588542); (11.5660744349011 : 12.348946723953 : JumpStart); (11.6839255650989 : 12.2310955937553 : JumpEnd); (12 : 11.9150211588542)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/AquariusDataContext/Event/Event_Offer" />
+      <nodes>
+        <classShapeMoniker Id="06a4798a-277c-42ba-a837-2ad248e950a2" />
+        <classShapeMoniker Id="dbaa09d8-ef80-4db3-930f-a853a1c7cdad" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.40625 : 18.625); (8.40625 : 13.5); (8.66666666666667 : 13.5 : JumpStart); (8.83333333333333 : 13.5 : JumpEnd); (8.91666666666667 : 13.5 : JumpStart); (9.20833333333333 : 13.5 : JumpEnd); (9.25 : 13.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/RaceMode/RaceMode_Event" />
+      <nodes>
+        <classShapeMoniker Id="d8b3f090-40c9-4238-96df-ad14880961bb" />
+        <classShapeMoniker Id="06a4798a-277c-42ba-a837-2ad248e950a2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.4375025 : 18.625); (8.4375025 : 8.83598273242187); (10.6979186666667 : 8.83598273242187 : JumpStart); (10.8645853333333 : 8.83598273242187 : JumpEnd); (12 : 8.83598273242187)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/RaceMode/RaceMode_Offer" />
+      <nodes>
+        <classShapeMoniker Id="d8b3f090-40c9-4238-96df-ad14880961bb" />
+        <classShapeMoniker Id="dbaa09d8-ef80-4db3-930f-a853a1c7cdad" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(14.15625 : 18.25); (14.15625 : 15.1482524186198); (15 : 15.1482524186198)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/RaceMode_Detail/RaceMode_Detail_Comp" />
+      <nodes>
+        <classShapeMoniker Id="06a48880-ba42-4a81-b5ea-c0126ccd5cb5" />
+        <classShapeMoniker Id="0ea28c21-76ca-441e-979d-2ef2c67a16aa" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.5 : 19.2892976888021); (12.25 : 19.2892976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/RaceMode_Range/RaceMode_Range_RaceMode_Detail" />
+      <nodes>
+        <classShapeMoniker Id="f368c5a0-dee4-4bb0-8ec3-093efa1c11ac" />
+        <classShapeMoniker Id="06a48880-ba42-4a81-b5ea-c0126ccd5cb5" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.5 : 19.3181469726563); (9.5 : 19.3181469726563)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/RaceMode/RaceMode_RaceMode_Range" />
+      <nodes>
+        <classShapeMoniker Id="d8b3f090-40c9-4238-96df-ad14880961bb" />
+        <classShapeMoniker Id="f368c5a0-dee4-4bb0-8ec3-093efa1c11ac" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.9843735 : 13.9054996744792); (4.9843735 : 14.0304996744792); (5.625 : 14.0304996744792); (5.625 : 13.1843082682292); (5.79166666666667 : 13.1843082682292 : JumpStart); (5.95833333333333 : 13.1843082682292 : JumpEnd); (8.35416916666667 : 13.1843082682292 : JumpStart); (8.52083583333333 : 13.1843082682292 : JumpEnd); (8.54166666666667 : 13.1843082682292 : JumpStart); (8.70833333333333 : 13.1843082682292 : JumpEnd); (8.875 : 13.1843082682292); (8.875 : 12); (8.91666666666667 : 12 : JumpStart); (9.20833333333333 : 12 : JumpEnd); (10.1666666666667 : 12 : JumpStart); (10.3333333333333 : 12 : JumpEnd); (10.6979186666667 : 12 : JumpStart); (10.8645853333333 : 12 : JumpEnd); (11.5416666666667 : 12 : JumpStart); (11.8333333333333 : 12 : JumpEnd); (11.875 : 12); (11.875 : 12.375); (12.9166666666667 : 12.375 : JumpStart); (13.0833333333333 : 12.375 : JumpEnd); (15.9166666666667 : 12.375 : JumpStart); (16.0833333333333 : 12.375 : JumpEnd); (16.8229166666667 : 12.375 : JumpStart); (17.0208358333333 : 12.375 : JumpEnd); (17.375 : 12.375); (17.375 : 12.2892994388021); (17.75 : 12.2892994388021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Referee/Referee_CompReferee" />
+      <nodes>
+        <classShapeMoniker Id="39976ccd-a452-468e-b72f-6cc56f077f41" />
+        <classShapeMoniker Id="80cb1f09-0af1-4048-bb11-4763a57d29c0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 13.0296543841146); (5.79166666666667 : 13.0296543841146 : JumpStart); (6.08333333333333 : 13.0296543841146 : JumpEnd); (8.35416916666667 : 13.0296543841146 : JumpStart); (8.70833333333333 : 13.0296543841146 : JumpEnd); (8.79166666666667 : 13.0296543841146 : JumpStart); (9.20833333333333 : 13.0296543841146 : JumpEnd); (9.25 : 13.0296543841146)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Referee/Referee_Event" />
+      <nodes>
+        <classShapeMoniker Id="39976ccd-a452-468e-b72f-6cc56f077f41" />
+        <classShapeMoniker Id="06a4798a-277c-42ba-a837-2ad248e950a2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 12.3585751920573); (5.79166666666667 : 12.3585751920573 : JumpStart); (5.95833333333333 : 12.3585751920573 : JumpEnd); (6 : 12.3585751920573); (6 : 13.2468082682292); (8.35416916666667 : 13.2468082682292 : JumpStart); (8.52083583333333 : 13.2468082682292 : JumpEnd); (8.54166666666667 : 13.2468082682292 : JumpStart); (8.70833333333333 : 13.2468082682292 : JumpEnd); (8.75 : 13.2468082682292); (8.75 : 16.9631168619792); (11.5 : 16.9631168619792); (11.5 : 15.375); (11.6666666666667 : 15.375 : JumpStart); (11.8333333333333 : 15.375 : JumpEnd); (12.5000005 : 15.375); (12.5000005 : 15.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Referee/Referee_EventReferee" />
+      <nodes>
+        <classShapeMoniker Id="39976ccd-a452-468e-b72f-6cc56f077f41" />
+        <classShapeMoniker Id="7f4b6440-bda3-4204-b1ae-3e45f8b89183" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 13.7027498372396); (3.5 : 13.7027498372396)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Nation/Nation_Referee" />
+      <nodes>
+        <classShapeMoniker Id="cfd06a1b-e0f7-43e7-b122-26dd7893ae2e" />
+        <classShapeMoniker Id="39976ccd-a452-468e-b72f-6cc56f077f41" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(16.9375025 : 12.5); (16.9375025 : 8.046875); (17.2916666666667 : 8.046875 : JumpStart); (17.4583333333333 : 8.046875 : JumpEnd); (17.75 : 8.046875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Comp/Comp_ReportInfo" />
+      <nodes>
+        <classShapeMoniker Id="0ea28c21-76ca-441e-979d-2ef2c67a16aa" />
+        <classShapeMoniker Id="0d4619b6-931c-4ae1-a687-f14513db4791" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(10.781252 : 12.125); (10.781252 : 8.46235270182292); (11.75 : 8.46235270182292); (11.75 : 6.625); (15.6666666666667 : 6.625 : JumpStart); (15.8333333333333 : 6.625 : JumpEnd); (17.375 : 6.625); (17.375 : 9.14204220182292); (17.75 : 9.14204220182292)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Event/Event_ReportInfo" />
+      <nodes>
+        <classShapeMoniker Id="06a4798a-277c-42ba-a837-2ad248e950a2" />
+        <classShapeMoniker Id="0d4619b6-931c-4ae1-a687-f14513db4791" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(14 : 7.390625); (15.6666666666667 : 7.390625 : JumpStart); (15.8333333333333 : 7.390625 : JumpEnd); (17.2916666666667 : 7.390625 : JumpStart); (17.4583333333333 : 7.390625 : JumpEnd); (17.75 : 7.390625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AquariusDataContext/Offer/Offer_ReportInfo" />
+      <nodes>
+        <classShapeMoniker Id="dbaa09d8-ef80-4db3-930f-a853a1c7cdad" />
+        <classShapeMoniker Id="0d4619b6-931c-4ae1-a687-f14513db4791" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

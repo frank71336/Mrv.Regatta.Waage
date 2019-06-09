@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using Mrv.Regatta.Waage.Db.DataModels;
 using Mrv.Regatta.Waage.Xml;
+using Mrv.Regatta.Waage.Db;
+using Mrv.Regatta.Waage.DbData;
 
 namespace Mrv.Regatta.Waage
 {
@@ -25,13 +26,22 @@ namespace Mrv.Regatta.Waage
 
             // ------------------------------ Globale Daten bereitstellen
 
-            Data.Instance.MainContent = mainContent;
+            GlobalData.Instance.MainContent = mainContent;
 
             // Einstellungen laden
-            Data.Instance.Settings = XmlBase.XmlBase.Load<Einstellungen>(new XmlBase.XmlFilePath(Properties.Settings.Default.SettingsFilePath));
+            GlobalData.Instance.Settings = XmlBase.XmlBase.Load<Einstellungen>(new XmlBase.XmlFilePath(Properties.Settings.Default.SettingsFilePath));
 
             // Rennen laden
-            Data.Instance.RacesConfiguration = XmlBase.XmlBase.Load<Rennen>(new XmlBase.XmlFilePath(Data.Instance.Settings.Pfade.Rennen));
+            // TODO: ???
+            // GlobalData.Instance.RacesConfiguration = XmlBase.XmlBase.Load<Rennen>(new XmlBase.XmlFilePath(GlobalData.Instance.Settings.Pfade.Rennen));
+
+            // Alles aus DB laden
+            LoadDataFromDb();
+
+            // Messungen laden
+            Tools.ReadWeightings();
+
+            /*
 
             // DB-Vereine laden
             LoadDbClubs();
@@ -51,15 +61,17 @@ namespace Mrv.Regatta.Waage
             // DB-Boots-Abmeldungen laden
             LoadCancellations();
 
+            */
+
             // ------------------------------ View-Model
 
             _vm = new MainViewModel();
             _vm.RacesReducedView = true;
-            _vm.Day = Data.Instance.Settings.ZeitstempelHeute.ToLongDateString();
+            _vm.Day = GlobalData.Instance.Settings.ZeitstempelHeute.ToLongDateString();
             _vm.OverrideTime = false;
 
             this.DataContext = _vm;
-            Data.Instance.MainViewModel = _vm;
+            GlobalData.Instance.MainViewModel = _vm;
 
             // Intro-Seite anzeigen
             var introPage = new Pages.IntroPage.IntroPage();
@@ -70,6 +82,188 @@ namespace Mrv.Regatta.Waage
             t.Elapsed += Timer_Elapsed;
             t.Interval = 1000;
             t.Start();
+        }
+
+        /// <summary>
+        /// Loads the data from database.
+        /// </summary>
+        private void LoadDataFromDb()
+        {
+            var eventId = 3; // TODO: Muss irgendwie einstellbar sein
+
+
+
+            var dbData = GlobalData.Instance;
+
+            using (var db = new AquariusDataContext())
+            {
+                // Veranstaltungen laden
+                var dbEvents = db.Events;
+                dbData.EventsData = dbEvents.Select(e => new EventData() { Id = e.Event_ID, Title = e.Event_Title } ).ToList();
+
+                // Altersklassen einlesen
+                var dbAgeClasses = db.AgeClasses.ToList();
+
+                // Bootsklassen einlesen
+                var dbBoatClasses = db.BoatClasses.ToList();
+
+                // Ausschreibung einlesen
+                var dbOffers = db.Offers.Where(o => o.Offer_Event_ID_FK == eventId).ToList();
+
+                // Wettkämpfe einlesen
+                var dbCompetions = db.Comps.Where(c => (c.Comp_Event_ID_FK == eventId) && c.Comp_DateTime != null).OrderBy(c => c.Comp_DateTime);
+
+                // Meldungen einlesen
+                var dbEventEntries = db.Entries.Where(e => e.Entry_Event_ID_FK == eventId).ToList();
+
+                // Mannschaften einlesen
+                var dbCrews = db.Crews.ToList();
+
+                // Ruderer einlesen
+                var dbAthlets = db.Athlets.ToList();
+
+                // Vereine einlesen
+                var dbclubs = db.Clubs.ToList();
+
+                // Rennen tauchen mehrfach auf, falls es z. B. mehrere Leistungsgruppen gibt.
+                // Da die Läufe aber ggf. noch nicht eingeteilt sind, lassen sich die Personen nicht
+                // den einzelnen Rennen/Läufen zuweisen.
+                // Derartig mehrfach vorkommende Rennen werden daher zu einem Rennen zusammengefasst:
+                var competitionGroups = dbCompetions.GroupBy(c => c.Comp_Race_ID_FK);
+
+                #region Wettkämpfe durchgehen
+
+                dbData.RacesData = new List<RaceData>();
+                foreach (var competionGroup in competitionGroups)
+                {
+                    var offer = dbOffers.Single(o => o.Offer_ID == competionGroup.Key);
+                    var ageClass = dbAgeClasses.Single(ac => ac.AgeClass_ID == offer.Offer_AgeClass_ID_FK);
+                    var boatClass = dbBoatClasses.Single(bc => bc.BoatClass_ID == offer.Offer_BoatClass_ID_FK);
+
+                    var isChildrenRace = (ageClass.AgeClass_MaxAge <= 14);
+                    bool isLightweightRace = (offer.Offer_IsLightweight == 1);
+                    var isCoxedRace = (boatClass.BoatClass_Coxed == 1);
+
+                    // Entscheiden, ob man das Rennen übernehmen muss
+                    var raceOk = false;
+                    if (isLightweightRace) raceOk = true;      // alle Leichtgewichtsrennen müssen zur Waage
+                    if (isCoxedRace && !isChildrenRace) raceOk = true; // gesteuerte Rennen, die keine Kinderrennen sind, müssen zur Waage
+
+                    if (raceOk)
+                    {
+                        // Rennzeit ist die Zeit des ersten Rennens dieser Gruppe
+                        var raceTime = (DateTime)competionGroup.Select(x => x).OrderBy(c => c.Comp_DateTime).First().Comp_DateTime;
+
+                        // Rennen definieren und hinzufügen
+                        var newRace = new RaceData()
+                        {
+                            Id = offer.Offer_ID,
+                            RaceNumber = offer.Offer_RaceNumber,
+                            ShortTitle = offer.Offer_ShortLabel,
+                            LongTitle = offer.Offer_LongLabel,
+                            DateTime = raceTime,
+                            IsChildrenRace = isChildrenRace,
+                            IsCoxedRace = isCoxedRace,
+                            IsLightweightRace = isLightweightRace,
+                            MaxSingleWeight = new Weight(ageClass.AgeClass_LW_UpperLimit, true),
+                            MaxAverageWeight = new Weight(ageClass.AgeClass_LW_AvgLimit, true),
+                            MinCoxWeight = new Weight(ageClass.AgeClass_LW_CoxLowerLimit, true),
+                            MaxAdditionalCoxWeight = new Weight(ageClass.AgeClass_LW_CoxTolerance, true)
+                        };
+
+                        dbData.RacesData.Add(newRace);
+
+                        // zum aktuellen Rennen die Boote hinzufügen
+                        var eventEntries = dbEventEntries.Where(ee => ee.Entry_Race_ID_FK == offer.Offer_ID).ToList();
+                        newRace.BoatsData = new List<BoatData>();
+
+                        foreach (var eventEntry in eventEntries)
+                        {
+                            var newBoat = new BoatData()
+                            {
+                                TitleShort = eventEntry.Entry_ShortLabel,
+                                TitleLong = eventEntry.Entry_LongLabel,
+                                BibNumber = (byte)eventEntry.Entry_Bib,
+                                Canceled = (eventEntry.Entry_CancelValue > 0)
+                            };
+
+                            newRace.BoatsData.Add(newBoat);
+
+                            // Zum aktuellen Boot die Mannschaft hinzufügen
+                            newBoat.Rowers = new List<RowerData>();
+                            var crew = dbCrews.Where(c => c.Crew_Entry_ID_FK == eventEntry.Entry_ID).ToList();
+
+                            // Crew durchgehen und ins Boot platzieren
+                            foreach (var crewMember in crew)
+                            {
+                                var athlet = dbAthlets.Single(a => a.Athlet_ID == crewMember.Crew_Athlete_ID_FK);
+                                var club = dbclubs.Single(c => c.Club_ID == athlet.Athlet_Club_ID_FK);
+
+                                var newRower = new RowerData()
+                                {
+                                    Id = athlet.Athlet_ID,
+                                    ClubTitleLong = club.Club_Name,
+                                    ClubTitleShort = club.Club_Abbr,
+                                    LastName = athlet.Athlet_LastName,
+                                    FirstName = athlet.Athlet_FirstName,
+                                    DateOfBirth = athlet.Athlet_DOB,
+                                    Gender = (athlet.Athlet_Gender == 'M') ? Gender.Male : Gender.Female
+                                };
+
+                                if (crewMember.Crew_IsCox)
+                                {
+                                    // es handelt sich um den Steuermann
+                                    newBoat.Cox = newRower;
+                                }
+                                else
+                                {
+                                    // normaler Ruderer
+                                    newBoat.Rowers.Add(newRower);
+                                }
+                            }
+                        }
+
+                        // Boote sortieren nach Startnummer
+                        newRace.BoatsData = newRace.BoatsData.OrderBy(b => b.BibNumber).ToList();
+                    }
+                }
+
+                #endregion
+
+                #region Ruderer anhand der ermittelten Rennen bestimmen
+
+                var newRowers = new List<RowerData>();
+                foreach(var raceData in dbData.RacesData)
+                {
+                    foreach(var boatData in raceData.BoatsData)
+                    {
+                        // Ruderer hinzufügen
+                        foreach (var rowerData in boatData.Rowers)
+                        {
+                            if (!newRowers.Any(r => r.Id == rowerData.Id))
+                            {
+                                newRowers.Add(rowerData);
+                            }
+                        }
+
+                        // Steuermann hinzufügen
+                        if (boatData.Cox != null)
+                        {
+                            if (!newRowers.Any(r => r.Id == boatData.Cox.Id))
+                            {
+                                newRowers.Add(boatData.Cox);
+                            }
+                        }
+                    }
+                }
+
+                dbData.RowersData = newRowers.OrderBy(r => r.LastName).ThenBy(r => r.FirstName).ToList();
+
+                #endregion
+
+                // Rennen sortieren nach Startzeit
+                dbData.RacesData = dbData.RacesData.OrderBy(r => r.DateTime).ToList();
+            }
         }
 
         /// <summary>
@@ -84,186 +278,6 @@ namespace Mrv.Regatta.Waage
             if (!_vm.OverrideTime)
             {
                 _vm.ManualTime = _vm.CurrentTime;
-            }
-        }
-
-        /// <summary>
-        /// Loads the database boats.
-        /// </summary>
-        private void LoadDbBoats()
-        {
-            using (var db = new DatenDB())
-            {
-                var boats = db.TBootes.ToList();
-                Data.Instance.DbBoats = boats;
-            }
-        }
-
-        /// <summary>
-        /// Loads the database boats.
-        /// </summary>
-        private void LoadCancellations()
-        {
-            using (var db = new DatenDB())
-            {
-                var cancellations = db.TAbmeldungs.ToList();
-                Data.Instance.DbCancellations = cancellations;
-            }
-        }
-
-        /// <summary>
-        /// Loads the database races.
-        /// </summary>
-        private void LoadDbRaces()
-        {
-            using (var db = new DatenDB())
-            {
-                // alle Rennen, jedoch nur solche, die nach 1 Uhr morgens stattfinden
-                // (Rennen, mit Rennzeit 00:00 Uhr sind nicht zustande gekommen)
-                var races = db.TRennens.Where(x => ((DateTime)x.RZeit).TimeOfDay > new TimeSpan(1, 0, 0)).ToList();
-
-                // Zeitstempel des Rennens korrigieren
-                // Da steht nur die Uhrzeit. Das wird im DateTime-Format zum 01.01.0001 xx:xx.
-                Tools.FixRaceTimestamp(races);
-
-                // Rennen sortieren
-                races = races.OrderBy(x => x.RZeit).ToList();
-
-                Data.Instance.DbRaces = races;
-            }
-        }
-
-        /// <summary>
-        /// Loads the database clubs.
-        /// </summary>
-        private void LoadDbClubs()
-        {
-            using (var db = new DatenDB())
-            {
-                Data.Instance.DbClubs = db.TVereins.ToList();
-            }
-        }
-
-        /// <summary>
-        /// Loads the database rowers.
-        /// </summary>
-        /// <exception cref="System.Exception"></exception>
-        private void LoadDbRowers()
-        {
-            using (var db = new DatenDB())
-            {
-                var dbRowers = db.TRuderers.ToList();
-
-                var rowers = new List<TRuderer>();
-
-                switch (Data.Instance.Settings.PersonenListe)
-                {
-                    case EinstellungenPersonenListe.Alle:
-                        throw new NotImplementedException("PersonenListe Typ 'alle' ist noch nicht implementiert!");
-
-                    case EinstellungenPersonenListe.Regatta:
-                        {
-                            // alle Rennen, jedoch nur solche, die nach 1 Uhr morgens stattfinden
-                            // (Rennen, mit Rennzeit 00:00 Uhr sind nicht zustande gekommen)
-                            var dbRaces = db.TRennens.Where(x => ((DateTime)x.RZeit).TimeOfDay > new TimeSpan(1, 0, 0)).ToList();
-
-                            // alle Boote
-                            var dbBoats = db.TBootes.ToList();
-
-                            // alle Rennen durchgehen
-                            foreach (var race in dbRaces)
-                            {
-                                // alle Boote dieses Rennens
-                                var boatsOfRace = dbBoats.Where(b => b.BRNr == race.Index).ToList();
-
-                                // alle Boots des Rennens durchgehen
-                                foreach (var boatOfRace in boatsOfRace)
-                                {
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName1);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName2);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName3);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName4);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName5);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName6);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName7);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName8);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName9); // Steuermann
-                                }
-                            }
-                        }
-
-                        break;
-
-                    case EinstellungenPersonenListe.Leichtgewichte:
-                        {
-                            // alle Rennen aus DB
-                            var dbRaces = db.TRennens.ToList();
-
-                            // alle Leichtgewicht-Rennen (aus XML-Datei)
-                            var raceConfiguration = Data.Instance.RacesConfiguration.Rennen1;
-
-                            // alle Boote
-                            var dbBoats = db.TBootes.ToList();
-
-                            // alle Rennen durchgehen
-                            foreach (var race in raceConfiguration)
-                            {
-                                // den vollständigen Datensatz dazu zu diesem Rennen aus DB
-                                var dbRace = dbRaces.SingleOrDefault(x => x.RNr == race.RennNr);
-                                if (dbRace == null)
-                                {
-                                    Tools.LogError("DB-Rennen zu Rennen nicht gefunden oder mehrere gefunden! RNr", race.RennNr);
-                                }
-
-                                // alle Boote dieses Rennens
-                                var boatsOfRace = dbBoats.Where(b => b.BRNr == dbRace.Index).ToList();
-
-                                // alle Boots des Rennens durchgehen
-                                foreach (var boatOfRace in boatsOfRace)
-                                {
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName1);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName2);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName3);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName4);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName5);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName6);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName7);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName8);
-                                    AddRower(dbRowers, ref rowers, boatOfRace.BName9); // Steuermann
-                                }
-                            }
-                        }
-
-                        break;
-
-                    default:
-                        throw new Exception($"Wert '{Data.Instance.Settings.PersonenListe.ToString()}' für Personenliste ist ungültig!");
-                }
-
-                Data.Instance.DbRowers = rowers.OrderBy(r => r.RName).ThenBy(r => r.RVorname).ToList();
-            }
-        }
-
-        /// <summary>
-        /// Ruderer zur Liste hinzufügen, wenn er nicht schon drin steht
-        /// </summary>
-        /// <param name="dbRowers">The database rowers.</param>
-        /// <param name="rowers">The rowers.</param>
-        /// <param name="rId">The rower id.</param>
-        private void AddRower(List<TRuderer> dbRowers, ref List<TRuderer> rowers, int? rId)
-        {
-            // Wenn ein Platz im Boot nicht besetzt ist, dann steht "1" als Index drin (sofern nicht über das DRV-Meldeportal gemeldet wurde)
-            // => in dem Fall ignorieren
-            if ((rId != null) && (rId > 1))
-            {
-                if (!rowers.Any(r => r.RID == rId))
-                {
-                    var newRower = dbRowers.FirstOrDefault(r => r.RID == rId);
-                    if (newRower != null)
-                    {
-                        rowers.Add(newRower);
-                    }
-                }
             }
         }
 

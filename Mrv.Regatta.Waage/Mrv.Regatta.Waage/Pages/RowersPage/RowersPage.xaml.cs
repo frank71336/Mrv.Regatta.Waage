@@ -29,16 +29,14 @@ namespace Mrv.Regatta.Waage.Pages.RowersPage
             _vm = new RowersPageViewModel();
             this.DataContext = _vm;
 
-            var clubs = Data.Instance.DbClubs;
-
-            var persons = Data.Instance.DbRowers.Select(r => new RowersPageViewModel.Person()
+            var persons = GlobalData.Instance.RowersData.Select(r => new RowersPageViewModel.Person()
             {
-                Id = (int)r.RID,
-                LastName = r.RName,
-                FirstName = r.RVorname,
-                Club = clubs.SingleOrDefault(c => c.VIDVerein == r.RVerein)?.VVereinsnamenKurz ?? "#Verein nicht gefunden!#",
-                Year = Convert.ToInt16(r.RJg).ToString(),
-                Sex = r.Geschlecht.ToString().Equals("w", StringComparison.OrdinalIgnoreCase) ? Sex.Female : Sex.Male
+                Id = (int)r.Id,
+                LastName = r.LastName,
+                FirstName = r.FirstName,
+                Club = r.ClubTitleShort,
+                YearOfBirth = r.DateOfBirth.Year.ToString(),
+                Gender = r.Gender
             });
 
             _vm.Persons = new System.Collections.ObjectModel.ObservableCollection<RowersPageViewModel.Person>();
@@ -70,7 +68,7 @@ namespace Mrv.Regatta.Waage.Pages.RowersPage
             {
                 var person = (RowersPageViewModel.Person)obj;
                 if (person.FullName.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0) return true;
-                if (person.Year.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0) return true;
+                if (person.YearOfBirth.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0) return true;
                 if (person.Club.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0) return true;
                 return false;
             }
@@ -129,7 +127,7 @@ namespace Mrv.Regatta.Waage.Pages.RowersPage
         private void SwitchToPerson(int id)
         {
             var RowerPage = new RowerPage.RowerPage(id);
-            Data.Instance.MainContent.Content = RowerPage;
+            GlobalData.Instance.MainContent.Content = RowerPage;
         }
 
         /// <summary>

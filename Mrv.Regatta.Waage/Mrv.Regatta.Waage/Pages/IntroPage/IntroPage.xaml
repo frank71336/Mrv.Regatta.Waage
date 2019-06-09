@@ -29,9 +29,6 @@
             <Label Grid.Row="1" Grid.Column="0">Anzahl Ruderer:</Label>
             <Label Grid.Row="1" Grid.Column="1" Content="{Binding RowersCount, FallbackValue=0}" />
 
-            <Label Grid.Row="2" Grid.Column="0">Anzahl Vereine:</Label>
-            <Label Grid.Row="2" Grid.Column="1" Content="{Binding ClubsCount, FallbackValue=0}" />
-
             <Label Grid.Row="3" Grid.Column="0">Anzahl Boote:</Label>
             <Label Grid.Row="3" Grid.Column="1" Content="{Binding BoatsCount, FallbackValue=0}" />
 

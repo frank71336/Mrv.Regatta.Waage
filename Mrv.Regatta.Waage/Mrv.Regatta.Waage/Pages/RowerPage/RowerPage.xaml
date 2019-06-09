@@ -21,10 +21,10 @@
             <Image.Style>
                 <Style TargetType="Image">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Sex}" Value="{x:Static local:Sex.Male}" >
+                        <DataTrigger Binding="{Binding Gender}" Value="{x:Static local:Gender.Male}" >
                             <Setter Property="Visibility" Value="Visible"  />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Sex}" Value="{x:Static local:Sex.Female}" >
+                        <DataTrigger Binding="{Binding Gender}" Value="{x:Static local:Gender.Female}" >
                             <Setter Property="Visibility" Value="Collapsed"  />
                         </DataTrigger>
                     </Style.Triggers>
@@ -35,10 +35,10 @@
             <Image.Style>
                 <Style TargetType="Image">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Sex}" Value="{x:Static local:Sex.Male}" >
+                        <DataTrigger Binding="{Binding Gender}" Value="{x:Static local:Gender.Male}" >
                             <Setter Property="Visibility" Value="Collapsed"  />
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Sex}" Value="{x:Static local:Sex.Female}" >
+                        <DataTrigger Binding="{Binding Gender}" Value="{x:Static local:Gender.Female}" >
                             <Setter Property="Visibility" Value="Visible"  />
                         </DataTrigger>
                     </Style.Triggers>
@@ -63,7 +63,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Image Stretch="None" Source="{StaticResource Icon-Gift-16}" Margin="0,0,5,5" ToolTip="Jahrgang" />
-                <TextBlock Grid.Column="1" Text="{Binding BirthYear, FallbackValue='1890'}" />
+                <TextBlock Grid.Column="1" Text="{Binding YearOfBirth, FallbackValue='1890'}" />
 
                 <Image Grid.Row="1" Stretch="None" Source="{StaticResource Icon-ClubHouse-16}" VerticalAlignment="Top" HorizontalAlignment="Left" ToolTip="Verein" />
                 <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Grid.RowSpan="2" Text="{Binding Club, FallbackValue='Entenhauser Ruderverein'}" />

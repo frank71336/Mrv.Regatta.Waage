@@ -1,23 +1,21 @@
-﻿using Mrv.Regatta.Waage.Db.DataModels;
-using Mrv.Regatta.Waage.Xml;
+﻿using Mrv.Regatta.Waage.Xml;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
+using Mrv.Regatta.Waage.DbData;
 
 namespace Mrv.Regatta.Waage
 {
-    public sealed class Data
+    public sealed class GlobalData
     {
         #region Singleton Pattern-Implementierung
 
-        private static readonly Lazy<Data> lazy = new Lazy<Data>(() => new Data());
+        private static readonly Lazy<GlobalData> lazy = new Lazy<GlobalData>(() => new GlobalData());
 
-        public static Data Instance { get { return lazy.Value; } }
+        public static GlobalData Instance { get { return lazy.Value; } }
 
-        private Data()
+        // Private-Konstruktor: Verhindern, dass andere Klassen Instanz erzeugen
+        private GlobalData()
         {
         }
 
@@ -25,13 +23,21 @@ namespace Mrv.Regatta.Waage
 
         public Frame MainContent { get; set; }
         public Einstellungen Settings { get; set; }
-        public Rennen RacesConfiguration { get; set; }
+
+        // public Rennen RacesConfiguration { get; set; }
+
         public List<Messung> Weightings { get; set; }
-        public List<TRuderer> DbRowers { get; set; }
-        public List<TVerein> DbClubs { get; set; }
-        public List<TRennen> DbRaces { get; set; }
-        public List<TBoote> DbBoats { get; set; }
-        public List<TAbmeldung> DbCancellations { get; set; }
+        
+        // Daten aus DB
+        public List<RaceData> RacesData { get; set; }
+        public List<EventData> EventsData { get; set; }
+        public List<RowerData> RowersData { get; set; }
+
+
+        //public List<TRuderer> DbRowers { get; set; }
+        //public List<TVerein> DbClubs { get; set; }
+        //public List<TBoote> DbBoats { get; set; }
+        //public List<TAbmeldung> DbCancellations { get; set; }
 
         public MainViewModel MainViewModel { get; set; }
 

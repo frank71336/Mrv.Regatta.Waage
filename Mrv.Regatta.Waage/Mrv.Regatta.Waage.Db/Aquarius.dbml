@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Rudern" Class="AquariusDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=rechner1\sqlexpress2017;Initial Catalog=Rudern;Persist Security Info=True;User ID=sa" SettingsObjectName="Mrv.Regatta.Waage.Db.Properties.Settings" SettingsPropertyName="RudernConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.AgeClass" Member="AgeClasses">
+    <Type Name="AgeClass">
+      <Column Name="AgeClass_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AgeClass_Caption" Type="System.String" DbType="VarChar(48) NOT NULL" CanBeNull="false" />
+      <Column Name="AgeClass_Abbr" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="AgeClass_Suffix" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="AgeClass_AbbrSuffix" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="AgeClass_Gender" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="AgeClass_MinAge" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="AgeClass_MaxAge" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="AgeClass_AllowYounger" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="AgeClass_NumSubClasses" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="AgeClass_LW_UpperLimit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AgeClass_LW_AvgLimit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AgeClass_LW_CoxLowerLimit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AgeClass_LW_CoxTolerance" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="AgeClass_Offer" Member="Offers" ThisKey="AgeClass_ID" OtherKey="Offer_AgeClass_ID_FK" Type="Offer" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Result" Member="Results">
+    <Type Name="Result">
+      <Column Name="Result_CE_ID_FK" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Result_SplitNr" Type="System.Byte" DbType="TinyInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Result_DayTime" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Result_NetTime" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Result_Delta" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Result_Rank" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Result_SortValue" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Result_DisplayValue" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Column Name="Result_Params" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Column Name="Result_ResultType" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Result_DisplayType" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Result_Comment" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="CompEntry_Result" Member="CompEntry" ThisKey="Result_CE_ID_FK" OtherKey="CE_ID" Type="CompEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Athlet" Member="Athlets">
+    <Type Name="Athlet">
+      <Column Name="Athlet_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Athlet_FirstName" Type="System.String" DbType="VarChar(32) NOT NULL" CanBeNull="false" />
+      <Column Name="Athlet_LastName" Type="System.String" DbType="VarChar(64) NOT NULL" CanBeNull="false" />
+      <Column Name="Athlet_Gender" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Athlet_DOB" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Athlet_Club_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Athlet_Nation_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Athlet_State" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Athlet_ExternState" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Athlet_ExternID_A" Type="System.String" DbType="VarChar(11)" CanBeNull="true" />
+      <Column Name="Athlet_ExternID_B" Type="System.String" DbType="VarChar(11)" CanBeNull="true" />
+      <Column Name="Athlet_SoundEx" Type="System.String" DbType="VarChar(5)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Athlet_ExternState_B" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Association Name="Athlet_Crew" Member="Crews" ThisKey="Athlet_ID" OtherKey="Crew_Athlete_ID_FK" Type="Crew" />
+      <Association Name="Club_Athlet" Member="Club" ThisKey="Athlet_Club_ID_FK" OtherKey="Club_ID" Type="Club" IsForeignKey="true" />
+      <Association Name="Nation_Athlet" Member="Nation" ThisKey="Athlet_Nation_ID_FK" OtherKey="Nation_ID" Type="Nation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BoatClass" Member="BoatClasses">
+    <Type Name="BoatClass">
+      <Column Name="BoatClass_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BoatClass_Caption" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="BoatClass_Abbr" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="BoatClass_NumRowers" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="BoatClass_Coxed" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Association Name="BoatClass_Offer" Member="Offers" ThisKey="BoatClass_ID" OtherKey="Offer_BoatClass_ID_FK" Type="Offer" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Club" Member="Clubs">
+    <Type Name="Club">
+      <Column Name="Club_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Club_Name" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
+      <Column Name="Club_Abbr" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Club_UltraAbbr" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="Club_City" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Column Name="Club_ExternID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Club_Nation_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Club_Discount" Type="System.Decimal" DbType="Decimal(6,3)" CanBeNull="true" />
+      <Association Name="Club_Athlet" Member="Athlets" ThisKey="Club_ID" OtherKey="Athlet_Club_ID_FK" Type="Athlet" />
+      <Association Name="Club_Crew" Member="Crews" ThisKey="Club_ID" OtherKey="Crew_Club_ID_FK" Type="Crew" />
+      <Association Name="Club_Entry" Member="Entries" ThisKey="Club_ID" OtherKey="Entry_OwnerClub_ID_FK" Type="Entry" />
+      <Association Name="Club_Event" Member="Events" ThisKey="Club_ID" OtherKey="Event_Club_ID_FK" Type="Event" />
+      <Association Name="Nation_Club" Member="Nation" ThisKey="Club_Nation_ID_FK" OtherKey="Nation_ID" Type="Nation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Comp" Member="Comps">
+    <Type Name="Comp">
+      <Column Name="Comp_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Comp_Race_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Comp_Event_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Comp_Round" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Comp_HeatNumber" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Comp_RoundCode" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="Comp_Label" Type="System.String" DbType="VarChar(32)" CanBeNull="true" />
+      <Column Name="Comp_GroupValue" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Comp_DateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Comp_State" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Comp_Number" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Comp_Locked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Comp_Dummy" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Comp_Cancelled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Comp_RMDetail_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Comp_CompEntry" Member="CompEntries" ThisKey="Comp_ID" OtherKey="CE_Comp_ID_FK" Type="CompEntry" />
+      <Association Name="Comp_CompReferee" Member="CompReferees" ThisKey="Comp_ID" OtherKey="CompReferee_Comp_ID_FK" Type="CompReferee" />
+      <Association Name="Comp_ReportInfo" Member="ReportInfos" ThisKey="Comp_ID" OtherKey="Report_Comp_ID_FK" Type="ReportInfo" />
+      <Association Name="Event_Comp" Member="Event" ThisKey="Comp_Event_ID_FK" OtherKey="Event_ID" Type="Event" IsForeignKey="true" />
+      <Association Name="Offer_Comp" Member="Offer" ThisKey="Comp_Race_ID_FK" OtherKey="Offer_ID" Type="Offer" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="RaceMode_Detail_Comp" Member="RaceMode_Detail" ThisKey="Comp_RMDetail_ID_FK" OtherKey="RMLap_ID" Type="RaceMode_Detail" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CompEntries" Member="CompEntries">
+    <Type Name="CompEntry">
+      <Column Name="CE_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CE_Comp_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CE_Entry_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CE_Lane" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Association Name="CompEntry_Result" Member="Results" ThisKey="CE_ID" OtherKey="Result_CE_ID_FK" Type="Result" />
+      <Association Name="Comp_CompEntry" Member="Comp" ThisKey="CE_Comp_ID_FK" OtherKey="Comp_ID" Type="Comp" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Entry_CompEntry" Member="Entry" ThisKey="CE_Entry_ID_FK" OtherKey="Entry_ID" Type="Entry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CompReferee" Member="CompReferees">
+    <Type Name="CompReferee">
+      <Column Name="CompReferee_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CompReferee_Comp_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CompReferee_Referee_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CompReferee_Role" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Association Name="Comp_CompReferee" Member="Comp" ThisKey="CompReferee_Comp_ID_FK" OtherKey="Comp_ID" Type="Comp" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Referee_CompReferee" Member="Referee" ThisKey="CompReferee_Referee_ID_FK" OtherKey="Referee_ID" Type="Referee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Crew" Member="Crews">
+    <Type Name="Crew">
+      <Column Name="Crew_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Crew_Entry_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Crew_Athlete_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Crew_Pos" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Crew_Club_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Crew_Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Crew_IsCox" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Athlet_Crew" Member="Athlet" ThisKey="Crew_Athlete_ID_FK" OtherKey="Athlet_ID" Type="Athlet" IsForeignKey="true" />
+      <Association Name="Club_Crew" Member="Club" ThisKey="Crew_Club_ID_FK" OtherKey="Club_ID" Type="Club" IsForeignKey="true" />
+      <Association Name="Entry_Crew" Member="Entry" ThisKey="Crew_Entry_ID_FK" OtherKey="Entry_ID" Type="Entry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Cup" Member="Cups">
+    <Type Name="Cup">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Race_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PointTable_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Parent_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Caption" Type="System.String" DbType="NVarChar(32)" CanBeNull="true" />
+      <Association Name="Cup_Cup" Member="Cups" ThisKey="ID" OtherKey="Parent_ID" Type="Cup" />
+      <Association Name="Cup_Cup" Member="Cup1" ThisKey="Parent_ID" OtherKey="ID" Type="Cup" IsForeignKey="true" />
+      <Association Name="CupPointTable_Cup" Member="CupPointTable" ThisKey="PointTable_ID_FK" OtherKey="ID" Type="CupPointTable" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Offer_Cup" Member="Offer" ThisKey="Race_ID_FK" OtherKey="Offer_ID" Type="Offer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CupPointTable" Member="CupPointTables">
+    <Type Name="CupPointTable">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Rank" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Lap" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Points" Type="System.Decimal" DbType="Decimal(10,4)" CanBeNull="true" />
+      <Column Name="Parent_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Caption" Type="System.String" DbType="NVarChar(32)" CanBeNull="true" />
+      <Association Name="CupPointTable_Cup" Member="Cups" ThisKey="ID" OtherKey="PointTable_ID_FK" Type="Cup" />
+      <Association Name="CupPointTable_CupPointTable" Member="CupPointTables" ThisKey="ID" OtherKey="Parent_ID" Type="CupPointTable" />
+      <Association Name="CupPointTable_CupPointTable" Member="CupPointTable1" ThisKey="Parent_ID" OtherKey="ID" Type="CupPointTable" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Entry" Member="Entries">
+    <Type Name="Entry">
+      <Column Name="Entry_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Entry_OwnerClub_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Entry_Event_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Entry_Race_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Entry_Bib" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Entry_BoatNumber" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Entry_Comment" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Entry_GroupValue" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Entry_LongLabel" Type="System.String" DbType="VarChar(512)" CanBeNull="true" />
+      <Column Name="Entry_ShortLabel" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="Entry_CancelValue" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Entry_IsTeam" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Entry_ExternID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Entry_Note" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
+      <Column Name="Entry_IsLate" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Entry_HasManualLabel" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Entry_CompEntry" Member="CompEntries" ThisKey="Entry_ID" OtherKey="CE_Entry_ID_FK" Type="CompEntry" />
+      <Association Name="Entry_Crew" Member="Crews" ThisKey="Entry_ID" OtherKey="Crew_Entry_ID_FK" Type="Crew" />
+      <Association Name="Club_Entry" Member="Club" ThisKey="Entry_OwnerClub_ID_FK" OtherKey="Club_ID" Type="Club" IsForeignKey="true" />
+      <Association Name="Event_Entry" Member="Event" ThisKey="Entry_Event_ID_FK" OtherKey="Event_ID" Type="Event" IsForeignKey="true" />
+      <Association Name="Offer_Entry" Member="Offer" ThisKey="Entry_Race_ID_FK" OtherKey="Offer_ID" Type="Offer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Event" Member="Events">
+    <Type Name="Event">
+      <Column Name="Event_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Event_Title" Type="System.String" DbType="VarChar(64) NOT NULL" CanBeNull="false" />
+      <Column Name="Event_SubTitle" Type="System.String" DbType="VarChar(32)" CanBeNull="true" />
+      <Column Name="Event_StartDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Event_EndDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Event_Venue" Type="System.String" DbType="VarChar(32)" CanBeNull="true" />
+      <Column Name="Event_Venue_Nation_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Event_Club_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Event_Type" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="Event_TrackDirection" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="Event_DefaultDistance" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Event_DefaultRaceMode_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Event_HeadLogo_A" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Column Name="Event_HeadLogo_B" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Column Name="Event_FootLogo" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Column Name="Event_BoardMemberA" Type="System.String" DbType="VarChar(32)" CanBeNull="true" />
+      <Column Name="Event_BoardMemberB" Type="System.String" DbType="VarChar(32)" CanBeNull="true" />
+      <Column Name="Event_HeadReferee_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Event_Url" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Association Name="Event_Comp" Member="Comps" ThisKey="Event_ID" OtherKey="Comp_Event_ID_FK" Type="Comp" />
+      <Association Name="Event_Entry" Member="Entries" ThisKey="Event_ID" OtherKey="Entry_Event_ID_FK" Type="Entry" />
+      <Association Name="Event_EventReferee" Member="EventReferees" ThisKey="Event_ID" OtherKey="ER_Event_ID_FK" Type="EventReferee" />
+      <Association Name="Event_Offer" Member="Offers" ThisKey="Event_ID" OtherKey="Offer_Event_ID_FK" Type="Offer" />
+      <Association Name="Event_ReportInfo" Member="ReportInfos" ThisKey="Event_ID" OtherKey="Report_Event_ID_FK" Type="ReportInfo" />
+      <Association Name="Club_Event" Member="Club" ThisKey="Event_Club_ID_FK" OtherKey="Club_ID" Type="Club" IsForeignKey="true" />
+      <Association Name="Nation_Event" Member="Nation" ThisKey="Event_Venue_Nation_ID_FK" OtherKey="Nation_ID" Type="Nation" IsForeignKey="true" />
+      <Association Name="RaceMode_Event" Member="RaceMode" ThisKey="Event_DefaultRaceMode_ID_FK" OtherKey="RaceMode_ID" Type="RaceMode" IsForeignKey="true" />
+      <Association Name="Referee_Event" Member="Referee" ThisKey="Event_HeadReferee_ID_FK" OtherKey="Referee_ID" Type="Referee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EventReferee" Member="EventReferees">
+    <Type Name="EventReferee">
+      <Column Name="ER_Event_ID_FK" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ER_Referee_ID_FK" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Event_EventReferee" Member="Event" ThisKey="ER_Event_ID_FK" OtherKey="Event_ID" Type="Event" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Referee_EventReferee" Member="Referee" ThisKey="ER_Referee_ID_FK" OtherKey="Referee_ID" Type="Referee" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MetaData" Member="MetaDatas">
+    <Type Name="MetaData">
+      <Column Name="MetaData_Key" Type="System.String" DbType="VarChar(32) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MetaData_Value" Type="System.String" DbType="VarChar(32)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Nation" Member="Nations">
+    <Type Name="Nation">
+      <Column Name="Nation_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nation_Name" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Column Name="Nation_Name_German" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Column Name="Nation_IOC_Code" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Association Name="Nation_Athlet" Member="Athlets" ThisKey="Nation_ID" OtherKey="Athlet_Nation_ID_FK" Type="Athlet" />
+      <Association Name="Nation_Club" Member="Clubs" ThisKey="Nation_ID" OtherKey="Club_Nation_ID_FK" Type="Club" />
+      <Association Name="Nation_Event" Member="Events" ThisKey="Nation_ID" OtherKey="Event_Venue_Nation_ID_FK" Type="Event" />
+      <Association Name="Nation_Referee" Member="Referees" ThisKey="Nation_ID" OtherKey="Referee_Nation_ID_FK" Type="Referee" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Offer" Member="Offers">
+    <Type Name="Offer">
+      <Column Name="Offer_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Offer_Event_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Offer_AgeClass_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Offer_BoatClass_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Offer_RaceNumber" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="Offer_LongLabel" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Column Name="Offer_ShortLabel" Type="System.String" DbType="VarChar(32)" CanBeNull="true" />
+      <Column Name="Offer_Comment" Type="System.String" DbType="VarChar(32)" CanBeNull="true" />
+      <Column Name="Offer_EventDay" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Offer_Distance" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Offer_GroupMode" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Offer_RaceMode_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Offer_IsLightweight" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Offer_Fee" Type="System.Decimal" DbType="SmallMoney NOT NULL" CanBeNull="false" />
+      <Column Name="Offer_Splits" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Offer_SortValue" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Offer_RaceType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Offer_ForceDriven" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Offer_Driven" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Offer_Cancelled" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Offer_BibSeed" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Offer_Prize" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
+      <Association Name="Offer_Comp" Member="Comps" ThisKey="Offer_ID" OtherKey="Comp_Race_ID_FK" Type="Comp" />
+      <Association Name="Offer_Cup" Member="Cups" ThisKey="Offer_ID" OtherKey="Race_ID_FK" Type="Cup" />
+      <Association Name="Offer_Entry" Member="Entries" ThisKey="Offer_ID" OtherKey="Entry_Race_ID_FK" Type="Entry" />
+      <Association Name="Offer_ReportInfo" Member="ReportInfos" ThisKey="Offer_ID" OtherKey="Report_Race_ID_FK" Type="ReportInfo" />
+      <Association Name="AgeClass_Offer" Member="AgeClass" ThisKey="Offer_AgeClass_ID_FK" OtherKey="AgeClass_ID" Type="AgeClass" IsForeignKey="true" />
+      <Association Name="BoatClass_Offer" Member="BoatClass" ThisKey="Offer_BoatClass_ID_FK" OtherKey="BoatClass_ID" Type="BoatClass" IsForeignKey="true" />
+      <Association Name="Event_Offer" Member="Event" ThisKey="Offer_Event_ID_FK" OtherKey="Event_ID" Type="Event" IsForeignKey="true" />
+      <Association Name="RaceMode_Offer" Member="RaceMode" ThisKey="Offer_RaceMode_ID_FK" OtherKey="RaceMode_ID" Type="RaceMode" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RaceMode" Member="RaceModes">
+    <Type Name="RaceMode">
+      <Column Name="RaceMode_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RaceMode_Title" Type="System.String" DbType="VarChar(32) NOT NULL" CanBeNull="false" />
+      <Column Name="RaceMode_LaneCount" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="RaceMode_Event" Member="Events" ThisKey="RaceMode_ID" OtherKey="Event_DefaultRaceMode_ID_FK" Type="Event" />
+      <Association Name="RaceMode_Offer" Member="Offers" ThisKey="RaceMode_ID" OtherKey="Offer_RaceMode_ID_FK" Type="Offer" />
+      <Association Name="RaceMode_RaceMode_Range" Member="RaceMode_Ranges" ThisKey="RaceMode_ID" OtherKey="RMRange_RM_ID_FK" Type="RaceMode_Range" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RaceMode_Detail" Member="RaceMode_Details">
+    <Type Name="RaceMode_Detail">
+      <Column Name="RMLap_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RMLap_Range_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RMLap_Round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RMLap_Number" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="RMLap_Code" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="RMLap_Label" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="RMLap_QRText" Type="System.String" DbType="VarChar(64)" CanBeNull="true" />
+      <Association Name="RaceMode_Detail_Comp" Member="Comps" ThisKey="RMLap_ID" OtherKey="Comp_RMDetail_ID_FK" Type="Comp" />
+      <Association Name="RaceMode_Range_RaceMode_Detail" Member="RaceMode_Range" ThisKey="RMLap_Range_ID_FK" OtherKey="RMRange_ID" Type="RaceMode_Range" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RaceMode_Range" Member="RaceMode_Ranges">
+    <Type Name="RaceMode_Range">
+      <Column Name="RMRange_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RMRange_RM_ID_FK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RMRange_From" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RMRange_To" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="RaceMode_Range_RaceMode_Detail" Member="RaceMode_Details" ThisKey="RMRange_ID" OtherKey="RMLap_Range_ID_FK" Type="RaceMode_Detail" />
+      <Association Name="RaceMode_RaceMode_Range" Member="RaceMode" ThisKey="RMRange_RM_ID_FK" OtherKey="RaceMode_ID" Type="RaceMode" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Referee" Member="Referees">
+    <Type Name="Referee">
+      <Column Name="Referee_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Referee_FirstName" Type="System.String" DbType="VarChar(32) NOT NULL" CanBeNull="false" />
+      <Column Name="Referee_LastName" Type="System.String" DbType="VarChar(64) NOT NULL" CanBeNull="false" />
+      <Column Name="Referee_City" Type="System.String" DbType="VarChar(32)" CanBeNull="true" />
+      <Column Name="Referee_Nation_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Referee_LicenceState" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Referee_ExternID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Referee_CompReferee" Member="CompReferees" ThisKey="Referee_ID" OtherKey="CompReferee_Referee_ID_FK" Type="CompReferee" />
+      <Association Name="Referee_Event" Member="Events" ThisKey="Referee_ID" OtherKey="Event_HeadReferee_ID_FK" Type="Event" />
+      <Association Name="Referee_EventReferee" Member="EventReferees" ThisKey="Referee_ID" OtherKey="ER_Referee_ID_FK" Type="EventReferee" />
+      <Association Name="Nation_Referee" Member="Nation" ThisKey="Referee_Nation_ID_FK" OtherKey="Nation_ID" Type="Nation" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ReportInfo" Member="ReportInfos">
+    <Type Name="ReportInfo">
+      <Column Name="ReportInfo_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Report_Code" Type="System.String" DbType="VarChar(16) NOT NULL" CanBeNull="false" />
+      <Column Name="Report_Event_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Report_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Report_Race_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Report_Round" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Report_Comp_ID_FK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Report_Backend" Type="System.String" DbType="VarChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="Report_VersionMajor" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Report_VersionMinor" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Report_Generated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Comp_ReportInfo" Member="Comp" ThisKey="Report_Comp_ID_FK" OtherKey="Comp_ID" Type="Comp" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Event_ReportInfo" Member="Event" ThisKey="Report_Event_ID_FK" OtherKey="Event_ID" Type="Event" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Offer_ReportInfo" Member="Offer" ThisKey="Report_Race_ID_FK" OtherKey="Offer_ID" Type="Offer" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

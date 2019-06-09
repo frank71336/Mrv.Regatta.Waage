@@ -67,20 +67,20 @@ namespace Mrv.Regatta.Waage.Pages.RowersPage
             public string Club { get; set; }
 
             /// <summary>
-            /// Gets or sets the year.
+            /// Gets or sets the year of birth.
             /// </summary>
             /// <value>
-            /// The year.
+            /// The year of birth.
             /// </value>
-            public string Year { get; set; }
+            public string YearOfBirth { get; set; }
 
             /// <summary>
-            /// Gets or sets the sex.
+            /// Gets or sets the gender.
             /// </summary>
             /// <value>
-            /// The sex.
+            /// The gender.
             /// </value>
-            public Sex Sex { get; set; }
+            public Gender Gender { get; set; }
 
             /// <summary>
             /// Returns a <see cref="System.String" /> that represents this instance.

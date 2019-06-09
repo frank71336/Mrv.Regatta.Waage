@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
-using Mrv.Regatta.Waage.Db.DataModels;
 using System.Windows;
-using System.Linq;
+using Mrv.Regatta.Waage.DbData;
 
 namespace Mrv.Regatta.Waage.UserControls
 {
@@ -22,6 +21,7 @@ namespace Mrv.Regatta.Waage.UserControls
         public string MaxWeightAverage { get; set; }
         public string MinWeightCox{ get; set; }
         public RaceStatus Status { get; set; }
+        public bool IsChildrenRace { get; set; }
 
         /// <summary>
         /// Verbleibend Zeit in Minuten, aufbereitet für die grafische Anzeige (Werte 0-60)
@@ -57,9 +57,39 @@ namespace Mrv.Regatta.Waage.UserControls
         }
         private Brush _remainingMinutesBrush;
 
-        public TRennen DbRace { get; set; }
+        // public TRennen DbRace { get; set; } // TODO: Was ist hiermit?
 
         public ObservableCollection<Boat> Boats { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Race"/> class.
+        /// </summary>
+        /// <param name="raceData">The race data.</param>
+        /// <param name="delayTime">The delay time.</param>
+        /// <param name="showSetDelayTime">if set to <c>true</c> [show set delay time].</param>
+        public Race(RaceData raceData, TimeSpan delayTime, bool showSetDelayTime)
+        {
+            // Gewichte
+            var maxWeight1 = raceData.MaxSingleWeight.ToDisplayString();
+            var maxWeightAverage = raceData.MaxAverageWeight.ToDisplayString();
+            var minWeightCox = raceData.MinCoxWeight.ToDisplayString();
+
+            Id = raceData.Id;
+            RaceNumber = raceData.RaceNumber;
+            RaceDT = raceData.DateTime + delayTime;
+            ShortName = raceData.ShortTitle;
+            LongName = raceData.LongTitle;
+            Day = raceData.DateTime.DayOfWeek.ToString();
+            Time = (raceData.DateTime + delayTime).ToString("HH:mm"); // korrigierte Zeit mit Verspätung
+            ScheduledTime = raceData.DateTime.ToString("HH:mm");       // ursprüngliche Zeit
+            ScheduledTimeVisibility = showSetDelayTime ? Visibility.Visible : Visibility.Collapsed;
+            MaxWeight1 = maxWeight1;
+            MaxWeightAverage = maxWeightAverage;
+            MinWeightCox = minWeightCox;
+            IsChildrenRace = raceData.IsChildrenRace;
+            // DbRace = raceData, // TODO: Was ist hiermit?
+            Boats = new ObservableCollection<Boat>();
+        }
 
         /// <summary>
         /// Updates the remaining minutes.
@@ -108,15 +138,7 @@ namespace Mrv.Regatta.Waage.UserControls
                 RemainingMinutes = 60;
 
                 // Kinderrennen?
-                var racesConfiguration = Data.Instance.RacesConfiguration;
-                var race = racesConfiguration.Rennen1.SingleOrDefault(r => r.RennNr == DbRace.RNr);
-                if (race == null)
-                {
-                    Tools.LogError("XML-Rennen zu DB-Rennen nicht gefunden! RennNr", DbRace.RNr);
-                    return;
-                }
-
-                if (race.RennInfo.Kinderrennen)
+                if (IsChildrenRace)
                 {
                     // Kinderennen => grün
                     RemainingMinutesBrush = new LinearGradientBrush(Color.FromRgb(35, 135, 35), Color.FromRgb(35, 255, 35), new Point(0, 0), new Point(1, 0));

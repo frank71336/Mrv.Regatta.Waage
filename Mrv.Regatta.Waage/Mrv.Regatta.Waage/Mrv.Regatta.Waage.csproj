@@ -58,16 +58,13 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="linq2db, Version=1.0.7.1, Culture=neutral, PublicKeyToken=f19f8aed7feff67e, processorArchitecture=MSIL">
-      <HintPath>..\packages\linq2db.1.0.7.1\lib\net45\linq2db.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -92,6 +89,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BoatBuilder.cs" />
+    <Compile Include="DbData\BoatData.cs" />
+    <Compile Include="DbData\EventData.cs" />
+    <Compile Include="DbData\RaceData.cs" />
+    <Compile Include="DbData\RowerData.cs" />
+    <Compile Include="DbData\Weight.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Pages\LicensesPage\LicensesPage.xaml.cs">
       <DependentUpon>LicensesPage.xaml</DependentUpon>
@@ -112,7 +114,7 @@
     </Compile>
     <Compile Include="Pages\RacesPage\RacesPageViewModel.cs" />
     <Compile Include="RowersPosition.cs" />
-    <Compile Include="Sex.cs" />
+    <Compile Include="Gender.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="UserControls\Boat.cs" />
     <Compile Include="UserControls\RaceStatus.cs" />
@@ -154,7 +156,7 @@
     </Compile>
     <Compile Include="Controls\DescriptionButton.cs" />
     <Compile Include="Controls\ImageButton.cs" />
-    <Compile Include="Data.cs" />
+    <Compile Include="GlobalData.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -237,15 +239,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Licenses\linq2db %28by Igor Tkachev%29.license">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Licenses\linq2db.Access %28by Igor Tkachev%29.license">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Licenses\linq2db.t4models.license">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Licenses\MetroStudio.license">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

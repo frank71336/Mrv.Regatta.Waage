@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Mrv.Regatta.Waage")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("MRV")]
 [assembly: AssemblyProduct("Mrv.Regatta.Waage")]
 [assembly: AssemblyCopyright("Copyright © Frank Hofmann 2017")]
 [assembly: AssemblyTrademark("")]

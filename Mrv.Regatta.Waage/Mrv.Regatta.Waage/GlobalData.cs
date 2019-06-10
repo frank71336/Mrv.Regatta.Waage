@@ -22,7 +22,6 @@ namespace Mrv.Regatta.Waage
         #endregion
 
         public Frame MainContent { get; set; }
-        public Einstellungen Settings { get; set; }
 
         // public Rennen RacesConfiguration { get; set; }
 

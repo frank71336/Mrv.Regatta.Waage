@@ -19,9 +19,9 @@ namespace Mrv.Regatta.Waage.Pages.IntroPage
             this.DataContext = _vm;
 
             _vm.Version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
-            _vm.RowersCount = GlobalData.Instance.RowersData.Count();
-            _vm.BoatsCount = GlobalData.Instance.RacesData.Sum(r => r.BoatsData.Count);
-            _vm.RacesCount = GlobalData.Instance.RacesData.Count();
+            _vm.RowersCount = GlobalData.Instance.RowersData?.Count() ?? 0;
+            _vm.BoatsCount = GlobalData.Instance.RacesData?.Sum(r => r.BoatsData.Count) ?? 0;
+            _vm.RacesCount = GlobalData.Instance.RacesData?.Count() ?? 0;
         }
         
     }

@@ -1,15 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mrv.Regatta.Waage
+﻿namespace Mrv.Regatta.Waage
 {
     public class MainViewModel : ViewModelBase.ViewModelBase
     {
-        public string Day { get; set; }
-        
+        /// <summary>
+        /// Gets or sets the current day.
+        /// </summary>
+        /// <value>
+        /// The current time.
+        /// </value>
+        public string Day
+        {
+            get
+            {
+                return _day;
+            }
+            set
+            {
+                _day = value;
+                OnPropertyChanged("Day");
+            }
+        }
+        private string _day;
+
+
         /// <summary>
         /// Gets or sets the current time.
         /// </summary>

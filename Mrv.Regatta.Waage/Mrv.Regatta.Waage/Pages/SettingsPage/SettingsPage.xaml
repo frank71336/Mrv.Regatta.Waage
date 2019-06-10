@@ -4,12 +4,34 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Mrv.Regatta.Waage.Pages"
+      xmlns:lc="clr-namespace:Mrv.Regatta.Waage.LabelledControls"
       mc:Ignorable="d" 
-      d:DesignHeight="435" d:DesignWidth="395"
+      d:DesignHeight="435"
       Background="White"
-      Title="RowersPage">
+      Title="RowersPage" Width="704">
 
     <Grid>
+
+
+
+        <GroupBox x:Name="groupBox" Header="Einstellungen" HorizontalAlignment="Left" Margin="10,47,0,0" Width="673" VerticalAlignment="Top" Height="312">
+            <Grid Margin="10">
+                <lc:LayoutGroup Margin="0,0,0,53">
+                    <lc:LabelledDatePicker Label="Heute:" SelectedDate="{Binding Today}" />
+                    <lc:LabelledTextBox Label="Connection String:" Text="{Binding ConnectionString}" />
+                    <lc:LabelledComboBox Label="Veranstaltung:" ItemsSource="{Binding Events}" SelectedItem="{Binding Event}" />
+                    <lc:LabelledTextBox Label="Pfade für Messungen:" Text="{Binding WeighingsPath}" />
+                    <lc:LabelledTextBox Label="Datei für Messungen-Logging:" Text="{Binding WeighingsLogFile}" />
+                    <lc:LabelledTextBox Label="Datei für Fehler-Logging:Connection String:" Text="{Binding ErrorLogFile}" />
+                    <lc:LabelledTextBox Label="Backup-Pfad:" Text="{Binding BackupPath}" />
+                </lc:LayoutGroup>
+                <Button x:Name="cmdTestDb" Content="DB-Verbindung testen" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="cmdTestDb_Click" />
+                <Button x:Name="cmdSaveSettings" Content="Speichern" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="cmdSaveSettings_Click" />
+            </Grid>
+
+        </GroupBox>
+
+
         <!-- 
         <Button x:Name="cmdSelfTest" Content="Selbsttest (ACHTUNG: Erzeugt neue Messungen!)" HorizontalAlignment="Right" Margin="0,0,10,42" VerticalAlignment="Bottom" Width="362" Click="cmdSelfTest_Click" />
         <Button x:Name="cmdCreateRennenXml" Content="Rennen aus Regeln erzeugen (Achtung: Verändert Datenbasis)" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="362" Click="cmdCreateRennenXml_Click"/>

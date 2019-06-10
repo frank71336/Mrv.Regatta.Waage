@@ -1,4 +1,10 @@
-﻿using System.Windows.Controls;
+﻿using Mrv.Regatta.Waage.Db;
+using Mrv.Regatta.Waage.DbData;
+using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using ViewModelBase.CollectionExtensions;
 
 namespace Mrv.Regatta.Waage.Pages.SettingsPage
 {
@@ -7,13 +13,86 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
     /// </summary>
     public partial class SettingsPage : Page
     {
+        private SettingsPageViewModel _vm;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsPage"/> class.
         /// </summary>
         public SettingsPage()
         {
             InitializeComponent();
+
+            var settings = Properties.Settings.Default;
+
+            var selectedEvent = GlobalData.Instance.EventsData?.SingleOrDefault(ed => ed.Id == settings.EventId);
+
+            _vm = new SettingsPageViewModel()
+            {
+                ConnectionString = settings.ConnectionString,
+                Today = settings.Today,
+                BackupPath = settings.BackupPath,
+                ErrorLogFile = settings.ErrorLogFile,
+                Events = GlobalData.Instance.EventsData.ToObservableCollection(),
+                Event = selectedEvent,
+                WeighingsLogFile = settings.WeighingsLogFile,
+                WeighingsPath = settings.WeighingsPath
+            };
+            
+            this.DataContext = _vm;
         }
+
+        /// <summary>
+        /// Handles the Click event of the cmdSaveSettings control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        private void cmdSaveSettings_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var settings = Properties.Settings.Default;
+
+            var eventData = (EventData)_vm.Event;
+            var eventId = (eventData != null) ? eventData.Id : settings.EventId;
+
+            // Einstellungen übernehmen
+            
+            settings.ConnectionString = _vm.ConnectionString;
+            settings.Today = _vm.Today;
+            settings.BackupPath = _vm.BackupPath;
+            settings.ErrorLogFile = _vm.ErrorLogFile;
+            settings.EventId = eventId;
+            settings.WeighingsLogFile = _vm.WeighingsLogFile;
+            settings.WeighingsPath = _vm.WeighingsPath;
+
+            // Einstellungen speichern
+            Properties.Settings.Default.Save();
+
+            // Anzeige aktualisieren
+            GlobalData.Instance.MainViewModel.Day = Properties.Settings.Default.Today.ToLongDateString();
+        }
+
+        /// <summary>
+        /// Handles the Click event of the cmdTestDb control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        private void cmdTestDb_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            using (var db = new AquariusDataContext(_vm.ConnectionString))
+            {
+                // Test-Zugriff auf DB
+                try
+                {
+                    var test = db.Events.ToList();
+                    MessageBox.Show("OK!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Fehler beim Datenbank-Zugriff: " + ex.ToString());
+                    return;
+                }
+            }
+        }
+
 
         /*
         /// <summary>

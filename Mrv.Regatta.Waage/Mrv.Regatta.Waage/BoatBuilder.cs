@@ -223,7 +223,7 @@ namespace Mrv.Regatta.Waage
             // keine Wiegung im Zeitfenster vorhanden
             // entweder es ist noch zu früh zum Wiegen oder es ist schon zu spät dazu
 
-            var day = GlobalData.Instance.Settings.ZeitstempelHeute;
+            var day = Properties.Settings.Default.Today;
             var dt = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             if (dt < newWeightingAcceptedFromDt)

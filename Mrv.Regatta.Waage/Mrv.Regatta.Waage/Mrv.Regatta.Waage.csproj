@@ -95,6 +95,16 @@
     <Compile Include="DbData\RowerData.cs" />
     <Compile Include="DbData\Weight.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="LabelledControls\LabelledDatePicker.xaml.cs">
+      <DependentUpon>LabelledDatePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LabelledControls\LabelledComboBox.xaml.cs">
+      <DependentUpon>LabelledComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LabelledControls\LabelledTextBox.xaml.cs">
+      <DependentUpon>LabelledTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LabelledControls\LayoutGroup.cs" />
     <Compile Include="Pages\LicensesPage\LicensesPage.xaml.cs">
       <DependentUpon>LicensesPage.xaml</DependentUpon>
     </Compile>
@@ -103,6 +113,7 @@
       <DependentUpon>LogPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\LogPage\LogPageViewModel.cs" />
+    <Compile Include="Pages\SettingsPage\SettingsPageViewModel.cs" />
     <Compile Include="Windows\MainViewModel.cs" />
     <Compile Include="Pages\IntroPage\IntroPage.xaml.cs">
       <DependentUpon>IntroPage.xaml</DependentUpon>
@@ -138,6 +149,18 @@
     <Compile Include="Windows\ConfirmWindow.xaml.cs">
       <DependentUpon>ConfirmWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="LabelledControls\LabelledDatePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LabelledControls\LabelledComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LabelledControls\LabelledTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\LicensesPage\LicensesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

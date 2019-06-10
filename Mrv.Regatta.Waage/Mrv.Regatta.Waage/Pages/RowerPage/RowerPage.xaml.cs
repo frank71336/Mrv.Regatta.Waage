@@ -70,7 +70,7 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
             }
 
             // aktueller Zeitstempel
-            var day = GlobalData.Instance.Settings.ZeitstempelHeute;
+            var day = Properties.Settings.Default.Today;
             var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             // alle Rennen durchgehen und verbleibende Zeit aktualisieren
@@ -145,7 +145,7 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
             }
 
             // aktueller Zeitstempel
-            var day = GlobalData.Instance.Settings.ZeitstempelHeute;
+            var day = Properties.Settings.Default.Today;
             var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             // Alle Rennen mit unserem Ruderer durchgehen
@@ -315,7 +315,7 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
                     var rowerData = GlobalData.Instance.RowersData.Single(rd => rd.Id == _id);
 
                     // Zeitstempel
-                    var day = GlobalData.Instance.Settings.ZeitstempelHeute;
+                    var day = Properties.Settings.Default.Today;
 
                     // "RefreshCurrentTime" kann Exception werfen, die wird aber weiter unten schon abgefangen
                     RefreshCurrentTime(); // lokal gespeicherte Zeit aktualisieren
@@ -323,7 +323,7 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
 
                     // Speicherort
                     var fileName = $"{dt.Year}-{dt.Month:00}-{dt.Day:00} {dt.Hour:00}-{dt.Minute:00}-{dt.Second:00} {Guid.NewGuid().ToString()}.xml";
-                    var path = GlobalData.Instance.Settings.Pfade.Messungen;
+                    var path = Properties.Settings.Default.WeighingsPath;
                     var filePath = Path.Combine(path, fileName);
 
                     // Daten der Messung
@@ -346,7 +346,7 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
                     txtNewWeighting.Text = "";
 
                     // Log-Eintrag
-                    using (StreamWriter streamWriter = File.AppendText(GlobalData.Instance.Settings.Pfade.Logdatei))
+                    using (StreamWriter streamWriter = File.AppendText(Properties.Settings.Default.WeighingsLogFile))
                     {
                         var logName = FormatString(_vm.Name, 30);
                         var logClub = FormatString(_vm.Club, 25);

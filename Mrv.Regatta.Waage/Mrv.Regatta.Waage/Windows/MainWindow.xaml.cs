@@ -28,46 +28,17 @@ namespace Mrv.Regatta.Waage
 
             GlobalData.Instance.MainContent = mainContent;
 
-            // Einstellungen laden
-            GlobalData.Instance.Settings = XmlBase.XmlBase.Load<Einstellungen>(new XmlBase.XmlFilePath(Properties.Settings.Default.SettingsFilePath));
-
-            // Rennen laden
-            // TODO: ???
-            // GlobalData.Instance.RacesConfiguration = XmlBase.XmlBase.Load<Rennen>(new XmlBase.XmlFilePath(GlobalData.Instance.Settings.Pfade.Rennen));
-
             // Alles aus DB laden
             LoadDataFromDb();
 
             // Messungen laden
             Tools.ReadWeightings();
 
-            /*
-
-            // DB-Vereine laden
-            LoadDbClubs();
-
-            // Messungen laden
-            Tools.ReadWeightings();
-
-            // DB-Ruderer laden
-            LoadDbRowers();
-
-            // DB-Rennen laden
-            LoadDbRaces();
-
-            // DB-Boote laden
-            LoadDbBoats();
-
-            // DB-Boots-Abmeldungen laden
-            LoadCancellations();
-
-            */
-
             // ------------------------------ View-Model
 
             _vm = new MainViewModel();
             _vm.RacesReducedView = true;
-            _vm.Day = GlobalData.Instance.Settings.ZeitstempelHeute.ToLongDateString();
+            _vm.Day = Properties.Settings.Default.Today.ToLongDateString();
             _vm.OverrideTime = false;
 
             this.DataContext = _vm;
@@ -89,56 +60,73 @@ namespace Mrv.Regatta.Waage
         /// </summary>
         private void LoadDataFromDb()
         {
-            var eventId = 3; // TODO: Muss irgendwie einstellbar sein
+            // Event-Id aus den Einstellungen holen
+            var eventId = Properties.Settings.Default.EventId;
 
-
-
-            var dbData = GlobalData.Instance;
-
-            using (var db = new AquariusDataContext())
+            using (var db = new AquariusDataContext(Properties.Settings.Default.ConnectionString))
             {
+                // Test-Zugriff auf DB
+                try
+                {
+                    var test = db.Events.ToList();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Fehler beim Datenbank-Zugriff! Verbindung zur Datenbank und Connection String in den Einstellungen prüfen.\r\n\r\nDetails:\r\n\r\n" + ex.ToString());
+                    return;
+                }
+
+                var dbData = GlobalData.Instance;
+
                 // Veranstaltungen laden
                 var dbEvents = db.Events;
                 dbData.EventsData = dbEvents.Select(e => new EventData() { Id = e.Event_ID, Title = e.Event_Title } ).ToList();
+                if (dbData.EventsData.SingleOrDefault(ed => ed.Id == eventId) == null)
+                {
+                    MessageBox.Show("Veranstaltung nicht gefunden! Veranstaltung in den Einstellungen auswählen und Programm neu starten!");
+                    return;
+                }
 
                 // Altersklassen einlesen
-                var dbAgeClasses = db.AgeClasses.ToList();
+                var dbAgeClasses = db.AgeClasses.ToDictionary(ac => ac.AgeClass_ID, ac => ac);
 
                 // Bootsklassen einlesen
-                var dbBoatClasses = db.BoatClasses.ToList();
+                var dbBoatClasses = db.BoatClasses.ToDictionary(bc => bc.BoatClass_ID, bc => bc);
 
                 // Ausschreibung einlesen
-                var dbOffers = db.Offers.Where(o => o.Offer_Event_ID_FK == eventId).ToList();
+                var dbOffers = db.Offers.Where(o => o.Offer_Event_ID_FK == eventId).ToDictionary(o => o.Offer_ID, o => o);
 
                 // Wettkämpfe einlesen
                 var dbCompetions = db.Comps.Where(c => (c.Comp_Event_ID_FK == eventId) && c.Comp_DateTime != null).OrderBy(c => c.Comp_DateTime);
 
-                // Meldungen einlesen
-                var dbEventEntries = db.Entries.Where(e => e.Entry_Event_ID_FK == eventId).ToList();
+                // Läufe/Boote einlesen
+                // (gruppiert nach Meldung)
+                var dbEventEntries = db.Entries.Where(e => e.Entry_Event_ID_FK == eventId).GroupBy(ee => ee.Entry_Race_ID_FK).ToDictionary(ee => ee.Key, ee => ee.Select(x => x));
 
                 // Mannschaften einlesen
-                var dbCrews = db.Crews.ToList();
+                // (gruppiert nach dem Boot, in dem sie sitzt)
+                var dbCrews = db.Crews.GroupBy(c => c.Crew_Entry_ID_FK).ToDictionary(c => c.Key, c => c.Select(x => x));
 
                 // Ruderer einlesen
-                var dbAthlets = db.Athlets.ToList();
+                var dbAthlets = db.Athlets.ToDictionary(a => a.Athlet_ID, a => a);
 
                 // Vereine einlesen
-                var dbclubs = db.Clubs.ToList();
+                var dbClubs = db.Clubs.ToDictionary(c => c.Club_ID, c => c);
 
                 // Rennen tauchen mehrfach auf, falls es z. B. mehrere Leistungsgruppen gibt.
                 // Da die Läufe aber ggf. noch nicht eingeteilt sind, lassen sich die Personen nicht
                 // den einzelnen Rennen/Läufen zuweisen.
                 // Derartig mehrfach vorkommende Rennen werden daher zu einem Rennen zusammengefasst:
-                var competitionGroups = dbCompetions.GroupBy(c => c.Comp_Race_ID_FK);
+                var competitionGroups = dbCompetions.GroupBy(c => c.Comp_Race_ID_FK).ToList();
 
                 #region Wettkämpfe durchgehen
 
                 dbData.RacesData = new List<RaceData>();
                 foreach (var competionGroup in competitionGroups)
                 {
-                    var offer = dbOffers.Single(o => o.Offer_ID == competionGroup.Key);
-                    var ageClass = dbAgeClasses.Single(ac => ac.AgeClass_ID == offer.Offer_AgeClass_ID_FK);
-                    var boatClass = dbBoatClasses.Single(bc => bc.BoatClass_ID == offer.Offer_BoatClass_ID_FK);
+                    dbOffers.TryGetValue((int)competionGroup.Key, out var offer);
+                    dbAgeClasses.TryGetValue(offer.Offer_AgeClass_ID_FK, out var ageClass);
+                    dbBoatClasses.TryGetValue(offer.Offer_BoatClass_ID_FK, out var boatClass);
 
                     var isChildrenRace = (ageClass.AgeClass_MaxAge <= 14);
                     bool isLightweightRace = (offer.Offer_IsLightweight == 1);
@@ -174,7 +162,7 @@ namespace Mrv.Regatta.Waage
                         dbData.RacesData.Add(newRace);
 
                         // zum aktuellen Rennen die Boote hinzufügen
-                        var eventEntries = dbEventEntries.Where(ee => ee.Entry_Race_ID_FK == offer.Offer_ID).ToList();
+                        dbEventEntries.TryGetValue(offer.Offer_ID, out var eventEntries);
                         newRace.BoatsData = new List<BoatData>();
 
                         foreach (var eventEntry in eventEntries)
@@ -191,13 +179,13 @@ namespace Mrv.Regatta.Waage
 
                             // Zum aktuellen Boot die Mannschaft hinzufügen
                             newBoat.Rowers = new List<RowerData>();
-                            var crew = dbCrews.Where(c => c.Crew_Entry_ID_FK == eventEntry.Entry_ID).ToList();
+                            dbCrews.TryGetValue(eventEntry.Entry_ID, out var crew);
 
                             // Crew durchgehen und ins Boot platzieren
                             foreach (var crewMember in crew)
                             {
-                                var athlet = dbAthlets.Single(a => a.Athlet_ID == crewMember.Crew_Athlete_ID_FK);
-                                var club = dbclubs.Single(c => c.Club_ID == athlet.Athlet_Club_ID_FK);
+                                dbAthlets.TryGetValue(crewMember.Crew_Athlete_ID_FK, out var athlet);
+                                dbClubs.TryGetValue((int)athlet.Athlet_Club_ID_FK, out var club);
 
                                 var newRower = new RowerData()
                                 {

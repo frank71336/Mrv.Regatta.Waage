@@ -2,8 +2,29 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Mrv.Regatta.Waage.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SettingsFilePath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">c:\regatta\data\einstellungen.xml</Value>
+    <Setting Name="ConnectionString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=rechner1\sqlexpress2017;Initial Catalog=Rudern;Persist Security Info=True;User ID=sa;Password=123</Value>
+    </Setting>
+    <Setting Name="_UpgradeRequired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Today" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">2019-01-01</Value>
+    </Setting>
+    <Setting Name="WeighingsPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\regatta\Messungen</Value>
+    </Setting>
+    <Setting Name="WeighingsLogFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\regatta\Log\messungen.txt</Value>
+    </Setting>
+    <Setting Name="ErrorLogFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\regatta\Log\error.txt</Value>
+    </Setting>
+    <Setting Name="BackupPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="EventId" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -12,7 +12,7 @@ namespace Mrv.Regatta.Waage.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -23,12 +23,100 @@ namespace Mrv.Regatta.Waage.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\regatta\\data\\einstellungen.xml")]
-        public string SettingsFilePath {
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=rechner1\\sqlexpress2017;Initial Catalog=Rudern;Persist Security Info=" +
+            "True;User ID=sa;Password=123")]
+        public string ConnectionString {
             get {
-                return ((string)(this["SettingsFilePath"]));
+                return ((string)(this["ConnectionString"]));
+            }
+            set {
+                this["ConnectionString"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool _UpgradeRequired {
+            get {
+                return ((bool)(this["_UpgradeRequired"]));
+            }
+            set {
+                this["_UpgradeRequired"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2019-01-01")]
+        public global::System.DateTime Today {
+            get {
+                return ((global::System.DateTime)(this["Today"]));
+            }
+            set {
+                this["Today"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\regatta\\Messungen")]
+        public string WeighingsPath {
+            get {
+                return ((string)(this["WeighingsPath"]));
+            }
+            set {
+                this["WeighingsPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\regatta\\Log\\messungen.txt")]
+        public string WeighingsLogFile {
+            get {
+                return ((string)(this["WeighingsLogFile"]));
+            }
+            set {
+                this["WeighingsLogFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\regatta\\Log\\error.txt")]
+        public string ErrorLogFile {
+            get {
+                return ((string)(this["ErrorLogFile"]));
+            }
+            set {
+                this["ErrorLogFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string BackupPath {
+            get {
+                return ((string)(this["BackupPath"]));
+            }
+            set {
+                this["BackupPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int EventId {
+            get {
+                return ((int)(this["EventId"]));
+            }
+            set {
+                this["EventId"] = value;
             }
         }
     }

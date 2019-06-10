@@ -59,7 +59,7 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
             }
 
             // aktueller Zeitstempel
-            var day = GlobalData.Instance.Settings.ZeitstempelHeute;
+            var day = Properties.Settings.Default.Today;
             var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             // alle Rennen durchgehen und verbleibende Zeit aktualisieren
@@ -94,7 +94,7 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
             // var racesConfiguration = GlobalData.Instance.RacesConfiguration; // TODO: Was ist hiermit?
 
             // aktueller Zeitstempel
-            var day = GlobalData.Instance.Settings.ZeitstempelHeute;
+            var day = Properties.Settings.Default.Today;
             var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             // Alle Rennen der DB durchgehen
@@ -212,7 +212,7 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
             }
 
             // aktueller Zeitstempel
-            var day = GlobalData.Instance.Settings.ZeitstempelHeute;
+            var day = Properties.Settings.Default.Today;
             var now = new DateTime(day.Year, day.Month, day.Day, _currentTime.Hours, _currentTime.Minutes, _currentTime.Seconds);
 
             // zuerst zum allerletzten Rennen scrollen

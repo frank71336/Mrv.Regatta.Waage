@@ -36,7 +36,7 @@ namespace Mrv.Regatta.Waage
         /// </summary>
         internal static void ReadWeightings()
         {
-            var path = GlobalData.Instance.Settings.Pfade.Messungen;
+            var path = Properties.Settings.Default.WeighingsPath;
 
             // Pfad muss existieren
             if (!Directory.Exists(path))
@@ -103,7 +103,7 @@ namespace Mrv.Regatta.Waage
                 }
             }
 
-            var file = GlobalData.Instance.Settings.Pfade.FehlerLogdatei;
+            var file = Properties.Settings.Default.ErrorLogFile;
             var message = string.Join(" ", strParts);
             var messageWithTimestamp = DateTime.Now.ToString() + ": " + message;
             File.AppendAllText(file, messageWithTimestamp + Environment.NewLine);

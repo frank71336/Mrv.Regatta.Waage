@@ -41,7 +41,8 @@ namespace Mrv.Regatta.Waage
             // Pfad muss existieren
             if (!Directory.Exists(path))
             {
-                throw new Exception($"Pfad '{path}' existiert nicht!");
+                MessageBox.Show($"Pfad für das Ablegen der Messungen '{path}' existiert nicht. Einstellungen prüfen!");
+                return;
             }
 
             // zunächst leere Liste

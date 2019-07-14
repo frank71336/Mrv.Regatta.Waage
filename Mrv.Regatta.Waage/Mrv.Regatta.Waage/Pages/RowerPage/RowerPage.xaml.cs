@@ -182,7 +182,7 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
                     // Steuermann hinzufügen
                     if (boatData.Cox != null)
                     {
-                        boatBuilder.AddRower(ref rowers, raceData, boatData.Cox, false, _delayTime);
+                        boatBuilder.AddRower(ref rowers, raceData, boatData.Cox, true, _delayTime);
                     }
 
                     // Ruderer zum Boot hinzufügen
@@ -247,13 +247,18 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
                     }
 
                 }
+                else if (timeDiff.TotalHours < 1)
+                {
+                    // es ist weniger als 1 Stunde bis zum nächsten Rennen
+                    _vm.CommentBrush = new SolidColorBrush(Colors.Red);
+                }
                 else
                 {
-                    // es ist weniger als 2 Stunden bis zum nächsten Rennen
+                    // alles OK
                     _vm.CommentBrush = new SolidColorBrush(Colors.LightGreen);
                 }
 
-                _vm.Comment = $"Nächstes Rennen ({nextRace.RaceNumber}): {timeDiff.Hours} h {timeDiff.Minutes} min.";
+                _vm.Comment = $"Nächstes Rennen ({nextRace.RaceNumber}): {Math.Floor(timeDiff.TotalHours)} h {timeDiff.Minutes} min.";
             }
 
             #endregion

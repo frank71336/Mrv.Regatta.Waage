@@ -1,6 +1,7 @@
 ﻿using Mrv.Regatta.Waage.Db;
 using Mrv.Regatta.Waage.DbData;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -91,6 +92,32 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
                     return;
                 }
             }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the cmdRestart control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void cmdRestart_Click(object sender, RoutedEventArgs e)
+        {
+            Restart();
+        }
+
+        /// <summary>
+        /// Restarts the application.
+        /// </summary>
+        private void Restart()
+        {
+            var exeName = AppDomain.CurrentDomain.FriendlyName;
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = exeName
+            };
+            Process.Start(startInfo);
+
+            // sich selbst beenden
+            Application.Current.Shutdown();
         }
 
 
@@ -408,13 +435,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
                     MessageBox.Show("Datenbank übernommen. Neustart erfolgt.");
 
                     // Programm nochmal anstarten
-                    var exeName = AppDomain.CurrentDomain.FriendlyName;
-                    var  startInfo = new ProcessStartInfo();
-                    startInfo.FileName = exeName;
-                    Process.Start(startInfo);
-
-                    // sich selbst beenden
-                    Application.Current.Shutdown();
+                    Restart();
 
                     return;
                 }

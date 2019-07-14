@@ -9,11 +9,7 @@
       d:DesignHeight="435"
       Background="White"
       Title="RowersPage" Width="704">
-
     <Grid>
-
-
-
         <GroupBox x:Name="groupBox" Header="Einstellungen" HorizontalAlignment="Left" Margin="10,47,0,0" Width="673" VerticalAlignment="Top" Height="312">
             <Grid Margin="10">
                 <lc:LayoutGroup Margin="0,0,0,53">
@@ -25,13 +21,14 @@
                     <lc:LabelledTextBox Label="Datei für Fehler-Logging:Connection String:" Text="{Binding ErrorLogFile}" />
                     <lc:LabelledTextBox Label="Backup-Pfad:" Text="{Binding BackupPath}" />
                 </lc:LayoutGroup>
-                <Button x:Name="cmdTestDb" Content="DB-Verbindung testen" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="cmdTestDb_Click" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                    <Button x:Name="cmdTestDb" Content="DB-Verbindung testen" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="cmdTestDb_Click" />
+                    <Button x:Name="cmdRestart" Content="Neustart" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,0,0" Click="cmdRestart_Click" />
+                </StackPanel>
+                
                 <Button x:Name="cmdSaveSettings" Content="Speichern" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="cmdSaveSettings_Click" />
             </Grid>
-
         </GroupBox>
-
-
         <!-- 
         <Button x:Name="cmdSelfTest" Content="Selbsttest (ACHTUNG: Erzeugt neue Messungen!)" HorizontalAlignment="Right" Margin="0,0,10,42" VerticalAlignment="Bottom" Width="362" Click="cmdSelfTest_Click" />
         <Button x:Name="cmdCreateRennenXml" Content="Rennen aus Regeln erzeugen (Achtung: Verändert Datenbasis)" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="362" Click="cmdCreateRennenXml_Click"/>

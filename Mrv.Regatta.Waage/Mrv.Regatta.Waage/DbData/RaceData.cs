@@ -14,6 +14,7 @@ namespace Mrv.Regatta.Waage.DbData
         public bool IsLightweightRace { get; set; }
         public bool IsChildrenRace { get; set; }
         public bool IsCoxedRace { get; set; }
+        public byte NumberOfRowers { get; set; }
         public Weight MaxSingleWeight { get; set; }
         public Weight MaxAverageWeight { get; set; }
         public Weight MinCoxWeight { get; set; }
@@ -32,28 +33,5 @@ namespace Mrv.Regatta.Waage.DbData
             return BoatsData.Any(b => b.HasRower(id));
         }
 
-        /*
-        public int? RRF { get; set; } 
-        public string RNr { get; set; } 
-        public string RKBez { get; set; } 
-        public string RLBez { get; set; } 
-        public string RLänge { get; set; }
-        
-        public string RTag { get; set; } 
-        public short? RBootAnz { get; set; } 
-        public bool RNotProtokoll { get; set; } 
-        
-        public string RMemo { get; set; } 
-        public double? RAnzRudererBoot { get; set; } 
-        public string RLaufTyp { get; set; } 
-        public double? RRennTyp { get; set; } 
-        public string RLaufTypGenerell { get; set; } 
-        public int? RGewichtsklassenID { get; set; } 
-        public int? RAltersklassenID { get; set; }
-        public int? RBootsklassenID { get; set; } 
-        public string RZusatz { get; set; } 
-        public int? RAltersklassenZusatzID { get; set; } 
-        public string Lgr { get; set; } 
-        */
     }
 }

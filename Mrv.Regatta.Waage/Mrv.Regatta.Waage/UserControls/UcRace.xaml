@@ -3,15 +3,7 @@
     xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="Transparent"
     xmlns:local="clr-namespace:Mrv.Regatta.Waage.UserControls">
-    
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="Padding" Value="4" />
-            </Style>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -68,11 +60,15 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Background="Thistle" Text="{Binding Race.RaceNumber, FallbackValue='Re. K304'}" />
-                <TextBlock Grid.Column="1" Background="MistyRose" HorizontalAlignment="Stretch" Text="{Binding Race.ShortName, FallbackValue='Mäd 1x 14 II'}" />
-                <TextBlock Grid.Column="2" Background="Tan" Text="{Binding Race.Day, FallbackValue='Sa'}" />
-                <TextBlock Grid.Column="3" Background="Tomato" Text="{Binding Race.ScheduledTime, FallbackValue='14:00'}" TextDecorations="Strikethrough" FontStyle="Italic" Visibility="{Binding Race.ScheduledTimeVisibility}" />
-                <TextBlock Grid.Column="4" Background="SkyBlue" Text="{Binding Race.Time, FallbackValue='14:00'}" />
+                <TextBlock Grid.Column="0" Padding="4" Background="Thistle" Text="{Binding Race.RaceNumber, FallbackValue='Re. K304'}" />
+                <TextBlock Grid.Column="1" Padding="4" Background="MistyRose" HorizontalAlignment="Stretch" Text="{Binding Race.ShortName, FallbackValue='Mäd 1x 14 II'}" />
+                <TextBlock Grid.Column="2" Padding="4" Background="Tan" Text="{Binding Race.Day, FallbackValue='Sa'}" />
+                <TextBlock Grid.Column="3" Padding="4" Background="Tomato" Text="{Binding Race.ScheduledTime, FallbackValue='14:00'}" TextDecorations="Strikethrough" FontStyle="Italic" Visibility="{Binding Race.ScheduledTimeVisibility}" />
+                <TextBlock Grid.Column="4" Padding="4" Background="SkyBlue" Text="{Binding Race.Time, FallbackValue='14:00'}">
+                    <TextBlock.ToolTip>
+                        <TextBlock Text="{Binding Race.RaceDT, StringFormat={}{0:dd.MM.yyyy}}" />
+                    </TextBlock.ToolTip>
+                </TextBlock>
             </Grid>
 
             <!-- Zeile 2 (Langbezeichnung) -->

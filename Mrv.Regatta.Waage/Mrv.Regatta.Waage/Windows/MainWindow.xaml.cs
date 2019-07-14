@@ -34,6 +34,8 @@ namespace Mrv.Regatta.Waage
             // Messungen laden
             Tools.ReadWeightings();
 
+            CheckSettings();
+
             // ------------------------------ View-Model
 
             _vm = new MainViewModel();
@@ -53,6 +55,34 @@ namespace Mrv.Regatta.Waage
             t.Elapsed += Timer_Elapsed;
             t.Interval = 1000;
             t.Start();
+        }
+
+        /// <summary>
+        /// Checks the settings.
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        private void CheckSettings()
+        {
+            var settings = Properties.Settings.Default;
+
+            // Hinweis:
+            // Auf den Pfad zu den Messungen (settings.WeighingsPath) wurde bereits zugegriffen,
+            // den muss man nicht nochmal testen
+
+            // Hinweis: 
+            // Backup -Verzeichnis wird nicht geprüft, Fehler wird erst beim Erstellen eines Backups angezeigt
+
+            if (!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(settings.ErrorLogFile)))
+            {
+                MessageBox.Show($"Pfad für das Fehler-Log '{settings.ErrorLogFile}' existiert nicht. Einstellungen prüfen!");
+                return;
+            }
+
+            if (!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(settings.WeighingsLogFile)))
+            {
+                MessageBox.Show($"Pfad für das Log der Messungen '{settings.WeighingsLogFile}' existiert nicht. Einstellungen prüfen!");
+                return;
+            }
         }
 
         /// <summary>
@@ -134,13 +164,47 @@ namespace Mrv.Regatta.Waage
 
                     // Entscheiden, ob man das Rennen übernehmen muss
                     var raceOk = false;
-                    if (isLightweightRace) raceOk = true;      // alle Leichtgewichtsrennen müssen zur Waage
+                    if (isLightweightRace) raceOk = true; // alle Leichtgewichtsrennen müssen zur Waage
                     if (isCoxedRace && !isChildrenRace) raceOk = true; // gesteuerte Rennen, die keine Kinderrennen sind, müssen zur Waage
 
                     if (raceOk)
                     {
                         // Rennzeit ist die Zeit des ersten Rennens dieser Gruppe
                         var raceTime = (DateTime)competionGroup.Select(x => x).OrderBy(c => c.Comp_DateTime).First().Comp_DateTime;
+
+                        #region Gewichte bestimmen
+
+                        var maxSingleWeight = new Weight(ageClass.AgeClass_LW_UpperLimit, true);
+                        var maxAverageWeight = new Weight(ageClass.AgeClass_LW_AvgLimit, true);
+                        var minCoxWeight = new Weight(ageClass.AgeClass_LW_CoxLowerLimit, true);
+                        var maxAdditionalCoxWeight = new Weight(ageClass.AgeClass_LW_CoxTolerance, true);
+
+                        // wenn es kein gesteuertes Rennen ist, dann interessiert das Gewicht des Steuermanns nicht
+                        if (!isCoxedRace)
+                        {
+                            minCoxWeight.Value = null;
+                        }
+
+                        // bei Kinderrennen interessiert das Gewicht des Steuermanns ebenfalls nicht
+                        if (isChildrenRace)
+                        {
+                            minCoxWeight.Value = null;
+                        }
+
+                        // bei Einer-Rennen kein Mannschaftsdurchschnittsgewicht
+                        if (boatClass.BoatClass_NumRowers == 1)
+                        {
+                            maxAverageWeight.Value = null;
+                        }
+
+                        // Wenn es kein Leichgewichtsrennen ist, dann interessieren auch die Gewichte der Ruderer nicht
+                        if (!isLightweightRace)
+                        {
+                            maxSingleWeight.Value = null;
+                            maxAverageWeight.Value = null;
+                        }
+
+                        #endregion
 
                         // Rennen definieren und hinzufügen
                         var newRace = new RaceData()
@@ -152,11 +216,12 @@ namespace Mrv.Regatta.Waage
                             DateTime = raceTime,
                             IsChildrenRace = isChildrenRace,
                             IsCoxedRace = isCoxedRace,
+                            NumberOfRowers = boatClass.BoatClass_NumRowers,
                             IsLightweightRace = isLightweightRace,
-                            MaxSingleWeight = new Weight(ageClass.AgeClass_LW_UpperLimit, true),
-                            MaxAverageWeight = new Weight(ageClass.AgeClass_LW_AvgLimit, true),
-                            MinCoxWeight = new Weight(ageClass.AgeClass_LW_CoxLowerLimit, true),
-                            MaxAdditionalCoxWeight = new Weight(ageClass.AgeClass_LW_CoxTolerance, true)
+                            MaxSingleWeight = maxSingleWeight,
+                            MaxAverageWeight = maxAverageWeight,
+                            MinCoxWeight = minCoxWeight,
+                            MaxAdditionalCoxWeight = maxAdditionalCoxWeight
                         };
 
                         dbData.RacesData.Add(newRace);

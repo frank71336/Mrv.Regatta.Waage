@@ -114,7 +114,7 @@ namespace Mrv.Regatta.Waage
                 #region Zeitfenster für's Wiegen
 
                 // frühestens 2 Stunden vor dem ersten Rennen an diesem Tag.
-                // Das wird hier aber nicht abgefragt, wiel man dann hier abfragen müsste, ob dieses Rennen hier das erste an diesem Tag ist oder nicht.
+                // Das wird hier aber nicht abgefragt, weil man dann hier abfragen müsste, ob dieses Rennen hier das erste an diesem Tag ist oder nicht.
                 // Stattdessen verlassen wir uns hier darauf, niemand außerhalb des zugelassenen Zeitfensters zum Wiegen zugelassen wurde,
                 // in dem Fall muss die letzte/jüngste Wiegung auch eine gültige Wiegung sein, Hauptsache, sie hat am gleichen Tag stattgefunden.
 
@@ -228,6 +228,7 @@ namespace Mrv.Regatta.Waage
 
             if (dt < newWeightingAcceptedFromDt)
             {
+                // es ist noch zu früh
                 return UserControls.RowerStatus.WaitingForTimeWindow;
             }
             else if ((dt > newWeightingAcceptedFromDt) && (dt < weightingToDt))
@@ -297,15 +298,33 @@ namespace Mrv.Regatta.Waage
             // und lassen sich nur durch das Type-Attribut des jeweiligen Eintrags unterscheiden
             var rowersWithoutCox = boat.Rowers.Where(r => r.Type == UserControls.RowerType.Rower);
 
-            // Durchschnittsgewicht kann nur berechnet werden, wenn es schon einen Ruderer mit Gewicht gibt.
-            // Durschnittsgewicht wird grundsätzlich, auch bei Kindern und Einern bestimmt und geprüft.
-            var checkAverageWeight = rowersWithoutCox?.Any(r => r.WeightInfo != null) == true;
+            // Prüfen ob das Boot vollständig besetzt ist
+            if (raceData.NumberOfRowers != rowersWithoutCox.Count())
+            {
+                boat.Comment = "Anzahl der Ruderer passt nicht zur Bootsklasse!";
+                boat.Status = UserControls.BoatStatus.BoatNok;
+                return;
+            }
+
+            // Prüfen ob der Steuermann da ist
+            if (raceData.IsCoxedRace && (boat.Rowers.Count(r => r.Type == UserControls.RowerType.Cox) != 1))
+            {
+                boat.Comment = "Steuermann fehlt!";
+                boat.Status = UserControls.BoatStatus.BoatNok;
+                return;
+            }
+
+            // Durchschnittsgewicht wird berechnet, wenn es mehr als einen Ruderer gibt und
+            // wenn mindestens schon von einem Ruderer das Gewicht vorliegt.
+            var calculateAverageWeight = (rowersWithoutCox.Count() > 1) && (rowersWithoutCox?.Any(r => r.WeightInfo != null) == true);
+
+            // Durchschnittsgewicht wird auf Richtigkeit geprüft, wenn ein Sollwert vorhanden ist
+            var checkAverageWeightOk = calculateAverageWeight && (raceData.MaxAverageWeight?.Value != null) && (raceData.MaxAverageWeight.Value > 0);
+
             float averageWeight = 0;
             boat.AverageWeight = "";
-
-            if (checkAverageWeight)
+            if (checkAverageWeightOk)
             {
-                // Für dieses Rennen muss das Durchschnittsgewicht passen
                 // Durschnittsgewicht berechnen
                 var count = 0;
                 foreach (var rower in rowersWithoutCox)
@@ -326,6 +345,12 @@ namespace Mrv.Regatta.Waage
                     averageWeight = averageWeight / count;
                     boat.AverageWeight = $"(ø {averageWeight} kg)";
                 }
+
+                if (checkAverageWeightOk)
+                {
+
+                }
+
             }
 
             // Reihenfolge beachten!
@@ -352,7 +377,7 @@ namespace Mrv.Regatta.Waage
             else if (boat.Rowers.All(r => r.Status == UserControls.RowerStatus.WeightOk))
             {
                 // alle Ruderer sind einzeln OK, jetzt muss noch das Durschnittsgewicht stimmen
-                if (checkAverageWeight)
+                if (checkAverageWeightOk)
                 {
                     boat.Status = (averageWeight <= raceData.MaxAverageWeight.Value) ? UserControls.BoatStatus.BoatOk : UserControls.BoatStatus.BoatNok;
                 }

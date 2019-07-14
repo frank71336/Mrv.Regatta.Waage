@@ -144,7 +144,7 @@ namespace Mrv.Regatta.Waage.Pages.RacesPage
                     // Steuermann hinzufügen
                     if (boatData.Cox != null)
                     {
-                        boatBuilder.AddRower(ref rowers, raceData, boatData.Cox, false, _delayTime);
+                        boatBuilder.AddRower(ref rowers, raceData, boatData.Cox, true, _delayTime);
                     }
 
                     // Ruderer zum Boot hinzufügen

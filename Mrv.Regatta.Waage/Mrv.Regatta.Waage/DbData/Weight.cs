@@ -31,6 +31,7 @@
             if (weightInGram == null)
             {
                 Value = null;
+                return;
             }
 
             if (convert0ToNull)
@@ -38,6 +39,7 @@
                 if (weightInGram == 0)
                 {
                     Value = null;
+                    return;
                 }
             }
 

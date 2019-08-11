@@ -1,6 +1,8 @@
 ﻿using Mrv.Regatta.Waage.Db;
 using Mrv.Regatta.Waage.DbData;
+using Mrv.Regatta.Waage.Xml;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -120,9 +122,6 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             Application.Current.Shutdown();
         }
 
-
-        /*
-
         /// <summary>
         /// Handles the Click event of the cmdSelfTest control.
         /// </summary>
@@ -130,7 +129,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void cmdSelfTest_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Wirklich Selbsttest durchführen? Dabei werden neue Messungen erzeugt!", "", MessageBoxButton.OKCancel) != MessageBoxResult.OK)
+            if (MessageBox.Show("Wirklich Selbsttest durchführen? Dabei werden neue zufällige Messungen erzeugt!", "", MessageBoxButton.OKCancel) != MessageBoxResult.OK)
             {
                 return;
             }
@@ -158,16 +157,16 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
                 var racesPage = new RacesPage.RacesPage();
                 GlobalData.Instance.MainContent.Content = racesPage;
             });
-            System.Threading.Thread.Sleep(7000);
+            System.Threading.Thread.Sleep(3000);
 
             // 1. Durchgang durch alle Ruderer
-            var rowers = GlobalData.Instance.DbRowers;
-            foreach(var rower in rowers)
+            var rowers = GlobalData.Instance.RowersData;
+            foreach (var rower in rowers)
             {
                 // Einzelnen Ruderer anzeigen
                 Tools.InvokeIfRequired(this, () =>
                 {
-                    var rowerPage = new RowerPage.RowerPage((int)rower.RID);
+                    var rowerPage = new RowerPage.RowerPage((int)rower.Id);
                     GlobalData.Instance.MainContent.Content = rowerPage;
                 });
                 System.Threading.Thread.Sleep(750);
@@ -182,7 +181,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
                 // Einzelnen Ruderer anzeigen
                 Tools.InvokeIfRequired(this, () =>
                 {
-                    var rowerPage = new RowerPage.RowerPage((int)rower.RID);
+                    var rowerPage = new RowerPage.RowerPage(rower.Id);
                     GlobalData.Instance.MainContent.Content = rowerPage;
                 });
                 System.Threading.Thread.Sleep(750);
@@ -197,7 +196,7 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
                 // Einzelnen Ruderer anzeigen
                 Tools.InvokeIfRequired(this, () =>
                 {
-                    var rowerPage = new RowerPage.RowerPage((int)rower.RID);
+                    var rowerPage = new RowerPage.RowerPage(rower.Id);
                     GlobalData.Instance.MainContent.Content = rowerPage;
                 });
                 System.Threading.Thread.Sleep(500);
@@ -212,9 +211,9 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
         /// <param name="rowers">The rowers.</param>
         /// <param name="weight">The weight.</param>
         /// <param name="hour">The hour.</param>
-        private void SetRowersWeights(List<TRuderer> rowers, float weight, int hour)
+        private void SetRowersWeights(List<RowerData> rowers, float weight, int hour)
         {
-            var day = GlobalData.Instance.Settings.ZeitstempelHeute;
+            var day = Properties.Settings.Default.Today;
             var dt = new DateTime(day.Year, day.Month, day.Day, hour, 0, 0);
 
             var club = "Kein Verein bei Simulation";
@@ -223,15 +222,17 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             {
                 // Speicherort
                 var fileName = $"{dt.Year}-{dt.Month:00}-{dt.Day:00} {dt.Hour:00}-{dt.Minute:00}-{dt.Second:00} {Guid.NewGuid().ToString()}.xml";
-                var path = GlobalData.Instance.Settings.Pfade.Messungen;
+                var path = Properties.Settings.Default.WeighingsPath;
                 var filePath = System.IO.Path.Combine(path, fileName);
 
                 // Daten der Messung
-                var messung = new Messung();
-                messung.Id = (int)rower.RID;
-                messung.Name = $"{rower.RName}, {rower.RVorname} ({club})";
-                messung.Zeitstempel = dt;
-                messung.Gewicht = weight;
+                var messung = new Messung
+                {
+                    Id = rower.Id,
+                    Name = $"{rower.LastName}, {rower.FirstName} ({club})",
+                    Zeitstempel = dt,
+                    Gewicht = weight
+                };
 
                 // Messung speichern
                 messung.Save(filePath);
@@ -241,6 +242,8 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             Tools.ReadWeightings();
         }
 
+        /*
+        
         /// <summary>
         /// Handles the Click event of the cmdBackup control.
         /// </summary>

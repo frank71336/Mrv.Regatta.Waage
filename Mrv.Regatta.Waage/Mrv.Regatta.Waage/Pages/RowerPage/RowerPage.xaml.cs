@@ -332,11 +332,13 @@ namespace Mrv.Regatta.Waage.Pages.RowerPage
                     var filePath = Path.Combine(path, fileName);
 
                     // Daten der Messung
-                    var messung = new Messung();
-                    messung.Id = _id;
-                    messung.Name = $"{rowerData.LastName}, {rowerData.FirstName} ({rowerData.ClubTitleShort})";
-                    messung.Zeitstempel = dt;
-                    messung.Gewicht = value;
+                    var messung = new Messung
+                    {
+                        Id = _id,
+                        Name = $"{rowerData.LastName}, {rowerData.FirstName} ({rowerData.ClubTitleShort})",
+                        Zeitstempel = dt,
+                        Gewicht = value
+                    };
 
                     // Messung speichern
                     messung.Save(filePath);

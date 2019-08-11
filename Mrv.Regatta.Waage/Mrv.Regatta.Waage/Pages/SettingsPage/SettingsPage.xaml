@@ -29,11 +29,8 @@
                 <Button x:Name="cmdSaveSettings" Content="Speichern" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="cmdSaveSettings_Click" />
             </Grid>
         </GroupBox>
-        
+
+        <Button x:Name="cmdBackup" Content="Backup auf USB-Stick" HorizontalAlignment="Right" Margin="0,0,332,42" VerticalAlignment="Bottom" Width="362" Click="cmdBackup_Click" />
         <Button x:Name="cmdSelfTest" Content="Selbsttest (ACHTUNG: Erzeugt neue Messungen!)" HorizontalAlignment="Right" Margin="0,0,332,10" VerticalAlignment="Bottom" Width="362" Click="cmdSelfTest_Click" />
-        <!-- 
-        
-        <Button x:Name="cmdBackup" Content="Backup auf USB-Stick" HorizontalAlignment="Right" Margin="0,0,10,240" VerticalAlignment="Bottom" Width="362" Click="cmdBackup_Click" />
-        -->
     </Grid>
 </Page>

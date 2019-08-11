@@ -4,6 +4,7 @@ using Mrv.Regatta.Waage.Xml;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -242,8 +243,6 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             Tools.ReadWeightings();
         }
 
-        /*
-        
         /// <summary>
         /// Handles the Click event of the cmdBackup control.
         /// </summary>
@@ -251,8 +250,8 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void cmdBackup_Click(object sender, RoutedEventArgs e)
         {
-            var paths = GlobalData.Instance.Settings.Pfade;
-            var backupRoot = paths.Backups;
+            var settings = Properties.Settings.Default;
+            var backupRoot = settings.BackupPath;
 
             if (!Directory.Exists(backupRoot))
             {
@@ -261,16 +260,15 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
             }
 
             var backupFolder = $"backup-{DateTime.Now.ToString("yy-MM-dd HH.mm.ss")}";
-            var backupDir = System.IO.Path.Combine(backupRoot, backupFolder);
+            var backupDir = Path.Combine(backupRoot, backupFolder);
 
             // Backup-Verzeichnis erzeugen
             Directory.CreateDirectory(backupDir);
 
             // Dateien kopieren
-            CopyToDirectory(paths.Logdatei, backupDir);
-            CopyToDirectory(paths.Regeln, backupDir);
-            CopyToDirectory(paths.Rennen, backupDir);
-            DirectoryCopy(paths.Messungen, System.IO.Path.Combine(backupDir, "Messungen"), false);
+            CopyToDirectory(settings.WeighingsLogFile, backupDir);
+            CopyToDirectory(settings.ErrorLogFile, backupDir);
+            DirectoryCopy(settings.WeighingsPath, Path.Combine(backupDir, "Messungen"), false);
 
             // Zip erzeugen
             var zipFile = backupDir + ".zip";
@@ -362,6 +360,6 @@ namespace Mrv.Regatta.Waage.Pages.SettingsPage
                 }
             }
         }
-        */
+
     }
 }

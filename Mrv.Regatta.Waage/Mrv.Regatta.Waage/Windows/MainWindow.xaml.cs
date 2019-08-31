@@ -131,11 +131,11 @@ namespace Mrv.Regatta.Waage
 
                 // Läufe/Boote einlesen
                 // (gruppiert nach Meldung)
-                var dbEventEntries = db.Entries.Where(e => e.Entry_Event_ID_FK == eventId).GroupBy(ee => ee.Entry_Race_ID_FK).ToDictionary(ee => ee.Key, ee => ee.Select(x => x));
+                var dbEventEntries = db.Entries.Where(e => e.Entry_Event_ID_FK == eventId).GroupBy(ee => ee.Entry_Race_ID_FK).ToDictionary(ee => ee.Key, ee => ee.Select(x => x).ToList());
 
                 // Mannschaften einlesen
                 // (gruppiert nach dem Boot, in dem sie sitzt)
-                var dbCrews = db.Crews.GroupBy(c => c.Crew_Entry_ID_FK).ToDictionary(c => c.Key, c => c.Select(x => x));
+                var dbCrews = db.Crews.GroupBy(c => c.Crew_Entry_ID_FK).ToDictionary(c => c.Key, c => c.Select(x => x).ToList());
 
                 // Ruderer einlesen
                 var dbAthlets = db.Athlets.ToDictionary(a => a.Athlet_ID, a => a);
@@ -227,51 +227,60 @@ namespace Mrv.Regatta.Waage
                         dbData.RacesData.Add(newRace);
 
                         // zum aktuellen Rennen die Boote hinzufügen
-                        dbEventEntries.TryGetValue(offer.Offer_ID, out var eventEntries);
                         newRace.BoatsData = new List<BoatData>();
+                        dbEventEntries.TryGetValue(offer.Offer_ID, out var eventEntries);
 
-                        foreach (var eventEntry in eventEntries)
+                        if (eventEntries != null)
                         {
-                            var newBoat = new BoatData()
+                            foreach (var eventEntry in eventEntries)
                             {
-                                TitleShort = eventEntry.Entry_ShortLabel,
-                                TitleLong = eventEntry.Entry_LongLabel,
-                                BibNumber = (byte)eventEntry.Entry_Bib,
-                                Canceled = (eventEntry.Entry_CancelValue > 0)
-                            };
-
-                            newRace.BoatsData.Add(newBoat);
-
-                            // Zum aktuellen Boot die Mannschaft hinzufügen
-                            newBoat.Rowers = new List<RowerData>();
-                            dbCrews.TryGetValue(eventEntry.Entry_ID, out var crew);
-
-                            // Crew durchgehen und ins Boot platzieren
-                            foreach (var crewMember in crew)
-                            {
-                                dbAthlets.TryGetValue(crewMember.Crew_Athlete_ID_FK, out var athlet);
-                                dbClubs.TryGetValue((int)athlet.Athlet_Club_ID_FK, out var club);
-
-                                var newRower = new RowerData()
+                                var newBoat = new BoatData()
                                 {
-                                    Id = athlet.Athlet_ID,
-                                    ClubTitleLong = club.Club_Name,
-                                    ClubTitleShort = club.Club_Abbr,
-                                    LastName = athlet.Athlet_LastName,
-                                    FirstName = athlet.Athlet_FirstName,
-                                    DateOfBirth = athlet.Athlet_DOB,
-                                    Gender = (athlet.Athlet_Gender == 'M') ? Gender.Male : Gender.Female
+                                    TitleShort = eventEntry.Entry_ShortLabel,
+                                    TitleLong = eventEntry.Entry_LongLabel,
+                                    BibNumber = (byte)eventEntry.Entry_Bib,
+                                    Canceled = (eventEntry.Entry_CancelValue > 0)
                                 };
 
-                                if (crewMember.Crew_IsCox)
+                                newRace.BoatsData.Add(newBoat);
+
+                                // Zum aktuellen Boot die Mannschaft hinzufügen
+                                newBoat.Rowers = new List<RowerData>();
+                                dbCrews.TryGetValue(eventEntry.Entry_ID, out var crew);
+
+                                if (crew != null)
                                 {
-                                    // es handelt sich um den Steuermann
-                                    newBoat.Cox = newRower;
-                                }
-                                else
-                                {
-                                    // normaler Ruderer
-                                    newBoat.Rowers.Add(newRower);
+                                    // Crew durchgehen und ins Boot platzieren
+                                    foreach (var crewMember in crew)
+                                    {
+                                        dbAthlets.TryGetValue(crewMember.Crew_Athlete_ID_FK, out var athlet);
+                                        dbClubs.TryGetValue((int)athlet.Athlet_Club_ID_FK, out var club);
+
+                                        if ((athlet != null) && (club != null))
+                                        {
+                                            var newRower = new RowerData()
+                                            {
+                                                Id = athlet.Athlet_ID,
+                                                ClubTitleLong = club.Club_Name,
+                                                ClubTitleShort = club.Club_Abbr,
+                                                LastName = athlet.Athlet_LastName,
+                                                FirstName = athlet.Athlet_FirstName,
+                                                DateOfBirth = athlet.Athlet_DOB,
+                                                Gender = (athlet.Athlet_Gender == 'M') ? Gender.Male : Gender.Female
+                                            };
+
+                                            if (crewMember.Crew_IsCox)
+                                            {
+                                                // es handelt sich um den Steuermann
+                                                newBoat.Cox = newRower;
+                                            }
+                                            else
+                                            {
+                                                // normaler Ruderer
+                                                newBoat.Rowers.Add(newRower);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

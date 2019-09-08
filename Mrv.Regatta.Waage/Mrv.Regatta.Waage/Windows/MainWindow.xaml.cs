@@ -280,7 +280,17 @@ namespace Mrv.Regatta.Waage
                                                 newBoat.Rowers.Add(newRower);
                                             }
                                         }
+                                        else
+                                        {
+                                            // Fehler: Ruderer oder Verein nicht gefunden
+                                            Tools.LogErrorNoMessageBox("Warnung: Ruderer oder kein Verein zu Crew nicht gefunden. Rennen ", offer.Offer_RaceNumber, offer.Offer_ShortLabel);
+                                        }
                                     }
+                                }
+                                else
+                                {
+                                    // Fehler: keine Mannschaft für das Boot gefunden
+                                    Tools.LogErrorNoMessageBox("Warnung: Mannschaft zu Rennen nicht gefunden. Rennen ", offer.Offer_RaceNumber, offer.Offer_ShortLabel);
                                 }
                             }
                         }

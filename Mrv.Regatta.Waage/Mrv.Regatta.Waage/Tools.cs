@@ -91,8 +91,18 @@ namespace Mrv.Regatta.Waage
         /// <param name="errorTexts">The error texts.</param>
         internal static void LogError(params object[] errorTexts)
         {
+            var message = LogErrorNoMessageBox(errorTexts);
+            ShowError(message);
+        }
+
+        /// <summary>
+        /// Logs the error to file.
+        /// </summary>
+        /// <param name="errorTexts">The error texts.</param>
+        internal static string LogErrorNoMessageBox(params object[] errorTexts)
+        {
             var strParts = new List<string>();
-            foreach(var obj in errorTexts)
+            foreach (var obj in errorTexts)
             {
                 if (obj == null)
                 {
@@ -108,7 +118,8 @@ namespace Mrv.Regatta.Waage
             var message = string.Join(" ", strParts);
             var messageWithTimestamp = DateTime.Now.ToString() + ": " + message;
             File.AppendAllText(file, messageWithTimestamp + Environment.NewLine);
-            ShowError(message);
+
+            return message;
         }
 
     }

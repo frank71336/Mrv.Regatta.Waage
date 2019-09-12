@@ -1,1 +1,0 @@
-Hier legt das Programm die einzelnen Wiege-Ereignisse ab.

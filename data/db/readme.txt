@@ -1,1 +1,0 @@
-Hier die eigene daten.mdb hinkopieren!
